@@ -1,78 +1,100 @@
+{% from "_renderField.html" import renderField_Settings_Fullname, renderField_Settings_Picture %}
 {% extends "layout_nsb.html" %}
 {% block head %}
 <link rel="stylesheet" href="../static/assets/css/edit_profile.css">
 {% endblock %}
 {% block content %}
 <!-- Breadcrumb -->
-<nav aria-label="breadcrumb " class="second ">
+<nav aria-label="breadcrumb ">
     <ol class="breadcrumb shadow-lg px-md-4">
-        <li class="breadcrumb-item font-weight-bold "><a class="black-text text-uppercase " href="{{url_for('main.home')}}"><span class="mr-md-3 mr-2">trang chủ</span></a><i class="fa fa-angle-double-right " aria-hidden="true"></i></li>
-        <li class="breadcrumb-item font-weight-bold"><a class="black-text text-uppercase active-2" href="#"><span>Cài đặt</span></a></li>
+        <li class="breadcrumb-item font-weight-bold ">
+            <a class="black-text text-uppercase " href="{{url_for('main.home')}}">
+                <span class="mr-md-3 mr-2">trang chủ</span>
+            </a>
+            <i class="fa fa-angle-double-right " aria-hidden="true"></i>
+        </li>
+        <li class="breadcrumb-item font-weight-bold"><a class="black-text text-uppercase active-2" href="#"><span>Cài
+                    đặt</span></a></li>
     </ol>
 </nav>
 <!-- /Breadcrumb -->
 <div class="row flex-lg-nowrap">
-    <div class="col-12 col-lg-auto mb-3" style="width: 200px;">
-        <div class="card p-3">
+    <div class="col-12 col-lg-auto mb-3 " style="width: 200px;">
+        <div class="card p-3 shadow-lg px-md-2">
             <div class="e-navlist e-navlist--active-bg">
                 <ul class="nav">
                     {%if user.role == 'admin'%}
-                    <li class="nav-item"><a class="nav-link px-2 active" href="#"><i class="fa fa-fw fa-bar-chart mr-1"></i><span>Quản trị</span></a></li>
+                    <li class="nav-item"><a class="nav-link px-2 active" href="#"><i
+                                class="fa fa-fw fa-bar-chart mr-1"></i><span>Quản trị</span></a></li>
                     {% endif %}
-                    <li class="nav-item"><a class="nav-link px-2" href="{{url_for('users.user_posts',username = user.username)}}" target="__blank"><i class="fa fa-fw fa-th mr-1"></i><span>Hồ sơ</span></a></li>
-                    <li class="nav-item"><a class="nav-link px-2" href="#" target="__blank"><i class="fa fa-fw fa-cog mr-1"></i><span>Cài đặt</span></a></li>
+                    <li class="nav-item"><a class="nav-link px-2"
+                            href="{{url_for('users.user_posts',username = user.username)}}" target="__blank"><i
+                                class="fa fa-fw fa-th mr-1"></i><span>Hồ sơ</span></a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="#" target="__blank"><i
+                                class="fa fa-fw fa-cog mr-1"></i><span>Cài đặt</span></a></li>
                 </ul>
             </div>
         </div>
     </div>
-
     <div class="col">
         <div class="row">
             <div class="col mb-3">
-                <div class="card">
+                <div class="card shadow-lg px-md-2">
                     <div class="card-body">
-                        <div class="e-profile">
-                            <div class="row">
-                                <div class="col-12 col-sm-auto mb-3">
-                                    <div class="mx-auto" style="width: 140px;">
-                                        <div class="d-flex justify-content-center align-items-center rounded" style="height: 140px;">
-                                            <img src="../static/profile_pics/{{user.image_file}}" />
+                        <form method="post" enctype="multipart/form-data">
+                            <div class="e-profile">
+                                <div class="row">
+                                    <div class="col-12 col-sm-auto mb-3">
+                                        <div class="mx-auto" style="width: 140px;">
+                                            <div class="d-flex justify-content-center align-items-center rounded"
+                                                style="height: 140px;">
+                                                <img src="../static/profile_pics/{{user.image_file}}" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
+                                        <div class="text-center text-sm-left mb-2 mb-sm-0">
+                                            <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">{{user.fullname}}</h4>
+                                            <p class="mb-0">@{{user.username}}</p>
+                                            <div class="mt-4">
+                                                {{ form.csrf_token }}
+                                                {{ renderField_Settings_Picture(form.picture) }}
+                                                <script>
+                                                    $(".custom-file-input").on("change", function () {
+                                                        var fileName = $(this).val().split("\\").pop();
+                                                        $(this).siblings(".cus    tom-file-label").addClass(
+                                                            "selected").html(fileName);
+                                                    });
+                                                </script>
+                                            </div>
+                                        </div>
+                                        <div class="text-center text-sm-right">
+                                            <span class="badge badge-secondary">{{user.role}}</span>
+                                            <div class="text-muted"><small>Ngày tham gia:</small></div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
-                                    <div class="text-center text-sm-left mb-2 mb-sm-0">
-                                        <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">{{user.fullname}}</h4>
-                                        <p class="mb-0">@{{user.username}}</p>
-                                        <div class="mt-4">
-                                            <button class="btn btn-primary" type="button">
-                                                <i class="fa fa-fw fa-camera"></i>
-                                                <span>Đổi ảnh đại diện</span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="text-center text-sm-right">
-                                        <span class="badge badge-secondary">{{user.role}}</span>
-                                        <div class="text-muted"><small>Ngày tham gia:</small></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-content pt-3">
-                                <div class="tab-pane active">
-                                    <form class="form" novalidate="">
+                                <div class="tab-content pt-3">
+                                    <div class="tab-pane active">
                                         <div class="row">
                                             <div class="col">
                                                 <div class="row">
                                                     <div class="col">
                                                         <div class="form-group">
                                                             <label>Họ và tên</label>
-                                                            <input class="form-control" type="text" name="name" placeholder="John Smith" value="John Smith">
+                                                            {{renderField_Settings_Fullname(form.fullname, placeholder=form.fullname.label.text)}}
                                                         </div>
                                                     </div>
                                                     <div class="col">
                                                         <div class="form-group">
                                                             <label>Tên người dùng</label>
-                                                            <input class="form-control" type="text" name="username" placeholder="johnny.s" value="johnny.s">
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text"
+                                                                        id="basic-addon1">@</span>
+                                                                </div>
+                                                                {{renderField_Settings_Fullname(form.username, placeholder=form.username.label.text)}}
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -80,7 +102,7 @@
                                                     <div class="col">
                                                         <div class="form-group">
                                                             <label>Địa chỉ email</label>
-                                                            <input class="form-control" type="text" placeholder="user@example.com">
+                                                            {{renderField_Settings_Fullname(form.email, placeholder="nguoidung@tenmien.com")}}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -88,7 +110,7 @@
                                                     <div class="col mb-3">
                                                         <div class="form-group">
                                                             <label>Thông tin</label>
-                                                            <textarea class="form-control" rows="5" placeholder="My Bio"></textarea>
+                                                            {{renderField_Settings_Fullname(form.about, placeholder=form.about.label.text)}}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -100,16 +122,8 @@
                                                 <div class="row">
                                                     <div class="col">
                                                         <div class="form-group">
-                                                            <label>Mật khẩu hiện tại</label>
-                                                            <input class="form-control" type="password" placeholder="••••••">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="form-group">
                                                             <label>Mật khẩu mới</label>
-                                                            <input class="form-control" type="password" placeholder="••••••">
+                                                            {{renderField_Settings_Fullname(form.password, placeholder="••••••••")}}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -117,7 +131,7 @@
                                                     <div class="col">
                                                         <div class="form-group">
                                                             <label>Xác nhận lại mật khẩu</label>
-                                                            <input class="form-control" type="password" placeholder="••••••">
+                                                            {{renderField_Settings_Fullname(form.confirm_password, placeholder="••••••••")}}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -128,28 +142,28 @@
                                                 <div class="row">
                                                     <div class="col">
                                                         <div class="form-group">
-                                                            <input class="form-control" type="password" placeholder="••••••">
+                                                            {{form.fb_link(class="form-control", placeholder="Đường dẫn Facebook")}}
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col">
                                                         <div class="form-group">
-                                                            <input class="form-control" type="password" placeholder="••••••">
+                                                            {{form.tw_link(class="form-control", placeholder="Đường dẫn Twitter")}}
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col">
                                                         <div class="form-group">
-                                                            <input class="form-control" type="password" placeholder="••••••">
+                                                            {{form.git_link(class="form-control", placeholder="Đường dẫn GitHub")}}
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col">
                                                         <div class="form-group">
-                                                            <input class="form-control" type="password" placeholder="••••••">
+                                                            {{form.web_link(class="form-control", placeholder="Đường dẫn website")}}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -157,34 +171,32 @@
                                         </div>
                                         <div class="row">
                                             <div class="col d-flex justify-content-end">
-                                                <button class="btn btn-primary" type="submit">Lưu thay đổi</button>
+                                                {{form.submit(class="btn btn-primary")}}
                                             </div>
                                         </div>
-                                    </form>
-
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
-
             <div class="col-12 col-md-3 mb-3">
-                <div class="card mb-3">
+                <div class="card mb-3 shadow-lg">
                     <div class="card-body">
                         <div class="px-xl-3">
                             <button class="btn btn-block btn-secondary">
                                 <i class="fa fa-sign-out"></i>
-                                <span>Logout</span>
+                                <a href="{{url_for('users.logout')}}">Đăng xuất</a>
                             </button>
                         </div>
                     </div>
                 </div>
-                <div class="card">
+                <div class="card shadow-lg">
                     <div class="card-body">
-                        <h6 class="card-title font-weight-bold">Support</h6>
-                        <p class="card-text">Get fast, free help from our friendly assistants.</p>
-                        <button type="button" class="btn btn-primary">Contact Us</button>
+                        <h6 class="card-title font-weight-bold">Hỗ trợ</h6>
+                        <p class="card-text">Bạn gặp vấn đề về lỗi của website?.</p>
+                        <button type="button" class="btn btn-primary">Liên hệ</button>
                     </div>
                 </div>
             </div>
@@ -192,4 +204,5 @@
 
     </div>
 </div>
+
 {% endblock %}

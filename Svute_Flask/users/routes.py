@@ -50,25 +50,38 @@ def register():
 @login_required
 def settings():
     form = Update_Account_Form()
-    passWord1 = request.form.get('password1')
-    passWord2 = request.form.get('password2')
     if form.validate_on_submit():
         if form.picture.data:
             picture_file = SaveImage(form.picture.data)
             current_user.image_file = picture_file
-        if passWord1 == passWord2 and passWord1 != '' and len(passWord1) >= 6:
-            current_user.password = generate_password_hash(passWord1, method='sha256')
+        if form.password.data:
+            current_user.password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         current_user.username = form.username.data
         current_user.email = form.email.data
+        current_user.fullname = form.fullname.data
+        current_user.fb_link = form.fb_link.data
+        current_user.tw_link = form.tw_link.data
+        current_user.git_link = form.git_link.data
+        current_user.web_link = form.web_link.data
+        current_user.about = form.about.data
         db.session.commit()
         flash('Cập nhật thông tin thành công', category='success')
-        return redirect(url_for('users.account'))
+        return redirect(url_for('users.settings'))
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.email.data = current_user.email
-        form.firstname.data = current_user.fullname
-    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
-    return render_template("setting.html", user=current_user, image_file=image_file, title='Tài khoản', form=form)
+        form.fullname.data = current_user.fullname
+        if current_user.about != '#':
+            form.about.data = current_user.about
+        if current_user.fb_link != '#':
+            form.fb_link.data = current_user.fb_link
+        if current_user.tw_link != '#':
+            form.tw_link.data = current_user.tw_link
+        if current_user.git_link != '#':
+            form.git_link.data = current_user.git_link
+        if current_user.web_link != '#':
+            form.web_link.data = current_user.web_link
+    return render_template("setting.html", user=current_user,title='Tài khoản', form=form)
 
 @users.route('/reset-mat-khau', methods=['POST', 'GET'])
 def reset_request():

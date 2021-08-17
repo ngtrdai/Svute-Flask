@@ -10,7 +10,8 @@
         <img class="postcard__img" src="../static/assets/img/posts/{{post.image_cover}}" alt="{{ post.title[:50] }}" />
     </a>
     <div class="postcard__text">
-        <h1 class="postcard__title blue"><a href="{{url_for('posts.post', slug=post.slug)}}">{{ post.title[:50] }}</a></h1>
+        <h1 class="postcard__title blue"><a href="{{url_for('posts.post', slug=post.slug)}}">{{ post.title[:50] }}</a>
+        </h1>
         <div class="postcard__subtitle small">
             <time datetime="2020-05-25 12:00:00" style="color: black !important">
                 <i class="fa fa-clock-o mr-2" style="color: black !important"></i>{{post.date.strftime('%d-%m-%Y')}}
@@ -43,9 +44,11 @@
 {% block sidebar %}
 {% if user.is_authenticated %}
 <div style="width: border-box;">
-    <div class="card mx-auto" style="width: auto;border-top-left-radius: 5px;border-top-right-radius: 5px;border-bottom-right-radius: 5px;border-bottom-left-radius: 5px;box-shadow: 5px 5px 16px 2px rgba(0,0,0,0.25);margin: 0px;margin-bottom: 20px;">
+    <div class="card mx-auto"
+        style="width: auto;border-top-left-radius: 5px;border-top-right-radius: 5px;border-bottom-right-radius: 5px;border-bottom-left-radius: 5px;box-shadow: 5px 5px 16px 2px rgba(0,0,0,0.25);margin: 0px;margin-bottom: 20px;">
         <div class="card-header font-weight-bold" align="center">
-            <a class="btn btn-warning font-weight-bold btn-lg ml-1 mr-1 p-1 pl-2 pr-2" href="{{url_for('notes.note')}}" style="color: rgb(48, 48, 48);">
+            <a class="btn btn-warning font-weight-bold btn-lg ml-1 mr-1 p-1 pl-2 pr-2" href="{{url_for('notes.note')}}"
+                style="color: rgb(48, 48, 48);">
                 Thêm ghi chú
                 <span class="ml-1">
                     <i class="fa fa-plus" aria-hidden="true"></i>
@@ -55,37 +58,58 @@
         <div data-offset="0" class="card-body" style="background-color: rgba(26, 26, 26, 0);border-bottom-right-radius: 5px;border-bottom-left-radius: 5px;height:250px;
   overflow-y: scroll;">
             {% if not user.notes %}
-            <div class=" d-flex flex-column align-items-center justify-content-center justify-content-md-around" style="height: 100%;">
+            <div class=" d-flex flex-column align-items-center justify-content-center justify-content-md-around"
+                style="height: 100%;">
                 <img class="col-8 col-md-6" src="../static/assets/img/khong_ghi_chu.svg">
                 <h1 class=" text-center text-muted mb-5">Bạn không có ghi chú nào.</h1>
             </div>
             {% else %}
             {% for note in notes %}
-            <li class="card mb-2 p-0" style="border-radius: 5px; background-color: rgb(58, 58, 58); color: white; border-color: rgba(26, 26, 26, 0); border-radius: 1em;">
+            <li class="card mb-2 p-0"
+                style="border-radius: 5px; background-color: rgb(58, 58, 58); color: white; border-color: rgba(26, 26, 26, 0); border-radius: 1em;">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-12 mb-3">
-                            <a class="col-12 d-flex flex-row justify-content-between align-items-center text-warning btn p-0 m-0 font-weight-bold" data-toggle="modal" data-target="#viewModal{{ note.note_id }}" style="font-size: 0.9em">
+                            <a class="col-12 d-flex flex-row justify-content-between align-items-center text-warning btn p-0 m-0 font-weight-bold"
+                                data-toggle="modal" data-target="#viewModal{{ note.note_id }}" style="font-size: 0.9em">
                                 <p class="col-9 card-title m-0 p-0 text-truncate text-left"><b>{{note.title}}</b></p>
-                                <span class="col-3 text-right p-0 m-0"><i class="fa fa-external-link" aria-hidden="true"></i></span>
+                                <span class="col-3 text-right p-0 m-0"><i class="fa fa-external-link"
+                                        aria-hidden="true"></i></span>
                             </a>
                         </div>
                     </div>
-                    <pre class="card-text text-wrap text-white" style='height: 3em; text-overflow: ellipsis; overflow: hidden; font-family: "Roboto Condensed"; white-space: pre-wrap;'>{{note.note}}</pre>
+                    <pre class="card-text text-wrap text-white"
+                        style='height: 3em; text-overflow: ellipsis; overflow: hidden; font-family: "Roboto Condensed"; white-space: pre-wrap;'>{{note.note}}</pre>
                     <div class="col-12 d-flex flex-row align-items-center justify-content-between p-0">
                         <div class="col-9 p-0">
-                            <small style="font-size: 10pt; color: rgb(145, 145, 145);">{{ note.date.strftime('%d-%m-%Y') }}</small>
+                            <small
+                                style="font-size: 10pt; color: rgb(145, 145, 145);">{{ note.date.strftime('%d-%m-%Y') }}</small>
                         </div>
                     </div>
-                    <div class="modal fade" id="viewModal{{ note.note_id }}" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel" style="background-color: rgba(0, 0, 0, 0); backdrop-filter: blur(5px);">
-                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="border-radius: 1em; background-color: rgba(37, 37, 37, 0); border-color: rgb(29, 29, 29);">
-                            <div class="modal-content" style="border-radius: 1em; border-color: rgb(100, 100, 100); background-color: rgb(37, 37, 37); max-height: 80vh;">
-                                <div class="modal-body" style="overflow-y: auto; background-color: rgb(37, 37, 37); color: white; border-top-left-radius: 1em; border-top-right-radius: 1em;">
-                                    <div class="col-12"><p class="text-center text-warning font-weight-bold" style="font-size: large; white-space: pre-wrap; line-height: 1.8; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word;">{{ note.title }}</p></div>
-                                    <div class="col-12"><pre class="text-white" style='font-family: "Roboto Condensed"; font-size: large; white-space: pre-wrap; line-height: 1.8; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word;'>{{ note.note }}</pre></div>
+                    <div class="modal fade" id="viewModal{{ note.note_id }}" tabindex="-1" role="dialog"
+                        aria-labelledby="viewModalLabel"
+                        style="background-color: rgba(0, 0, 0, 0); backdrop-filter: blur(5px);">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+                            style="border-radius: 1em; background-color: rgba(37, 37, 37, 0); border-color: rgb(29, 29, 29);">
+                            <div class="modal-content"
+                                style="border-radius: 1em; border-color: rgb(100, 100, 100); background-color: rgb(37, 37, 37); max-height: 80vh;">
+                                <div class="modal-body"
+                                    style="overflow-y: auto; background-color: rgb(37, 37, 37); color: white; border-top-left-radius: 1em; border-top-right-radius: 1em;">
+                                    <div class="col-12">
+                                        <p class="text-center text-warning font-weight-bold"
+                                            style="font-size: large; white-space: pre-wrap; line-height: 1.8; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word;">
+                                            {{ note.title }}</p>
+                                    </div>
+                                    <div class="col-12">
+                                        <pre class="text-white"
+                                            style='font-family: "Roboto Condensed"; font-size: large; white-space: pre-wrap; line-height: 1.8; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word;'>{{ note.note }}</pre>
+                                    </div>
                                 </div>
-                                <div class="modal-footer" style="background-color: rgb(37, 37, 37); border-top: 0; border-bottom-left-radius: 1em; border-bottom-right-radius: 1em;">
-                                    <button class="col-2 btn btn-sm btn-outline-warning offset-10" type="button" class="close" data-dismiss="modal" aria-label="Close" style="position: sticky;">Đóng</button>
+                                <div class="modal-footer"
+                                    style="background-color: rgb(37, 37, 37); border-top: 0; border-bottom-left-radius: 1em; border-bottom-right-radius: 1em;">
+                                    <button class="col-2 btn btn-sm btn-outline-warning offset-10" type="button"
+                                        class="close" data-dismiss="modal" aria-label="Close"
+                                        style="position: sticky;">Đóng</button>
                                 </div>
                             </div>
                         </div>
@@ -96,19 +120,33 @@
         </div>
     </div>
 </div>
-        {% else %}
+{% else %}
 <form METHOD="POST" action="/dang-nhap">
     <div style="padding: 0px;">
         <div class="card text-center" style="box-shadow: 5px 5px 16px 2px rgba(0,0,0,0.25); margin-bottom: 20px">
             <div class="card-header">Đăng nhập</div>
             <div class="card-body">
-                <div style="border-radius: 10px;background: #e7e7e7;padding: 10px;"><i class="fa fa-user" style="margin-left: 0px;color: rgb(125,128,132);"></i><input type="text" data-toggle="tooltip" data-bss-tooltip="" data-placement="bottom" style="color: rgb(0, 0, 0);background: rgba(255,255,255,0);border-color: rgba(0,0,0,0);margin-left: 5px;" placeholder="Tên tài khoản" name="username" title="Nhập tên tài khoản của bạn."></div>
-                <div style="border-radius: 10px;background: #e7e7e7;padding: 10px;margin-top: 12px;"><i class="fa fa-lock" style="margin-left: 0px;color: rgb(125,128,132);"></i><input type="password" data-toggle="tooltip" data-bss-tooltip="" data-placement="bottom" style="border-color: rgba(0,0,0,0);background: rgba(255,255,255,0);margin-left: 5px;margin-right: 0px;" placeholder="Mật khẩu" name="password" title="Nhập mật khẩu của bạn"></div>
-                <div><button class="btn btn-primary btn-block text-center" data-toggle="tooltip" data-bss-tooltip="" type="submit" title="Nhấn vào để đăng nhập" style="border-radius: 10px;margin-top: 12PX;height: 50PX;"><strong>ĐĂNG NHẬP</strong></button></div>
-                <div><p style="text-align: center;margin-top: 12px;">Bạn chưa có tài khoản? <a href="{{url_for('users.register')}}">Đăng ký</a>&nbsp;</p></div>
+                <div style="border-radius: 10px;background: #e7e7e7;padding: 10px;"><i class="fa fa-user"
+                        style="margin-left: 0px;color: rgb(125,128,132);"></i><input type="text" data-toggle="tooltip"
+                        data-bss-tooltip="" data-placement="bottom"
+                        style="color: rgb(0, 0, 0);background: rgba(255,255,255,0);border-color: rgba(0,0,0,0);margin-left: 5px;"
+                        placeholder="Tên tài khoản" name="username" title="Nhập tên tài khoản của bạn."></div>
+                <div style="border-radius: 10px;background: #e7e7e7;padding: 10px;margin-top: 12px;"><i
+                        class="fa fa-lock" style="margin-left: 0px;color: rgb(125,128,132);"></i><input type="password"
+                        data-toggle="tooltip" data-bss-tooltip="" data-placement="bottom"
+                        style="border-color: rgba(0,0,0,0);background: rgba(255,255,255,0);margin-left: 5px;margin-right: 0px;"
+                        placeholder="Mật khẩu" name="password" title="Nhập mật khẩu của bạn"></div>
+                <div><button class="btn btn-primary btn-block text-center" data-toggle="tooltip" data-bss-tooltip=""
+                        type="submit" title="Nhấn vào để đăng nhập"
+                        style="border-radius: 10px;margin-top: 12PX;height: 50PX;"><strong>ĐĂNG NHẬP</strong></button>
+                </div>
+                <div>
+                    <p style="text-align: center;margin-top: 12px;">Bạn chưa có tài khoản? <a
+                            href="{{url_for('users.register')}}">Đăng ký</a>&nbsp;</p>
+                </div>
             </div>
         </div>
     </div>
 </form>
-        {% endif %}
-        {% endblock %}
+{% endif %}
+{% endblock %}

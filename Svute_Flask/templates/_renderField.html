@@ -61,4 +61,19 @@
 </div>
 {% endmacro %}
 
+{% macro renderField_Settings_Fullname(field) %}
+{% for error in field.errors %}
+<span class="badge badge-danger" style="margin-bottom: 10px">{{error}}</span>
+{% endfor %}
+{{ field(class_='form-control',**kwargs)|safe}}
+{% endmacro %}
 
+{% macro renderField_Settings_Picture(field) %}
+{% for error in field.errors %}
+<span class="badge badge-danger" style="margin-bottom: 10px">{{error}}</span>
+{% endfor %}
+<div class="custom-file">
+    <label class="custom-file-label" for="customFile">Tải lên ảnh đại diện</label>
+    {{ field(class_='custom-file-input',**kwargs)|safe}}
+</div>
+{% endmacro %}

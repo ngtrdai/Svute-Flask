@@ -1,8 +1,10 @@
 {% extends "layout_nsb.html" %}
 {% block content %}
-<div class="page col-12 p-0 align-items-center justify-content-center" style="width: 100%; height: 100%; margin-top: 20px; margin-bottom:20px">
+<div class="page col-12 p-0 align-items-center justify-content-center"
+    style="width: 100%; height: 100%; margin-top: 20px; margin-bottom:20px">
     {% if not notes %}
-    <div class="col-12 d-flex flex-column align-items-center justify-content-center justify-content-md-around" style="height: 90%;">
+    <div class="col-12 d-flex flex-column align-items-center justify-content-center justify-content-md-around"
+        style="height: 90%;">
         <img class="col-8 col-md-6" src="../static/assets/img/khong_ghi_chu.svg">
         <h1 class=" text-center text-muted mb-5">Bạn không có ghi chú nào.</h1>
     </div>
@@ -10,28 +12,38 @@
     <div class="col-12 p-md-0 d-flex align-items-start justify-content-start mb-5">
         <ul class="col-12 p-0 d-flex flex-row flex-wrap align-items-center justify-content-center mb-5">
             {% for note in notes %}
-            <li class="card col-12 col-md-3 m-3 p-0" style="border-radius: 5px; background-color: rgb(58, 58, 58); color: white; border-color: rgba(26, 26, 26, 0); border-radius: 1em;">
+            <li class="card col-12 col-md-3 m-3 p-0"
+                style="border-radius: 5px; background-color: rgb(58, 58, 58); color: white; border-color: rgba(26, 26, 26, 0); border-radius: 1em;">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-12 mb-3">
-                            <a class="col-12 d-flex flex-row justify-content-between align-items-center text-warning btn p-0 m-0 font-weight-bold" data-toggle="modal" data-target="#viewModal{{ note.note_id }}" style="font-size: 0.9em">
+                            <a class="col-12 d-flex flex-row justify-content-between align-items-center text-warning btn p-0 m-0 font-weight-bold"
+                                data-toggle="modal" data-target="#viewModal{{ note.note_id }}" style="font-size: 0.9em">
                                 <p class="col-9 card-title m-0 p-0 text-truncate text-left"><b>{{note.title}}</b></p>
-                                <span class="col-3 text-right p-0 m-0"><i class="fa fa-external-link" aria-hidden="true"></i></span>
+                                <span class="col-3 text-right p-0 m-0"><i class="fa fa-external-link"
+                                        aria-hidden="true"></i></span>
                             </a>
                         </div>
                     </div>
-                    <pre class="card-text text-wrap text-white" style='height: 3em; text-overflow: ellipsis; overflow: hidden; white-space: pre-wrap; font-family: "Roboto Condensed"'>{{note.note}}</pre>
+                    <pre class="card-text text-wrap text-white"
+                        style='height: 3em; text-overflow: ellipsis; overflow: hidden; white-space: pre-wrap; font-family: "Roboto Condensed"'>{{note.note}}</pre>
                     <div class="col-12 d-flex flex-row align-items-center justify-content-between p-0">
                         <div class="col-9 p-0">
-                            <small style="font-size: 10pt; color: rgb(145, 145, 145);">{{ note.date.strftime('%d-%m-%Y') }}</small>
+                            <small
+                                style="font-size: 10pt; color: rgb(145, 145, 145);">{{ note.date.strftime('%d-%m-%Y') }}</small>
                             <!-- 2013-10-07 08:23:19 -->
                         </div>
                         <div class="col-3 d-flex flex-row justify-content-end align-items-center p-0">
-                            <button data-toggle="modal" data-target="#updateModal{{ note.note_id }}" class="ml-2 p-2 btn btn-outline-secondary btn-sm rounded-circle d-flex align-items-center justify-content-center" style="height: 1.8em; width: 1.8em;">
+                            <button data-toggle="modal" data-target="#updateModal{{ note.note_id }}"
+                                class="ml-2 p-2 btn btn-outline-secondary btn-sm rounded-circle d-flex align-items-center justify-content-center"
+                                style="height: 1.8em; width: 1.8em;">
                                 <i class="fa fa-pencil" aria-hidden="true"></i>
                             </button>
                             <form action="/ghichu/xoa" method="post" class="p-0 m-0" id="deleteForm">
-                                <button onclick="return ConfirmDelete();" type="submit" name="note_id" value="{{note.note_id}}" class="ml-2 p-2 btn btn-outline-danger btn-sm rounded-circle d-flex align-items-center justify-content-center" style="height: 1.8em; width: 1.8em;">
+                                <button onclick="return ConfirmDelete();" type="submit" name="note_id"
+                                    value="{{note.note_id}}"
+                                    class="ml-2 p-2 btn btn-outline-danger btn-sm rounded-circle d-flex align-items-center justify-content-center"
+                                    style="height: 1.8em; width: 1.8em;">
                                     <i class="fa fa-trash" aria-hidden="true"></i>
                                 </button>
                             </form>
@@ -41,8 +53,7 @@
                                     var x = confirm("Bạn có thực sự muốn xóa?");
                                     if (x) {
                                         return true;
-                                    }
-                                    else {
+                                    } else {
                                         return false;
                                     }
                                 }
@@ -53,25 +64,35 @@
             </li>
 
             <!-- Madal Area ------------------------------------------------------------------------- -->
-            <div class="modal fade" id="updateModal{{ note.note_id }}" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true" style="background-color: rgba(0, 0, 0, 0.247); backdrop-filter: blur(5px);">
+            <div class="modal fade" id="updateModal{{ note.note_id }}" tabindex="-1" role="dialog"
+                aria-labelledby="updateModalLabel" aria-hidden="true"
+                style="background-color: rgba(0, 0, 0, 0.247); backdrop-filter: blur(5px);">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content" style="border-radius: 1em; background-color: rgba(0, 0, 0, 0);">
-                        <div class="modal-header text-warning" style="background-color: rgb(37, 37, 37); border: 0; border-top-left-radius: 1em; border-top-right-radius: 1em;">
+                        <div class="modal-header text-warning"
+                            style="background-color: rgb(37, 37, 37); border: 0; border-top-left-radius: 1em; border-top-right-radius: 1em;">
                             <h5 class="modal-title" id="updateModalLabel">Chỉnh sửa ghi chú</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true" class="text-white">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body" style="background-color: rgb(48, 48, 48); color: white; border-bottom-left-radius: 1em; border-bottom-right-radius: 1em;">
+                        <div class="modal-body"
+                            style="background-color: rgb(48, 48, 48); color: white; border-bottom-left-radius: 1em; border-bottom-right-radius: 1em;">
                             <form action="/ghichu/chinhsua" method="post" class="m-0">
                                 <div class="form-group">
-                                    <input autofocus value="{{ note.title }}" type="text" class="form-control text-warning" name="updateTitle" placeholder="Tiêu đề" style="background-color: rgb(59, 59, 59); box-shadow: 0px 0px 0px rgba(0, 0, 0, 0); border: none; border-radius: 1em;" required>
+                                    <input autofocus value="{{ note.title }}" type="text"
+                                        class="form-control text-warning" name="updateTitle" placeholder="Tiêu đề"
+                                        style="background-color: rgb(59, 59, 59); box-shadow: 0px 0px 0px rgba(0, 0, 0, 0); border: none; border-radius: 1em;"
+                                        required>
                                 </div>
                                 <div class="form-group">
-                                    <textarea id="updated-input" class="form-control text-warning" name="updateNote" style="background-color: rgb(59, 59, 59); box-shadow: 0px 0px 0px rgba(0, 0, 0, 0); border: none; border-radius: 1em;" placeholder="Nội dung" rows="8" required>{{ note.note }}</textarea>
+                                    <textarea id="updated-input" class="form-control text-warning" name="updateNote"
+                                        style="background-color: rgb(59, 59, 59); box-shadow: 0px 0px 0px rgba(0, 0, 0, 0); border: none; border-radius: 1em;"
+                                        placeholder="Nội dung" rows="8" required>{{ note.note }}</textarea>
                                 </div>
                                 <p class="text-warning"></p>
-                                <input type="hidden" id='remainingU' value="{{ note.note_id }}" name="noteID" style="color: white; width: 0; height: 0; display: none;">
+                                <input type="hidden" id='remainingU' value="{{ note.note_id }}" name="noteID"
+                                    style="color: white; width: 0; height: 0; display: none;">
                                 <p class="text-warning" id='remainingC'></p>
                                 <button class="btn btn-warning font-weight-bold col-12" type="submit">Chỉnh sửa</button>
                             </form>
@@ -79,19 +100,29 @@
                     </div>
                 </div>
             </div>
-            <div class="modal fade" id="viewModal{{ note.note_id }}" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel" style="background-color: rgba(0, 0, 0, 0); backdrop-filter: blur(5px);">
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="border-radius: 1em; background-color: rgba(37, 37, 37, 0); border-color: rgb(29, 29, 29);">
-                    <div class="modal-content" style="border-radius: 1em; border-color: rgb(100, 100, 100); background-color: rgb(37, 37, 37); max-height: 80vh;">
-                        <div class="modal-body" style="overflow-y: auto; background-color: rgb(37, 37, 37); color: white; border-top-left-radius: 1em; border-top-right-radius: 1em;">
+            <div class="modal fade" id="viewModal{{ note.note_id }}" tabindex="-1" role="dialog"
+                aria-labelledby="viewModalLabel"
+                style="background-color: rgba(0, 0, 0, 0); backdrop-filter: blur(5px);">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+                    style="border-radius: 1em; background-color: rgba(37, 37, 37, 0); border-color: rgb(29, 29, 29);">
+                    <div class="modal-content"
+                        style="border-radius: 1em; border-color: rgb(100, 100, 100); background-color: rgb(37, 37, 37); max-height: 80vh;">
+                        <div class="modal-body"
+                            style="overflow-y: auto; background-color: rgb(37, 37, 37); color: white; border-top-left-radius: 1em; border-top-right-radius: 1em;">
                             <div class="col-12">
-                                <p class="text-center text-warning font-weight-bold" style="font-size: large; white-space: pre-wrap; line-height: 1.8; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word;">{{ note.title }}</p>
+                                <p class="text-center text-warning font-weight-bold"
+                                    style="font-size: large; white-space: pre-wrap; line-height: 1.8; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word;">
+                                    {{ note.title }}</p>
                             </div>
                             <div class="col-12">
-                                <pre class="text-white" style='font-family:  "Roboto Condensed"; font-size: large; white-space: pre-wrap; line-height: 1.8; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word;'>{{ note.note }}</pre>
+                                <pre class="text-white"
+                                    style='font-family:  "Roboto Condensed"; font-size: large; white-space: pre-wrap; line-height: 1.8; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word;'>{{ note.note }}</pre>
                             </div>
                         </div>
-                        <div class="modal-footer" style="background-color: rgb(37, 37, 37); border-top: 0; border-bottom-left-radius: 1em; border-bottom-right-radius: 1em;">
-                            <button class="col-2 btn btn-sm btn-outline-warning offset-10" type="button" class="close" data-dismiss="modal" aria-label="Close" style="position: sticky;">Đóng</button>
+                        <div class="modal-footer"
+                            style="background-color: rgb(37, 37, 37); border-top: 0; border-bottom-left-radius: 1em; border-bottom-right-radius: 1em;">
+                            <button class="col-2 btn btn-sm btn-outline-warning offset-10" type="button" class="close"
+                                data-dismiss="modal" aria-label="Close" style="position: sticky;">Đóng</button>
                         </div>
                     </div>
                 </div>
@@ -103,7 +134,8 @@
     {% endif %}
 
     <div class="col-12 d-flex align-items-center justify-content-center text-white" style="height: 10%; bottom: 0;">
-        <a class="btn btn-warning font-weight-bold btn-lg ml-1 mr-1 p-1 pl-2 pr-2" data-toggle="modal" data-target="#exampleModal" style="color: rgb(48, 48, 48);">
+        <a class="btn btn-warning font-weight-bold btn-lg ml-1 mr-1 p-1 pl-2 pr-2" data-toggle="modal"
+            data-target="#exampleModal" style="color: rgb(48, 48, 48);">
             Thêm ghi chú
             <span class="ml-1">
                 <i class="fa fa-plus" aria-hidden="true"></i>
@@ -111,24 +143,31 @@
         </a>
     </div>
     <!-- Madal Area ------------------------------------------------------------------------- -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background-color: rgba(0, 0, 0, 0.247); backdrop-filter: blur(5px);">
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true" style="background-color: rgba(0, 0, 0, 0.247); backdrop-filter: blur(5px);">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content" style="background-color: rgba(29, 29, 29, 0); border-radius: 1em">
-                <div class="modal-header text-warning" style="background-color: rgb(37, 37, 37); border: 0; border-top-left-radius: 1em; border-top-right-radius: 1em;">
+                <div class="modal-header text-warning"
+                    style="background-color: rgb(37, 37, 37); border: 0; border-top-left-radius: 1em; border-top-right-radius: 1em;">
                     <h5 class="modal-title" id="exampleModalLabel">Thêm ghi chú</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true" class="text-white">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body" style="background-color: rgb(48, 48, 48); border-bottom-left-radius: 1em; border-bottom-right-radius: 1em;">
+                <div class="modal-body"
+                    style="background-color: rgb(48, 48, 48); border-bottom-left-radius: 1em; border-bottom-right-radius: 1em;">
                     <form action="/ghichu" method="post" class="m-0">
                         <div class="form-group">
-                            <input autofocus type="text" class="form-control text-white" name="title" placeholder="Tiêu đề"
-                                   style="background-color: rgb(59, 59, 59); box-shadow: 0px 0px 0px rgba(0, 0, 0, 0); border: none; border-radius: 1em;" required>
+                            <input autofocus type="text" class="form-control text-white" name="title"
+                                placeholder="Tiêu đề"
+                                style="background-color: rgb(59, 59, 59); box-shadow: 0px 0px 0px rgba(0, 0, 0, 0); border: none; border-radius: 1em;"
+                                required>
                         </div>
                         <div class="form-group mb-1">
-                            <textarea id="my-input" class="form-control text-white" name="note" placeholder="Nội dung..." rows="8"
-                                      style="background-color: rgb(59, 59, 59); box-shadow: 0px 0px 0px rgba(0, 0, 0, 0); border: none; border-radius: 1em;" required></textarea>
+                            <textarea id="my-input" class="form-control text-white" name="note"
+                                placeholder="Nội dung..." rows="8"
+                                style="background-color: rgb(59, 59, 59); box-shadow: 0px 0px 0px rgba(0, 0, 0, 0); border: none; border-radius: 1em;"
+                                required></textarea>
                         </div>
                         <p class="text-warning" id='remainingC'></p>
                         <button class="btn btn-warning font-weight-bold col-12" type="submit">Ghi chú</button>
@@ -160,6 +199,6 @@
             })
         });
     </script>
-    
+
 </div>
 {% endblock %}

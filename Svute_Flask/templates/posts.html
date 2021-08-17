@@ -128,37 +128,51 @@
                         {% endif %}
                     </div>
                 </article>
-                
+
                 <div class="contact-form article-comment">
                     <div class="d-flex justify-content-center row">
                         <div class="d-flex flex-column">
-                            <div class="d-flex flex-row align-items-center text-left comment-top p-2 bg-white border-bottom px-4">
-                                <div class="profile-image"><img class="rounded-circle" src="../static/profile_pics/{{post.author.image_file}}" width="70"></div>
-                                <div class="d-flex flex-column-reverse flex-grow-0 align-items-center votings ml-1"><i class="fa fa-sort-up fa-2x hit-voting"></i><span>{{post.like}}</span><i class="fa fa-sort-down fa-2x hit-voting"></i></div>
+                            <div
+                                class="d-flex flex-row align-items-center text-left comment-top p-2 bg-white border-bottom px-4">
+                                <div class="profile-image"><img class="rounded-circle"
+                                        src="../static/profile_pics/{{post.author.image_file}}" width="70"></div>
+                                <div class="d-flex flex-column-reverse flex-grow-0 align-items-center votings ml-1"><i
+                                        class="fa fa-sort-up fa-2x hit-voting"></i><span>{{post.like}}</span><i
+                                        class="fa fa-sort-down fa-2x hit-voting"></i></div>
                                 <div class="d-flex flex-column ml-3">
                                     <div class="d-flex flex-row post-title">
                                         <h5>{{post.title}}</h5>
                                     </div>
-                                    <div class="d-flex flex-row align-items-center align-content-center post-title"><span class="bdge mr-1">{{post.category}}</span></div>
+                                    <div class="d-flex flex-row align-items-center align-content-center post-title">
+                                        <span class="bdge mr-1">{{post.category}}</span></div>
                                 </div>
                             </div>
                             <div class="coment-bottom bg-white p-2 px-4">
                                 {% if user.is_authenticated %}
-                                <div class="d-flex flex-row add-comment-section mt-4 mb-4"><img class="img-fluid img-responsive rounded-circle mr-2" src="../static/profile_pics/{{current_user.image_file}}" width="38"><input type="text" class="form-control mr-3" placeholder="Nhập bình luận vào đây"><button class="btn btn-primary" type="button">Bình luận</button></div>
+                                <div class="d-flex flex-row add-comment-section mt-4 mb-4"><img
+                                        class="img-fluid img-responsive rounded-circle mr-2"
+                                        src="../static/profile_pics/{{current_user.image_file}}" width="38"><input
+                                        type="text" class="form-control mr-3"
+                                        placeholder="Nhập bình luận vào đây"><button class="btn btn-primary"
+                                        type="button">Bình luận</button></div>
                                 {% endif %}
                                 {% for comment in comments %}
                                 <div class="commented-section mt-2">
                                     <div class="d-flex flex-row align-items-center commented-user">
-                                        <h5 class="mr-2">{{comment.author.fullname}}</h5><span class="dot mb-1"></span><span class="mb-1 ml-2">{{comment.date_comment}}</span>
+                                        <h5 class="mr-2">{{comment.author.fullname}}</h5><span
+                                            class="dot mb-1"></span><span
+                                            class="mb-1 ml-2">{{comment.date_comment}}</span>
                                     </div>
                                     <div class="comment-text-sm"><span>{{comment.content}}</span></div>
                                     <div class="reply-section">
                                         <div class="d-flex flex-row align-items-center voting-icons">
-                                            <i class="fa fa-sort-up fa-2x mt-3 hit-voting"></i><i class="fa fa-sort-down fa-2x mb-3 hit-voting"></i><span class="ml-2">{{comment.like}}</span><span class="dot ml-2"></span>
+                                            <i class="fa fa-sort-up fa-2x mt-3 hit-voting"></i><i
+                                                class="fa fa-sort-down fa-2x mb-3 hit-voting"></i><span
+                                                class="ml-2">{{comment.like}}</span><span class="dot ml-2"></span>
                                             <h6 class="ml-2 mt-1">Trả lời</h6>
                                         </div>
                                     </div>
-                                </div>   
+                                </div>
                                 {% endfor %}
                             </div>
                         </div>

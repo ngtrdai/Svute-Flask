@@ -16,7 +16,7 @@ def new_post():
     if form.validate_on_submit():
         brief = form.brief.data
         if form.thumbnail.data:
-            image_cover = SaveImage(form.thumbnail.data, true)
+            image_cover = SaveImage(form.thumbnail.data, True)
         else:
             image_cover = 'img33.jpg'
         if brief == "":
@@ -66,7 +66,7 @@ def update_post(slug):
     if form.validate_on_submit():
         post.brief = form.brief.data
         if form.thumbnail.data:
-            image_cover = SaveImage(form.thumbnail.data, true)
+            image_cover = SaveImage(form.thumbnail.data, True)
         else:
             image_cover = post.image_cover
         brief = form.brief.data
