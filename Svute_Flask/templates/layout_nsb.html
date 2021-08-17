@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <link rel="icon" href="../static/assets/img/LogoSvute_W.svg" type="image/svg" />
+    <link rel="shortcut icon" href="../static/assets/img/LogoSvute_W.svg" type="image/svg" />
+    {% if title %}
+    <title>{{ title }} - Sinh viên UTE</title>
+    {% else %}
+    <title>Sinh viên UTE - Svute.com</title>
+    {% endif %}
+    <meta property="og:image" content="../static/assets/img/img33.jpg">
+    <meta name="description" content="Cộng đồng chia sẻ tài liệu học tập, tài liệu kỹ thuật cơ khí, tài liệu kỹ thuật lập trình, cơ điện tử, tự động hóa,...">
+    <meta property="og:type" content="website">
+    <link rel="stylesheet" href="../static/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Condensed&amp;display=swap">
+    <link rel="stylesheet" href="../static/assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="../static/assets/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="../static/assets/css/Footer-Basic.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="../static/assets/css/styles.css">
+    {{ toastr.include_jquery() }}
+    {{ toastr.include_toastr_css() }}
+    {{ toastr.message() }}
+    {% block head %}{% endblock %}
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-light navbar-expand-md text-primary" style="box-shadow: 0px 0px 9px 1px rgb(192,197,203);padding-bottom: 2px;padding-top: 2px;height: 100%;">
+            <div class="container">
+                <a href="{{url_for('main.home')}}" class="navbar-brand d-flex d-sm-flex d-lg-flex d-xl-flex align-items-center align-items-sm-center justify-content-lg-center align-items-lg-center align-items-xl-center" data-bss-hover-animate="pulse" href="#" style="padding-top: 0px;padding-bottom: 0px;">
+                    <img data-bss-hover-animate="pulse" src="../static/assets/img/LogoSvute.svg" width="75px">
+                    <h1 class="d-sm-flex" style="font-family: 'Roboto Condensed', sans-serif;background: rgba(255,255,255,0.62);color: rgb(162,162,162);">Svute</h1>
+                </a>
+                <button data-toggle="collapse" class="navbar-toggler collapsed" data-target="#navcol-1" aria-expanded="false" aria-controls="navcol-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navcol-1" style="text-align: left;font-size: 24px;font-family: 'Roboto Condensed', sans-serif;">
+                    <ul class="navbar-nav d-lg-flex flex-grow-1">
+                        <li class="nav-item"><a style="color: rgb(0,0,0) !important; font-size: 24px; " class="nav-link active" href="#">TÀI LIỆU</a></li>
+                        <li class="nav-item"><a style="color: rgb(0,0,0) !important; font-size: 24px; " class="nav-link active" href="#">PYTHON</a></li>
+                        <li class="nav-item"><a style="color: rgb(0,0,0) !important; font-size: 24px; " class="nav-link active" href="#">ĐỀ THI</a></li>
+                    </ul>
+                    <div class="ml-auto">
+                        {% if user.is_authenticated == false %}
+                        <a class="btn btn-secondary" data-bss-hover-animate="pulse" type="button" style="margin-right: 5px;" href="{{url_for('users.register')}}">ĐĂNG KÝ</a>
+                        <a class="btn btn-primary" data-bss-hover-animate="pulse" type="button" style="margin-right: 5px;" href="{{url_for('users.login')}}">ĐĂNG NHẬP</a>
+                        {% else %}
+                        <a class="btn btn-primary" href="{{url_for('notes.note')}}" data-bss-hover-animate="pulse" type="button" style="margin-right: 10px;color: rgb(0,0,0);background: rgb(255,214,0);">
+                            <i class="fa fa-sticky-note"></i>&nbsp;GHI CHÚ
+                        </a>
+                        <a class="btn btn-primary" href="{{url_for('posts.new_post')}}" data-bss-hover-animate="pulse" type="button" style="margin-right: 10px;">
+                            <i class="fa fa-paper-plane"></i>&nbsp;VIẾT BÀI
+                        </a>
+                        <a href="{{url_for('users.settings')}}" style="text-decoration: none;">
+                            <img class="rounded-circle border border-primary" data-bss-hover-animate="rubberBand" src="../static/profile_pics/{{user.image_file}}" width="45px" height="45px" style="margin-right: 10px;">
+                        </a>
+                        <button class="btn btn-outline-primary border rounded-circle" data-bss-hover-animate="pulse" type="button">
+                            <i class="fa fa-cog"></i>
+                        </button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="container" style="margin-top: 20PX;">
+            
+            {% block content %}
+            {% endblock %}
+        </div>
+    </main>
+    <footer class="footer-basic">
+        <div class="social" style="padding-bottom: 0px;"><a href="#"><i class="icon ion-social-instagram"></i></a><a href="#"><i class="icon ion-social-snapchat"></i></a><a href="#"><i class="icon ion-social-twitter"></i></a><a href="#"><i class="icon ion-social-facebook"></i></a></div>
+        <p class="copyright">@ngtrdai © 2021</p>
+    </footer>
+    <script src="../static/assets/js/jquery.min.js"></script>
+    <script src="../static/assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../static/assets/js/bs-init.js"></script>
+    {{ toastr.include_toastr_js() }}
+    {% block js_endpage %}
+    {% endblock %}
+</body>
+</html>

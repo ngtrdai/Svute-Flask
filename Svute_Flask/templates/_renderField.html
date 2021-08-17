@@ -1,0 +1,64 @@
+﻿{% macro renderField(field) %}
+{% for error in field.errors %}
+<span class="badge badge-danger" style="margin-bottom: 10px">{{error}}</span>
+{% endfor %}
+<div class="form-group">
+    <div>
+
+        {{ field(class_= 'form-control item', **kwargs)|safe}}
+
+    </div>
+</div>
+{% endmacro %}
+
+{% macro renderField_NewPost_Title(field) %}
+{% for error in field.errors %}
+<span class="badge badge-danger" style="margin-bottom: 10px">{{error}}</span>
+{% endfor %}
+<div>
+    {{ field(class_= 'form-control form-control-lg', style_='height: 63px;background: rgba(255,255,255,0);font-weight: bold;border-style: none;font-size: 28px;', **kwargs)|safe}}
+
+</div>
+{% endmacro %}
+
+{% macro renderField_NewPost_Content(field) %}
+{% for error in field.errors %}
+<span class="badge badge-danger" style="margin-bottom: 10px">{{error}}</span>
+{% endfor %}
+<div class="card" style="margin-top: 30px; height: auto">
+    {{ field(**kwargs)|safe}}
+</div>
+{% endmacro %}
+
+{% macro renderField_NewPost_Brief(field) %}
+{% for error in field.errors %}
+<span class="badge badge-danger" style="margin-bottom: 10px">{{error}}</span>
+{% endfor %}
+<div style="margin: 0px;border-radius: 5px;background: #ebebeb;margin-top: 15px;margin-bottom: 10px;padding: 10px;">
+    {{ field(class_= 'form-control', style_='background: rgba(255,255,255,0);border-style: none;border-radius: 0px;height: 100%', **kwargs)|safe}}
+</div>
+{% endmacro %}
+
+{% macro renderField_NewPost_Thumbnail(field) %}
+{% for error in field.errors %}
+<span class="badge badge-danger" style="margin-bottom: 10px">{{error}}</span>
+{% endfor %}
+{{ field(**kwargs)|safe}}
+{% endmacro %}
+
+{% macro renderField_NewPost_Tags(field) %}
+{% for error in field.errors %}
+<span class="badge badge-danger" style="margin-bottom: 10px">{{error}}</span>
+{% endfor %}
+<div style="margin: 0px;border-radius: 5px;background: #ebebeb;margin-top: 15px;padding: 10px;">
+    {{ field(class_= 'form-control', style_='background: rgba(255,255,255,0);border-style: none;border-radius: 0px;', **kwargs)|safe}}
+</div>
+{% endmacro %}
+
+{% macro renderField_NewPost_Submit(field) %}
+<div style='width: 100%;margin-top: 15px;height: 50px;'>
+    {{ field(class_= 'form-control form-control-lg btn btn-primary', **kwargs)|safe}}
+</div>
+{% endmacro %}
+
+

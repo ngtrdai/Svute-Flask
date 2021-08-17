@@ -1,0 +1,271 @@
+<!-- HIỆN THỊ NỘI DUNG BÀI VIẾT -->
+{% extends "layout_nsb.html" %}
+{% block head %}
+<link rel="stylesheet" href="../static/assets/css/post.css">
+{% endblock %}
+{% block content %}
+<!--<div>
+    <ol class="breadcrumb" style="background: rgba(233,236,239,0);margin-bottom: 8px;padding: 0px;">
+        <li class="breadcrumb-item"><a href="{{url_for('main.home')}}"><span>Trang chủ</span></a></li>
+        <li class="breadcrumb-item"><a href="#"><span>Bài viết</span></a></li>
+        <li class="breadcrumb-item"><a href="#"><span>{{ post.title }}</span></a></li>
+    </ol>
+    <div class="d-flex d-sm-flex d-xl-flex align-items-center align-items-sm-center align-items-xl-center">
+        <h2>{{ post.title }}</h2>
+        {% if post.author == current_user %}
+        <a class="article-title" href="{{url_for('posts.update_post', slug = post.slug)}}" style="margin-left: 10px;font-size: 36px;color: rgb(152,152,152);">
+            <i class="fa fa-edit d-sm-flex"></i>
+        </a>
+        {% endif %}
+    </div>
+    <div class="d-flex d-sm-flex d-lg-flex align-items-center align-items-sm-center align-items-lg-center">
+        <img class="rounded-circle border border-primary" src="../static/profile_pics/{{post.author.image_file}}" style="width: 40px;height: 40px;" width="40px" height="40px" loading="auto">
+        <div style="margin-left: 10px;">
+            <div class="d-flex d-sm-flex d-md-flex d-lg-flex align-items-center align-items-sm-center align-items-md-center justify-content-lg-start align-items-lg-center">
+                <h4 class="text-primary" style="margin-bottom: 2px;">{{post.author.username}}</h4><button class="btn btn-primary text-center border rounded-pill d-flex d-sm-flex d-xl-flex justify-content-center align-items-center justify-content-sm-center align-items-sm-center justify-content-xl-center" type="button" style="margin-left: 15px;height: 33px;width: 107.812px;text-align: center;"><strong>Theo dõi</strong></button>
+            </div><span class="d-flex align-items-center" style="margin-top: 2px;color: rgb(152,152,152);font-size: 13px;">{{ post.date.strftime('%d-%m-%Y') }}&nbsp;&nbsp;<i class="fa fa-circle" style="font-size: 8px;"></i>&nbsp; Bình luận: {{post.comments}}&nbsp;&nbsp;<i class="fa fa-circle" style="font-size: 8px;"></i>&nbsp; Lượt xem: {{post.views}}&nbsp;<i class="fa fa-eye"></i></span>
+        </div><i class="fa fa-bookmark-o d-flex float-right ml-auto" style="margin: 0px;margin-right: 20px;font-size: 37px;color: rgb(152,152,152);"></i>
+    </div>
+    <p class="text-nowrap text-truncate text-break" style="font-size: 21px;margin-top: 10px;">{{post.content | safe}}</p>
+    <div class="d-flex d-lg-flex align-items-center align-items-lg-center">
+        <img width="30px" height="30px" src="../static/assets/img/love.png">
+        <p class="d-flex align-items-center" style="margin-bottom: 0px;color: rgb(152,152,152);">&nbsp;0 tim&nbsp;&nbsp;<i class="fa fa-circle" style="font-size: 8px;"></i>&nbsp; {{post.comments}} bình luận</p>
+        {% if post.author == current_user %}
+        <div class="d-flex d-sm-flex d-md-flex d-lg-flex d-xl-flex align-items-center ml-auto align-items-sm-center align-items-md-center align-items-lg-center align-items-xl-center">
+            <a class="article-title" href="{{url_for('posts.update_post', slug = post.slug)}}" style="margin-right: 10px;color: rgb(152,152,152);">Sửa bài</a>
+            <a class="article-title" type="button" data-toggle="modal" data-target="#deleteModal" style="margin-right: 10px;color: rgb(152,152,152);">Xóa bài</a>
+        </div>
+        {% endif %}
+    </div>
+    <hr style="margin-bottom: 10px;">
+    <div class="d-flex d-sm-flex d-md-flex align-items-center align-items-sm-center align-items-md-center">
+        <button class="btn btn-secondary d-flex d-sm-flex d-md-flex d-lg-flex d-xl-flex justify-content-center align-items-center justify-content-sm-center align-items-sm-center justify-content-md-center align-items-md-center justify-content-lg-center align-items-lg-center justify-content-xl-center align-items-xl-center" type="submit"><i class="fa fa-heart"></i>&nbsp;Yêu thích</button>
+        <hr style="margin-top: 10px;">
+    </div>
+    <hr>
+    <form class="comment-form" method="post">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-1" style="padding: -1px;padding-right: 0px;padding-left: 0px; ">
+                    <img class="rounded-circle" style="width: 40px;height: 40px;background: url(&quot;../static/profile_pics/{{current_user.image_file}}&quot;) center / cover no-repeat;border-radius: 0px;">
+                </div>
+                <div class="col-md-11" style="padding-right: 0px;padding-left: 0px;background: #ededed;border-radius: 5px;">
+                    <div style="padding: 10px;padding-left: 15px;">
+                        <textarea name="message" id="message" class="d-flex" style="width: 100%;max-width: none;border-radius: 5px;height: 77px;background: rgba(255,255,255,0);border-style: none;" placeholder="Viết bình luận vào đây bạn ơi..." spellcheck="false"></textarea>
+                    </div>
+                    <div style="padding: 0px;padding-right: 10px;padding-bottom: 10px;">
+                        <button class="btn btn-primary d-flex float-right" type="submit" style="margin-bottom: 10px;">Bình luận</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    {% for comment in comments %}
+    <div class="container" style="margin-top: 20px;">
+        <div class="row">
+            <div class="col-md-1" style="padding: -1px;padding-right: 0px;padding-left: 0px;"><img class="rounded-circle" style="width: 40px;height: 40px;background: url(&quot;../static/profile_pics/{{comment.author.image_file}}&quot;) center / cover no-repeat;border-radius: 0px;margin: 0px;"></div>
+            <div class="col-md-11" style="padding-right: 0px;padding-left: 0px;background: #ededed;border-radius: 5px;">
+                <div style="padding: 10px;padding-bottom: 0px;padding-left: 15px;">
+                    <h5 style="color: var(--primary);">{{comment.author.username}}<i class="fa fa-ellipsis-h d-inline-flex float-right mr-auto" style="color: rgb(134,135,136);"></i></h5>
+                </div>
+                <div style="padding: 10px;padding-right: 10px;padding-bottom: 0px;padding-left: 15px;">
+                    <p style="font-weight: bold;word-wrap: break-word;white-space: pre-wrap; line-height: 1.8; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap;">{{comment.content}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalModalLabel">Xóa bài viết</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">Bạn có chắc chắn là muốn xóa bài viết này?</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                    <form method="post" action="{{url_for('posts.delete_post', post_id=post.post_id)}}">
+                        <input class="btn btn-danger" type="submit" value="Xóa bài viết">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>-->
+<div class="blog-single gray-bg">
+    <div class="container">
+        <div class="row align-items-start">
+            <div class="col-lg-8 m-15px-tb">
+                <article class="article">
+                    <div class="article-title">
+                        <h6><a href="#">{{post.category}}</a></h6>
+                        <h2>{{ post.title }}</h2>
+                        <div class="media">
+                            <div class="avatar">
+                                <img src="../static/profile_pics/{{post.author.image_file}}" title="" alt="">
+                            </div>
+                            <div class="media-body">
+                                <label>{{post.author.fullname}}</label>
+                                <span>{{ post.date.strftime('%d-%m-%Y') }}&nbsp;&nbsp;</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="article-content">
+                        {{post.content | markdown}}
+                    </div>
+
+                    <div class="nav tag-cloud">
+                        {% if tags[0] != 'khongco'%}
+                        {% for tag in tags %}
+                        <a href="#">{{tag}}</a>
+                        {% endfor %}
+                        {% elif tags|length >= 1 and tags[0] != 'khongco' %}
+                        <a href="#">{{tags[0]}}</a>
+                        {% endif %}
+                    </div>
+                </article>
+                
+                <div class="contact-form article-comment">
+                    <div class="d-flex justify-content-center row">
+                        <div class="d-flex flex-column">
+                            <div class="d-flex flex-row align-items-center text-left comment-top p-2 bg-white border-bottom px-4">
+                                <div class="profile-image"><img class="rounded-circle" src="../static/profile_pics/{{post.author.image_file}}" width="70"></div>
+                                <div class="d-flex flex-column-reverse flex-grow-0 align-items-center votings ml-1"><i class="fa fa-sort-up fa-2x hit-voting"></i><span>{{post.like}}</span><i class="fa fa-sort-down fa-2x hit-voting"></i></div>
+                                <div class="d-flex flex-column ml-3">
+                                    <div class="d-flex flex-row post-title">
+                                        <h5>{{post.title}}</h5>
+                                    </div>
+                                    <div class="d-flex flex-row align-items-center align-content-center post-title"><span class="bdge mr-1">{{post.category}}</span></div>
+                                </div>
+                            </div>
+                            <div class="coment-bottom bg-white p-2 px-4">
+                                {% if user.is_authenticated %}
+                                <div class="d-flex flex-row add-comment-section mt-4 mb-4"><img class="img-fluid img-responsive rounded-circle mr-2" src="../static/profile_pics/{{current_user.image_file}}" width="38"><input type="text" class="form-control mr-3" placeholder="Nhập bình luận vào đây"><button class="btn btn-primary" type="button">Bình luận</button></div>
+                                {% endif %}
+                                {% for comment in comments %}
+                                <div class="commented-section mt-2">
+                                    <div class="d-flex flex-row align-items-center commented-user">
+                                        <h5 class="mr-2">{{comment.author.fullname}}</h5><span class="dot mb-1"></span><span class="mb-1 ml-2">{{comment.date_comment}}</span>
+                                    </div>
+                                    <div class="comment-text-sm"><span>{{comment.content}}</span></div>
+                                    <div class="reply-section">
+                                        <div class="d-flex flex-row align-items-center voting-icons">
+                                            <i class="fa fa-sort-up fa-2x mt-3 hit-voting"></i><i class="fa fa-sort-down fa-2x mb-3 hit-voting"></i><span class="ml-2">{{comment.like}}</span><span class="dot ml-2"></span>
+                                            <h6 class="ml-2 mt-1">Trả lời</h6>
+                                        </div>
+                                    </div>
+                                </div>   
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-4 m-15px-tb blog-aside">
+                <!-- Author -->
+                <div class="widget widget-author">
+                    <div class="widget-title">
+                        <h3>Tác giả</h3>
+                    </div>
+                    <div class="widget-body">
+                        <div class="media align-items-center">
+                            <div class="avatar">
+                                <img src="../static/profile_pics/{{post.author.image_file}}" title="" alt="">
+                            </div>
+                            <div class="media-body">
+                                <h6>{{post.author.fullname}}<br>@{{post.author.username}}</h6>
+                            </div>
+                        </div>
+                        <p>{{post.author.about}}</p>
+                    </div>
+                </div>
+                <!-- End Author -->
+                <!-- Trending Post -->
+                <div class="widget widget-post">
+                    <div class="widget-title">
+                        <h3>Bài viết hay</h3>
+                    </div>
+                    <div class="widget-body">
+
+                    </div>
+                </div>
+                <!-- End Trending Post -->
+                <!-- Latest Post -->
+                <div class="widget widget-latest-post">
+                    <div class="widget-title">
+                        <h3>Bài viết mới nhất</h3>
+                    </div>
+                    <div class="widget-body">
+                        <!--<div class="latest-post-aside media">
+                    <div class="lpa-left media-body">
+                        <div class="lpa-title">
+                            <h5><a href="#">Prevent 75% of visitors from google analytics</a></h5>
+                        </div>
+                        <div class="lpa-meta">
+                            <a class="name" href="#">
+                                Rachel Roth
+                            </a>
+                            <a class="date" href="#">
+                                26 FEB 2020
+                            </a>
+                        </div>
+                    </div>
+                    <div class="lpa-right">
+                        <a href="#">
+                            <img src="https://via.placeholder.com/400x200/FFB6C1/000000" title="" alt="">
+                        </a>
+                    </div>
+                </div>
+                <div class="latest-post-aside media">
+                    <div class="lpa-left media-body">
+                        <div class="lpa-title">
+                            <h5><a href="#">Prevent 75% of visitors from google analytics</a></h5>
+                        </div>
+                        <div class="lpa-meta">
+                            <a class="name" href="#">
+                                Rachel Roth
+                            </a>
+                            <a class="date" href="#">
+                                26 FEB 2020
+                            </a>
+                        </div>
+                    </div>
+                    <div class="lpa-right">
+                        <a href="#">
+                            <img src="https://via.placeholder.com/400x200/FFB6C1/000000" title="" alt="">
+                        </a>
+                    </div>
+                </div>
+                <div class="latest-post-aside media">
+                    <div class="lpa-left media-body">
+                        <div class="lpa-title">
+                            <h5><a href="#">Prevent 75% of visitors from google analytics</a></h5>
+                        </div>
+                        <div class="lpa-meta">
+                            <a class="name" href="#">
+                                Rachel Roth
+                            </a>
+                            <a class="date" href="#">
+                                26 FEB 2020
+                            </a>
+                        </div>
+                    </div>
+                    <div class="lpa-right">
+                        <a href="#">
+                            <img src="https://via.placeholder.com/400x200/FFB6C1/000000" title="" alt="">
+                        </a>
+                    </div>
+                </div>-->
+                    </div>
+                </div>
+                <!-- End Latest Post -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

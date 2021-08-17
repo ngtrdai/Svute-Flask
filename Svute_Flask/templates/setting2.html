@@ -1,0 +1,101 @@
+{% extends "layout.html" %}
+{% block head %}
+<link rel="stylesheet" href="../static/assets/css/edit_profile.css">
+{% endblock %}
+{%block sidebar%}
+<span class="badge badge-primary d-flex d-lg-flex justify-content-center align-items-center mx-auto justify-content-lg-center align-items-lg-center" style="margin-bottom: 20px;height: 40px;font-size: 18px;">@{{user.username}}</span>
+<div class="card mx-auto " style="width:100%;border-top-left-radius: 10px;border-top-right-radius: 5px;border-bottom-right-radius: 5px;border-bottom-left-radius: 5px;box-shadow: 5px 5px 16px 2px rgba(0,0,0,0.25);margin-bottom: 20px;">
+    <div class="d-flex d-lg-flex justify-content-center align-items-center mx-auto justify-content-lg-center align-items-lg-center" style="padding:20px 20px 10px 20px"><img  src="../static/profile_pics/{{user.image_file}}"></div>
+
+    <div class="card-body d-flex flex-column" style="height: 167px;">
+        <div class="d-flex flex-column mx-auto justify-content-lg-center align-items-lg-center">
+            <h4 style="font-family: 'Source Sans Pro', sans-serif;font-weight: 700;color: rgb(255,160,0);">{{current_user.fullname}}</h4>
+            <h6 class="text-muted mb-2" style="font-family: 'Source Sans Pro', sans-serif;font-weight: 600;color: #757575;">@{{user.username}}</h6>
+        </div>
+        <div>
+            <div class="container text-center d-flex float-none justify-content-sm-center align-items-sm-center">
+                <a class="social-link" href="{{user.fb_link}}" style="margin: 0px 5px;">
+                    <i class="fa fa-facebook social-link-icon"></i>
+                    <div class="social-link-effect"></div>
+                </a><a class="social-link" href="{{user.tw_link}}" style="margin: 0px 5px;">
+                    <i class="fa fa-twitter social-link-icon"></i>
+                    <div class="social-link-effect"></div>
+                </a><a class="social-link" href="{{user.ig_link}}" style="margin: 0px 5px;">
+                    <i class="fa fa-instagram social-link-icon"></i>
+                    <div class="social-link-effect"></div>
+                </a><a class="social-link" href="{{user.git_link}}" style="margin: 0px 5px;">
+                    <i class="fa fa-github social-link-icon"></i>
+                    <div class="social-link-effect"></div>
+                </a>
+            </div><a class="float-right align-self-end"  data-bss-hover-animate="pulse" href="{{user.fb_link}}" style="text-decoration: none; padding: 4px; background: #b86868; color: rgb(255,255,255); border-radius: 17px; padding-right: 14px; padding-left: 14px; padding-bottom: 6px; font-family: 'Source Sans Pro', sans-serif; margin-top: 10px;">Liên hệ</a>
+        </div>
+    </div>
+</div>
+{%endblock %}
+{% block content %}
+<div class="col-lg-12  justify-content-lg-center" style="width: auto">
+    <div class="card shadow mb-3" style="width: auto">
+        <div class="card-header py-3">
+            <p class="text-primary m-0 font-weight-bold">Chỉnh sửa hồ sơ</p>
+        </div>
+        <div class="card-body">
+            <form method="POST" action="" enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+                <fieldset class="form-group">
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="username">
+                                    <strong>Tên người dùng</strong><br>
+                                </label>{{ form.username(class="form-control form-control-lg") }}
+                            </div>
+                            <div class="form-group">
+                                <label for="email"><strong>Địa chỉ email</strong><br></label>
+                                {{ form.email(class="form-control form-control-lg") }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="first_name"><strong>Họ</strong></label>
+                                {{ form.firstname(class="form-control form-control-lg") }}
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="last_name"><strong>Tên</strong></label>
+                                {{ form.lastname(class="form-control form-control-lg") }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="password1"><strong>Mật khẩu mới</strong><br></label>
+                                <input class="form-control" type="password" name="password1">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="password2"><strong>Xác nhận mật khẩu</strong><br></label>
+                                <input class="form-control" name="password2" type="password">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="image">
+                                    <strong>Đổi ảnh đại diện</strong><br>
+                                </label>{{ form.picture(class="form-control-file") }}
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="form-group">{{ form.submit(class="btn btn-primary") }}</div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock%}
