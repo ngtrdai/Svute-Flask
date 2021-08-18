@@ -1,9 +1,11 @@
 ﻿from Svute_Flask import db, loginManager
-from flask import current_app
+from flask import current_app, redirect, url_for, request, flash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from flask_login import UserMixin
 from datetime import datetime
 from slugify import slugify
+from flask_login import current_user, UserMixin,login_required
+from flask_security import RoleMixin
+from flask_admin.contrib.sqla import ModelView
 
 @loginManager.user_loader
 def load_user(id):
@@ -19,23 +21,32 @@ class Note(db.Model):
     def __repr__(self) -> str:
         return f"Note('{self.title}', '{self.date}')"
 
+roles_users = db.Table('roles_users',
+                        db.Column('user_id', db.Integer,
+                        db.ForeignKey('user.id')),
+                        db.Column('role_id', db.Integer,
+                        db.ForeignKey('role.id'))
+)
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
     email = db.Column(db.String(200), unique=True)
     password = db.Column(db.String(200), nullable=False)
     fullname = db.Column(db.String(200))
-    about = db.Column(db.String(1000), default='#')
+    about = db.Column(db.String(1000), default='')
     fb_link = db.Column(db.String(100), default='#')
     tw_link = db.Column(db.String(100), default='#')
-    ig_link = db.Column(db.String(100), default='#')
     git_link = db.Column(db.String(100), default='#')
     web_link = db.Column(db.String(100), default='#')
-    role = db.Column(db.String(10), default='member')
+    active = db.Column(db.Boolean(), default=False)
     image_file = db.Column(db.String(20), nullable=False, default='avatar.svg')
     notes = db.relationship('Note', backref='author', lazy=True)
     posts = db.relationship('Post', backref='author', lazy=True)
+    calendar = db.relationship('Calendar', backref='author', lazy=True)
     comments = db.relationship('Comments', backref='author', lazy=True)
+    codes = db.relationship('Code', backref='author', lazy=True)
+    roles = db.Column(db.Integer, db.ForeignKey('role.id'))
     def get_reset_token(self, expires_sec=1800):
         s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
         return s.dumps({'user_id': self.id}).decode('utf-8')
@@ -95,3 +106,41 @@ class Category(db.Model):
     def __repr__(self):
         return f"Category('{self.name}')"
 
+class Code(db.Model):
+    code_id = db.Column(db.Integer, primary_key=True)
+    source = db.Column(db.String, unique=True, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
+    def __repr__(self) -> str:
+        return f"Code('{self.code_id}', '{self.date}')"
+
+class Category_calendar(db.Model):
+    category_calendar_id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), unique=True, nullable=False)
+    calendar = db.relationship('Calendar', backref='category', lazy=True)
+    def __repr__(self):
+        return f"Category_Calendar('{self.name}')"
+
+class Calendar(db.Model):
+    calendar_id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    content = db.Column(db.String(255), nullable=False)
+    category_id = db.Column(db.Integer, db.ForeignKey('category_calendar.category_calendar_id'))
+    start = db.Column(db.String(20), nullable=False)
+    end = db.Column(db.String(20), nullable=False)
+    def __repr__(self) -> str:
+        return f"Calendar('{self.calendar_id}', '{self.content}')"
+
+class Role(db.Model, RoleMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    name =  db.Column(db.String(20), unique=True, nullable=False)
+    user = db.relationship('User', backref='role', lazy=True)
+
+
+class AdminView(ModelView):
+    def is_accessible(self):
+        return current_user.is_authenticated and "admin" in current_user.role.name
+        
+
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('users.login'))

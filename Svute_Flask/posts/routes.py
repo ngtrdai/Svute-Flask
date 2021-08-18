@@ -5,7 +5,6 @@ from flask_login import current_user, login_required
 from Svute_Flask import db
 from Svute_Flask.users.func import SaveImage
 from Svute_Flask.posts.forms import PostForm
-
 posts = Blueprint('posts', __name__)
 
 @posts.route('/bai-viet/moi', methods=['POST', 'GET'])

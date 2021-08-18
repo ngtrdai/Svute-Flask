@@ -1,10 +1,13 @@
-﻿from flask import render_template, request, Blueprint
+﻿
+from flask import render_template, request, Blueprint
 from flask_login import login_required,current_user
 from flask import flash, url_for, redirect
 from Svute_Flask.models import Note, Post, User
 from Svute_Flask import db, app
-
 main = Blueprint('main', __name__)
+
+
+
 
 @main.route("/")
 @main.route("/trangchu")

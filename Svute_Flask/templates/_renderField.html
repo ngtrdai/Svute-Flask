@@ -16,7 +16,7 @@
 <span class="badge badge-danger" style="margin-bottom: 10px">{{error}}</span>
 {% endfor %}
 <div>
-    {{ field(class_= 'form-control form-control-lg', style_='height: 63px;background: rgba(255,255,255,0);font-weight: bold;border-style: none;font-size: 28px;', **kwargs)|safe}}
+    {{ field(class_= 'form-control form-control-lg', style='height: 63px;background: rgba(255,255,255,0);font-weight: bold;border-style: none;font-size: 28px;', **kwargs)|safe}}
 
 </div>
 {% endmacro %}
@@ -35,7 +35,7 @@
 <span class="badge badge-danger" style="margin-bottom: 10px">{{error}}</span>
 {% endfor %}
 <div style="margin: 0px;border-radius: 5px;background: #ebebeb;margin-top: 15px;margin-bottom: 10px;padding: 10px;">
-    {{ field(class_= 'form-control', style_='background: rgba(255,255,255,0);border-style: none;border-radius: 0px;height: 100%', **kwargs)|safe}}
+    {{ field(class_= 'form-control', style='background: rgba(255,255,255,0);border-style: none;border-radius: 0px;height: 100%', **kwargs)|safe}}
 </div>
 {% endmacro %}
 
@@ -51,7 +51,7 @@
 <span class="badge badge-danger" style="margin-bottom: 10px">{{error}}</span>
 {% endfor %}
 <div style="margin: 0px;border-radius: 5px;background: #ebebeb;margin-top: 15px;padding: 10px;">
-    {{ field(class_= 'form-control', style_='background: rgba(255,255,255,0);border-style: none;border-radius: 0px;', **kwargs)|safe}}
+    {{ field(class_= 'form-control', style='background: rgba(255,255,255,0);border-style: none;border-radius: 0px;', **kwargs)|safe}}
 </div>
 {% endmacro %}
 
@@ -76,4 +76,25 @@
     <label class="custom-file-label" for="customFile">Tải lên ảnh đại diện</label>
     {{ field(class_='custom-file-input',**kwargs)|safe}}
 </div>
+{% endmacro %}
+
+{% macro renderField_Calendars_Content(field) %}
+{% for error in field.errors %}
+<span class="badge badge-danger" style="margin-bottom: 10px">{{error}}</span>
+{% endfor %}
+<div class="form-group mb-1">
+    {{ field(class_='form-control text-white',rows="5",style="background-color: rgb(59, 59, 59); box-shadow: 0px 0px 0px rgba(0, 0, 0, 0); border: none; border-radius: 1em;",**kwargs)|safe}}
+</div>
+{% endmacro %}
+
+{% macro renderField_Calendars_Submit(field) %}
+{{ field(class_='btn btn-warning font-weight-bold col-12',**kwargs)|safe}}
+{% endmacro %}
+
+{% macro renderField_Calendars_PickDate(field) %}
+{{ field(class_='text-white',style="background-color: rgb(59, 59, 59);height: 40px; box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);padding:10px ;border: none; border-radius: 1em;",**kwargs)|safe}}
+{% endmacro %}
+
+{% macro renderField_Calendars_Category(field) %}
+{{ field(class_='form-control text-white',style="background-color: rgb(59, 59, 59);height: 40px; box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);padding:10px ;margin-top:10px;border: none; border-radius: 1em;",**kwargs)|safe}}
 {% endmacro %}

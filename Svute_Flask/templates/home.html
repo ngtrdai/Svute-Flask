@@ -7,7 +7,7 @@
 {% for post in posts.items %}
 <article class="postcard light blue">
     <a class="postcard__img_link" href="{{url_for('posts.post', slug=post.slug)}}">
-        <img class="postcard__img" src="../static/assets/img/posts/{{post.image_cover}}" alt="{{ post.title[:50] }}" />
+        <img class="postcard__img" src="{{post.image_cover}}" alt="{{ post.title[:50] }}" />
     </a>
     <div class="postcard__text">
         <h1 class="postcard__title blue"><a href="{{url_for('posts.post', slug=post.slug)}}">{{ post.title[:50] }}</a>
@@ -86,7 +86,7 @@
                                 style="font-size: 10pt; color: rgb(145, 145, 145);">{{ note.date.strftime('%d-%m-%Y') }}</small>
                         </div>
                     </div>
-                    <div class="modal fade" id="viewModal{{ note.note_id }}" tabindex="-1" role="dialog"
+                    <div class="modal" id="viewModal{{ note.note_id }}" tabindex="-1" role="dialog"
                         aria-labelledby="viewModalLabel"
                         style="background-color: rgba(0, 0, 0, 0); backdrop-filter: blur(5px);">
                         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
@@ -120,6 +120,7 @@
         </div>
     </div>
 </div>
+
 {% else %}
 <form METHOD="POST" action="/dang-nhap">
     <div style="padding: 0px;">
