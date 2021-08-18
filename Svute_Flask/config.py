@@ -8,5 +8,15 @@ class Config:
     TOASTR_POSITION_CLASS = 'toast-bottom-right'
     CKEDITOR_SERVE_LOCAL = True
     CKEDITOR_ENABLE_CSRF = True
+    WTF_CSRF_ENABLED = True 
+    CODEMIRROR_LANGUAGES = ['python', 'html']
+    # optional
+    CODEMIRROR_THEME = 'darcula'
+    CODEMIRROR_ADDONS = (
+        ('display','placeholder'),
+        ('display','fullscreen'),
+        ('fold','indent-fold'),
+        ('comment','comment')
+    )
 
 

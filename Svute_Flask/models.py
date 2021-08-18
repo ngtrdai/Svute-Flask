@@ -35,7 +35,9 @@ class User(db.Model, UserMixin):
     image_file = db.Column(db.String(20), nullable=False, default='avatar.svg')
     notes = db.relationship('Note', backref='author', lazy=True)
     posts = db.relationship('Post', backref='author', lazy=True)
+    calendar = db.relationship('Calendar', backref='author', lazy=True)
     comments = db.relationship('Comments', backref='author', lazy=True)
+    codes = db.relationship('Code', backref='author', lazy=True)
     def get_reset_token(self, expires_sec=1800):
         s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
         return s.dumps({'user_id': self.id}).decode('utf-8')
@@ -94,4 +96,29 @@ class Category(db.Model):
     posts = db.relationship('Post', backref='category', lazy=True)
     def __repr__(self):
         return f"Category('{self.name}')"
+
+class Code(db.Model):
+    code_id = db.Column(db.Integer, primary_key=True)
+    source = db.Column(db.String, unique=True, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
+    def __repr__(self) -> str:
+        return f"Code('{self.code_id}', '{self.date}')"
+
+class Category_calendar(db.Model):
+    category_calendar_id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), unique=True, nullable=False)
+    calendar = db.relationship('Calendar', backref='category', lazy=True)
+    def __repr__(self):
+        return f"Category_Calendar('{self.name}')"
+
+class Calendar(db.Model):
+    calendar_id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    content = db.Column(db.String(255), nullable=False)
+    category_id = db.Column(db.Integer, db.ForeignKey('category_calendar.category_calendar_id'))
+    start = db.Column(db.String(20), nullable=False)
+    end = db.Column(db.String(20), nullable=False)
+    def __repr__(self) -> str:
+        return f"Calendar('{self.calendar_id}', '{self.content}')"
 

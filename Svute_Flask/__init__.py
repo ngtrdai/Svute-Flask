@@ -15,7 +15,7 @@ from flask_toastr import Toastr
 from flask_bcrypt import Bcrypt
 from flask_ckeditor import CKEditor
 from flask_wtf.csrf import CSRFProtect
-
+from flask_codemirror import CodeMirror
 
 app = Flask(__name__)
 # Khoi tao database
@@ -42,6 +42,7 @@ def Create_App(config_class=Config):
     loginManager.init_app(app)
     md = Markdown(app, auto_escape=False, safe_mode=True)
     toastr = Toastr(app)
+    codemirror = CodeMirror(app)
     ckeditor.init_app(app)
     csrf = CSRFProtect(app)    
     admin = Admin(app,template_mode='bootstrap4')
@@ -49,15 +50,22 @@ def Create_App(config_class=Config):
     from Svute_Flask.main.routes import main
     from Svute_Flask.posts.routes import posts
     from Svute_Flask.notes.routes import notes
-    from Svute_Flask.models import User, Post, Note, Comments, Category
+    from Svute_Flask.codes.routes import codes
+    from Svute_Flask.calendars.routes import calendars
+    from Svute_Flask.models import User, Post, Note, Comments, Category, Code, Calendar, Category_calendar
     Create_Database(app)
     app.register_blueprint(users)
     app.register_blueprint(main)
     app.register_blueprint(posts)
     app.register_blueprint(notes)
+    app.register_blueprint(codes)
+    app.register_blueprint(calendars)
     admin.add_view(ModelView(User, db.session))
     admin.add_view(ModelView(Post, db.session))
     admin.add_view(ModelView(Note, db.session))
     admin.add_view(ModelView(Comments, db.session))
-    admin.add_view(ModelView(Category, db.session))
-    return app
+    admin.add_view(ModelView(Category, db.session)) 
+    admin.add_view(ModelView(Code, db.session))
+    admin.add_view(ModelView(Calendar, db.session))
+    admin.add_view(ModelView(Category_calendar, db.session))
+    return app  

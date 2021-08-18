@@ -1,0 +1,10 @@
+{% extends "layout_nsb.html" %}
+{% block head %}
+{{ codemirror.include_codemirror() }}
+{% endblock %}
+{% block content %}
+<form method="POST">
+    {{ form.csrf_token }}
+    {{ form.sourceCode }}
+</form>
+{% endblock %}

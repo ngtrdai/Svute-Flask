@@ -1,0 +1,182 @@
+{% from "_renderField.html" import renderField_Calendars_Content, renderField_Calendars_Category, renderField_Calendars_Submit, renderField_Calendars_PickDate %}
+{% extends "layout.html" %}
+{% block head %}
+<script src="../static/assets/js/calendar.js"></script>
+<script src="../static/assets/js/calendar_vi.js"></script>
+<link rel="stylesheet" href="../static/assets/css/calendar.css">
+<link href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.css' rel='stylesheet'>
+<link rel="stylesheet" href="../static/assets/css/to-do-new.css">
+{% endblock %}
+{% block content %}
+<div id='calendar'></div>
+<script>
+    let calendarE1 = document.getElementById('calendar');
+    let calendar = new FullCalendar.Calendar(calendarE1, {
+        locale: 'vi',
+        code: 'vi',
+        week: {
+            dow: 1, // Monday is the first day of the week.
+            doy: 4, // The week that contains Jan 4th is the first week of the year.
+        },
+
+        droppable: true,
+        themeSystem: 'bootstrap',
+        timeZone: 'UTC',
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+        },
+        weekNumbers: true,
+        dayMaxEvents: true,
+        weekText: 'Tuần ',
+        allDayText: 'Cả ngày',
+        moreLinkText: function (n) {
+            return '+ thêm ' + n
+        },
+        noEventsText: 'Không có sự kiện để hiển thị',
+        buttonText: {
+            today: 'Hôm nay',
+            month: 'Tháng',
+            week: 'Tuần',
+            day: 'Ngày',
+            list: 'Lịch biểu'
+        },
+        events: [
+            {% for event in events %} 
+            {
+                title: '{{event.todo}}',
+                start: '{{event.start}}',
+                end: '{{event.end}}',
+            },
+            {% endfor %}
+        ],
+    });
+    calendar.render();
+</script>
+{% endblock %}
+{% block sidebar %}
+
+<div class="card-hover-shadow-2x mb-3 card">
+    <div class="card-header-tab card-header">
+        <div class="card-header-title font-size-lg text-capitalize font-weight-normal"><i
+                class="fa fa-tasks"></i>&nbsp;Danh sách công việc</div>
+    </div>
+    <div class="scroll-area-sm">
+        <perfect-scrollbar class="ps-show-limits">
+            <div style="position: static;" class="ps ps--active-y">
+                <div class="ps-content">
+                    <ul class=" list-group list-group-flush">
+                        {%for calendar in calendars%}
+                        <li class="list-group-item">
+                            <div class="todo-indicator bg-warning"></div>
+                            <div class="widget-content p-0">
+                                <div class="widget-content-wrapper">
+                                    <div class="widget-content-left">
+                                        <div class="widget-heading">
+                                            <a data-toggle="modal" data-target="#viewModal{{ calendar.calendar_id }}">{{calendar.content}}</a>
+                                            {% if calendar.category.name == 'Chưa làm' %}
+                                            <div class="badge badge-danger ml-2">{{calendar.category.name}}</div>
+                                            {% elif calendar.category.name == 'Đang làm'%}
+                                            <div class="badge badge-warning ml-2">{{calendar.category.name}}</div>
+                                            {% else %}
+                                            <div class="badge badge-success ml-2">{{calendar.category.name}}</div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="widget-content-right">
+                                            <form action="/sukien/xoa" method="post" id="deleteForm">
+                                                {{ form.csrf_token }}
+                                                <button class="border-0 btn-transition btn btn-outline-success"> <i
+                                                        class="fa fa-check"></i></button>
+                                                <button class="border-0 btn-transition btn btn-outline-warning"> <i
+                                                        class="fa fa-pencil-square-o"></i></button>
+                                                
+                                                <button class="border-0 btn-transition btn btn-outline-danger" onclick="return ConfirmDelete();" type="submit" name="calendar_id"
+                                                value="{{calendar.calendar_id}}"><i
+                                                class="fa fa-trash"></i> </button>
+                                            </form>
+                                            <!-- Xác nhận xóa ghi chú  -->
+                                            <script>
+                                                function ConfirmDelete() {
+                                                    var x = confirm("Bạn có thực sự muốn xóa?");
+                                                    if (x) {
+                                                        return true;
+                                                    } else {
+                                                        return false;
+                                                    }
+                                                }
+                                                </script>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </li>
+                        <!-- Modal Area XEM CONG VIEC ------------------------------------------------------------------------- -->
+                        
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </perfect-scrollbar>
+    </div>
+    <div class="d-block text-right card-footer"><button class="btn btn-primary" data-toggle="modal"
+            data-target="#themCongVietModal">Thêm công việc</button></div>
+</div>
+<!-- Modal Area THEM CONG VIEC ------------------------------------------------------------------------- -->
+<div class="modal" id="themCongVietModal" tabindex="-1" role="dialog" aria-labelledby="themCongVietModalLabel"
+    aria-hidden="true" style="background-color: rgba(0, 0, 0, 0.247); backdrop-filter: blur(5px);">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="background-color: rgba(29, 29, 29, 0); border-radius: 1em">
+            <div class="modal-header text-warning"
+                style="background-color: rgb(37, 37, 37); border: 0; border-top-left-radius: 1em; border-top-right-radius: 1em;">
+                <h5 class="modal-title" id="themCongVietModalLabel">Thêm công việc</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="text-white">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body"
+                style="background-color: rgb(48, 48, 48); border-bottom-left-radius: 1em; border-bottom-right-radius: 1em;">
+                <form method="post" class="m-0">
+                    {{ form.csrf_token }}
+                    {{ renderField_Calendars_Content(form.content, placeholder=form.content.label.text)}}
+                    {{renderField_Calendars_Category(form.category)}}
+                    <p style="color: white; margin-top: 10px;">
+                        Bắt đầu :
+                        {{renderField_Calendars_PickDate(form.start_time)}}
+                        {{renderField_Calendars_PickDate(form.start_date)}}
+                    </p>
+                    <p style="color: white; margin-top: 10px;">
+                        Kết thúc:
+                        {{renderField_Calendars_PickDate(form.end_time)}}
+                        {{renderField_Calendars_PickDate(form.end_date)}}
+                    </p>
+                    {{ renderField_Calendars_Submit(form.submit)}}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready( function() {
+        var now = new Date();
+        var month = (now.getMonth() + 1);               
+        var day = now.getDate();
+        if (month < 10) 
+            month = "0" + month;
+        if (day < 10) 
+            day = "0" + day;
+        var today = now.getFullYear() + '-' + month + '-' + day;
+        $('#start_date').val(today);
+        $('#end_date').val(today);
+        var start_time = document.querySelector('input[id="start_time"]');
+        start_time.value = '00:00';
+        var end_time = document.querySelector('input[id="end_time"]');
+        end_time.value = '23:59';
+    });
+    
+</script>
+
+
+{% endblock %}
