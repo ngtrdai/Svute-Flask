@@ -1,5 +1,6 @@
-﻿from Svute_Flask import db, loginManager
-from flask import current_app, redirect, url_for, request, flash
+﻿from flask_admin.base import expose
+from Svute_Flask import db, loginManager
+from flask import current_app, redirect, url_for, request, flash,abort
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from datetime import datetime
 from slugify import slugify
@@ -137,10 +138,31 @@ class Role(db.Model, RoleMixin):
     user = db.relationship('User', backref='role', lazy=True)
 
 
-class AdminView(ModelView):
-    def is_accessible(self):
-        return current_user.is_authenticated and "admin" in current_user.role.name
-        
+class MyModelView(ModelView):
 
-    def inaccessible_callback(self, name, **kwargs):
-        return redirect(url_for('users.login'))
+    def is_accessible(self):
+        if not current_user.is_authenticated:
+            return False
+
+        if "admin" in current_user.role.name:
+            return True
+
+        return False
+
+    def _handle_view(self, name, **kwargs):
+        """
+        Override builtin _handle_view in order to redirect users when a view is not accessible.
+        """
+        if not self.is_accessible():
+            if current_user.is_authenticated:
+                # permission denied
+                abort(403)
+            else:
+                # login
+                return redirect(url_for('users.login', next=request.url))
+
+    edit_modal = True
+    create_modal = True    
+    can_export = True
+    can_view_details = True
+    details_modal = True

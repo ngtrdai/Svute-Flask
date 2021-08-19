@@ -1,0 +1,64 @@
+{% extends 'admin/master.html' %}
+{% block body %}
+{{ super() }}
+
+{% if current_user.is_authenticated %}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>
+    Custom View 
+    <small>This is a custom view without DB model</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Custom</li>
+  </ol>
+</section>
+
+<section class="content">
+
+  <div class="row">
+    <!-- Left col -->
+    <section class="container">      
+      
+        Here you can place your custom data without a database dependence. <br>
+        Find this file in templates/admin/ as custom_index.html
+
+    </section>
+    <!-- /.Left col -->
+
+  </div>
+  <!-- /.row (main row) -->
+
+</section>
+<!-- /.content -->
+{% else %}
+
+<center>
+    <section class="content" style="color: white; margin-top:20px">
+        <div class="col-sm-12">
+            <h1>SVUTE</h1>
+            <p>
+                TRANG QUẢN TRỊ WEBSITE SVUTE.COM <br>
+                (trang chỉ dành cho admin)
+            </p>
+            {% if not current_user.is_authenticated %}
+            <p>
+                <a class="btn btn-primary" href="{{ url_for('users.login') }}">ĐĂNG NHẬP</a>
+            </p>
+            {% endif %}
+            <br>
+            <p>
+                <a class="btn btn-primary" href="/"><i class="fa fa-chevron-left"></i> Trở lại trang chủ</a>
+            </p>
+        </div>
+    </section>
+</center>
+
+
+  <br><br><br><br><br><br><br><br><br>
+  <br><br><br><br><br><br><br><br><br><br>
+  {% endif %}
+
+  {% endblock body %}

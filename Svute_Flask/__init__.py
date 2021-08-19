@@ -17,6 +17,8 @@ from flask_bcrypt import Bcrypt
 from flask_ckeditor import CKEditor
 from flask_wtf.csrf import CSRFProtect
 from flask_codemirror import CodeMirror
+from flask_admin import helpers as admin_helpers
+from flask_security import Security
 app = Flask(__name__)
 # Khoi tao database
 db = SQLAlchemy()
@@ -63,7 +65,12 @@ def Create_App(config_class=Config):
     codemirror = CodeMirror(app)
     ckeditor.init_app(app)
     csrf = CSRFProtect(app)    
-    admin = Admin(app,template_mode='bootstrap4')
+    admin = Admin(
+                    app,
+                    'BẢNG ĐIỀU KHIỂN',
+                    base_template='my_master.html',
+                    template_mode='bootstrap4',
+    )
     from Svute_Flask.users.routes import users
     from Svute_Flask.main.routes import main
     from Svute_Flask.posts.routes import posts
@@ -71,7 +78,8 @@ def Create_App(config_class=Config):
     from Svute_Flask.codes.routes import codes
     from Svute_Flask.calendars.routes import calendars
     from Svute_Flask.converts.routes import converts
-    from Svute_Flask.models import User, Post,Role, Note, Comments, Category, Code, Calendar, Category_calendar, AdminView
+    from Svute_Flask.models import User, Post,Role, Note, Comments, Category, Code, Calendar, Category_calendar, MyModelView
+    
     Create_Database(app)
     app.register_blueprint(users)
     app.register_blueprint(main)
@@ -80,13 +88,14 @@ def Create_App(config_class=Config):
     app.register_blueprint(codes)
     app.register_blueprint(calendars)
     app.register_blueprint(converts)
-    admin.add_view(AdminView(User, db.session))
-    admin.add_view(AdminView(Post, db.session))
-    admin.add_view(AdminView(Note, db.session))
-    admin.add_view(AdminView(Comments, db.session))
-    admin.add_view(AdminView(Category, db.session)) 
-    admin.add_view(AdminView(Code, db.session))
-    admin.add_view(AdminView(Calendar, db.session))
-    admin.add_view(AdminView(Category_calendar, db.session))
-    admin.add_view(AdminView(Role, db.session))
+    admin.add_view(MyModelView(User, db.session))
+    admin.add_view(MyModelView(Post, db.session))
+    admin.add_view(MyModelView(Note, db.session))
+    admin.add_view(MyModelView(Comments, db.session))
+    admin.add_view(MyModelView(Category, db.session)) 
+    admin.add_view(MyModelView(Code, db.session))
+    admin.add_view(MyModelView(Calendar, db.session))
+    admin.add_view(MyModelView(Category_calendar, db.session))
+    admin.add_view(MyModelView(Role, db.session))
+
     return app  
