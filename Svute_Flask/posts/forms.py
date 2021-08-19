@@ -12,6 +12,6 @@ class PostForm(FlaskForm):
     category = SelectField('Chọn chuyên mục', validators=[DataRequired()])
     brief = TextAreaField('Tóm tắt ngắn gọn', validators=[Length(max=200, message='Tóm tắt quá dài!')])
     tags = StringField('Thẻ')
-    thumbnail = FileField('Tải lên ảnh thumbnail', validators=[FileAllowed(['jpg', 'png', 'svg'], message="Chỉ tải lên các định dạng ('.jpg', '.png', '.svg')")])
+    thumbnail = FileField('Tải lên ảnh thumbnail', validators=[FileAllowed(['jpg', 'png','jpeg'], message="Chỉ tải lên các định dạng ('.jpg', '.png', '.jpeg')")])
     submit = SubmitField('Đăng bài')
 

@@ -70,9 +70,8 @@ def Create_App(config_class=Config):
     from Svute_Flask.notes.routes import notes
     from Svute_Flask.codes.routes import codes
     from Svute_Flask.calendars.routes import calendars
+    from Svute_Flask.converts.routes import converts
     from Svute_Flask.models import User, Post,Role, Note, Comments, Category, Code, Calendar, Category_calendar, AdminView
-    
-    
     Create_Database(app)
     app.register_blueprint(users)
     app.register_blueprint(main)
@@ -80,6 +79,7 @@ def Create_App(config_class=Config):
     app.register_blueprint(notes)
     app.register_blueprint(codes)
     app.register_blueprint(calendars)
+    app.register_blueprint(converts)
     admin.add_view(AdminView(User, db.session))
     admin.add_view(AdminView(Post, db.session))
     admin.add_view(AdminView(Note, db.session))
