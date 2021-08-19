@@ -17,7 +17,6 @@ from flask_bcrypt import Bcrypt
 from flask_ckeditor import CKEditor
 from flask_wtf.csrf import CSRFProtect
 from flask_codemirror import CodeMirror
-from flask_security import SQLAlchemyUserDatastore, Security
 app = Flask(__name__)
 # Khoi tao database
 db = SQLAlchemy()
@@ -73,8 +72,6 @@ def Create_App(config_class=Config):
     from Svute_Flask.calendars.routes import calendars
     from Svute_Flask.models import User, Post,Role, Note, Comments, Category, Code, Calendar, Category_calendar, AdminView
     
-    picFilePath = path.join(app.root_path, 'static/profile_pics', 'avatar.svg')
-    storage.child("images/example.svg").put(picFilePath)
     
     Create_Database(app)
     app.register_blueprint(users)
