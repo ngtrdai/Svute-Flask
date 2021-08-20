@@ -22,7 +22,7 @@ def SaveImage(form_picture, for_post = False):
     filePathCloud = "assets/img/posts/" + picFilename
     storage.child(filePathCloud).put(picFilePath)
     link_img = storage.child(filePathCloud).get_url(None)
-    os.remove(picFilePath)
+    #os.remove(picFilePath)
     return link_img
 
     

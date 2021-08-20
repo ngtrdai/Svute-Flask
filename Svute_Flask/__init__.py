@@ -57,7 +57,8 @@ def Create_App(config_class=Config):
     app.config.from_object(Config)
     db.init_app(app)
     bcrypt.init_app(app)
-    #db.create_all(app=app)
+    #db.drop_all(app=app)
+    db.create_all(app=app)
 
     migrate.init_app(app, db)
     

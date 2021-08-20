@@ -23,11 +23,11 @@ def new_post():
 
         post = Post(title=form.title.data, 
                     content=form.content.data, 
-                    author=current_user, 
-                    category = Category.query.filter_by(name = form.category.data).first(), 
                     brief = brief,
-                    tags = form.tags.data, 
-                    image_cover = image_cover)
+                    category = Category.query.filter_by(name = form.category.data).first(), 
+                    author=current_user, 
+                    image_cover = image_cover,
+                    tags = form.tags.data)
         db.session.add(post)
         db.session.commit()
         flash('Bài viết đã được đăng thành công, cảm ơn bạn!', 'success')

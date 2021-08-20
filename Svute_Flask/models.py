@@ -74,7 +74,7 @@ class Post(db.Model):
     comments = db.Column(db.Integer,default=0)
     views = db.Column(db.Integer, default=0)
     category_id = db.Column(db.Integer, db.ForeignKey('category.category_id'))
-    image_cover = db.Column(db.String(100), default='cover_post')
+    image_cover = db.Column(db.String(500), default='cover_post')
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     tags = db.Column(db.String(200), default='khongco')
     like = db.Column(db.Integer, default=0)
