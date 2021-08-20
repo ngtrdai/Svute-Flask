@@ -122,32 +122,6 @@
 </div>
 
 {% else %}
-<form METHOD="POST" action="/dang-nhap">
-    <div style="padding: 0px;">
-        <div class="card text-center" style="box-shadow: 5px 5px 16px 2px rgba(0,0,0,0.25); margin-bottom: 20px">
-            <div class="card-header">Đăng nhập</div>
-            <div class="card-body">
-                <div style="border-radius: 10px;background: #e7e7e7;padding: 10px;"><i class="fa fa-user"
-                        style="margin-left: 0px;color: rgb(125,128,132);"></i><input type="text" data-toggle="tooltip"
-                        data-bss-tooltip="" data-placement="bottom"
-                        style="color: rgb(0, 0, 0);background: rgba(255,255,255,0);border-color: rgba(0,0,0,0);margin-left: 5px;"
-                        placeholder="Tên tài khoản" name="username" title="Nhập tên tài khoản của bạn."></div>
-                <div style="border-radius: 10px;background: #e7e7e7;padding: 10px;margin-top: 12px;"><i
-                        class="fa fa-lock" style="margin-left: 0px;color: rgb(125,128,132);"></i><input type="password"
-                        data-toggle="tooltip" data-bss-tooltip="" data-placement="bottom"
-                        style="border-color: rgba(0,0,0,0);background: rgba(255,255,255,0);margin-left: 5px;margin-right: 0px;"
-                        placeholder="Mật khẩu" name="password" title="Nhập mật khẩu của bạn"></div>
-                <div><button class="btn btn-primary btn-block text-center" data-toggle="tooltip" data-bss-tooltip=""
-                        type="submit" title="Nhấn vào để đăng nhập"
-                        style="border-radius: 10px;margin-top: 12PX;height: 50PX;"><strong>ĐĂNG NHẬP</strong></button>
-                </div>
-                <div>
-                    <p style="text-align: center;margin-top: 12px;">Bạn chưa có tài khoản? <a
-                            href="{{url_for('users.register')}}">Đăng ký</a>&nbsp;</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</form>
+
 {% endif %}
 {% endblock %}

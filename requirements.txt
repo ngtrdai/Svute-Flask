@@ -57,6 +57,8 @@ passlib==1.7.4
 pikepdf==2.16.1
 Pillow==8.3.1
 protobuf==3.17.3
+psycopg2==2.7.7
+psycopg2-binary==2.9.1
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycparser==2.20
