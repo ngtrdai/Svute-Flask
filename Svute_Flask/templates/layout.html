@@ -11,7 +11,6 @@
     {% else %}
     <title>Sinh viên UTE - Svute.com</title>
     {% endif %}
-
     <meta property="og:image" content="../static/assets/img/img33.jpg">
     <meta name="description"
         content="Cộng đồng chia sẻ tài liệu học tập, tài liệu kỹ thuật cơ khí, tài liệu kỹ thuật lập trình, cơ điện tử, tự động hóa,...">
@@ -29,9 +28,7 @@
     {% block head %}
     {% endblock %}
 </head>
-
 <body>
-
     <header>
         <nav class="navbar navbar-light navbar-expand-md text-primary"
             style="box-shadow: 0px 0px 9px 1px rgb(192,197,203);padding-bottom: 2px;padding-top: 2px;height: 100%;">
@@ -76,7 +73,7 @@
                         </a>
                         <a href="{{url_for('users.settings')}}" style="text-decoration: none;">
                             <img class="rounded-circle border border-primary" data-bss-hover-animate="rubberBand"
-                                src="../static/profile_pics/{{user.image_file}}" width="45px" height="45px"
+                                src="{{user.image_file}}" width="45px" height="45px"
                                 style="margin-right: 10px;">
                         </a>
                         <div class="btn-group">

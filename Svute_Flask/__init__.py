@@ -4,24 +4,22 @@
 # https://github.com/ngtrdai
 import pyrebase
 from flask import Flask
-from flask_security.core import Security
 from flask_sqlalchemy import SQLAlchemy
 from os import path
 from flask_login import LoginManager
 from .config import Config
 from flask_admin import Admin
-from flask_admin.contrib.sqla import ModelView
 from flaskext.markdown import Markdown
 from flask_toastr import Toastr
 from flask_bcrypt import Bcrypt
 from flask_ckeditor import CKEditor
 from flask_wtf.csrf import CSRFProtect
 from flask_codemirror import CodeMirror
-from flask_admin import helpers as admin_helpers
-from flask_security import Security
+from flask_migrate import Migrate
 app = Flask(__name__)
 # Khoi tao database
 db = SQLAlchemy()
+migrate = Migrate()
 bcrypt = Bcrypt()
 ckeditor = CKEditor()
 DB_NAME = "database.db"
@@ -59,6 +57,9 @@ def Create_App(config_class=Config):
     app.config.from_object(Config)
     db.init_app(app)
     bcrypt.init_app(app)
+    Create_Database(app)
+    migrate.init_app(app, db)
+    
     loginManager.init_app(app)
     md = Markdown(app, auto_escape=False, safe_mode=True)
     toastr = Toastr(app)
@@ -66,7 +67,7 @@ def Create_App(config_class=Config):
     ckeditor.init_app(app)
     csrf = CSRFProtect(app)    
     admin = Admin(
-                    app,
+                    app, 
                     'BẢNG ĐIỀU KHIỂN',
                     base_template='my_master.html',
                     template_mode='bootstrap4',
@@ -80,7 +81,8 @@ def Create_App(config_class=Config):
     from Svute_Flask.converts.routes import converts
     from Svute_Flask.models import User, Post,Role, Note, Comments, Category, Code, Calendar, Category_calendar, MyModelView
     
-    Create_Database(app)
+    
+    
     app.register_blueprint(users)
     app.register_blueprint(main)
     app.register_blueprint(posts)

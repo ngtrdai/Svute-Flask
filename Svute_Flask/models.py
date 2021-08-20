@@ -31,17 +31,17 @@ roles_users = db.Table('roles_users',
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(50), unique=True, nullable=False)
+    username = db.Column(db.String(40), unique=True, nullable=False)
     email = db.Column(db.String(200), unique=True)
     password = db.Column(db.String(200), nullable=False)
     fullname = db.Column(db.String(200))
-    about = db.Column(db.String(1000), default='')
+    about = db.Column(db.Text, default='')
     fb_link = db.Column(db.String(100), default='#')
     tw_link = db.Column(db.String(100), default='#')
     git_link = db.Column(db.String(100), default='#')
     web_link = db.Column(db.String(100), default='#')
     active = db.Column(db.Boolean(), default=False)
-    image_file = db.Column(db.String(20), nullable=False, default='avatar.svg')
+    image_file = db.Column(db.String(200), nullable=False, default='../static/profile_pics/avatar.svg')
     notes = db.relationship('Note', backref='author', lazy=True)
     posts = db.relationship('Post', backref='author', lazy=True)
     calendar = db.relationship('Calendar', backref='author', lazy=True)
@@ -76,7 +76,7 @@ class Post(db.Model):
     category_id = db.Column(db.Integer, db.ForeignKey('category.category_id'))
     image_cover = db.Column(db.String(100), default='cover_post')
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    tags = db.Column(db.String(), default='khongco')
+    tags = db.Column(db.String(200), default='khongco')
     like = db.Column(db.Integer, default=0)
     dislike = db.Column(db.Integer, default=0)
     def __repr__(self):
@@ -109,7 +109,7 @@ class Category(db.Model):
 
 class Code(db.Model):
     code_id = db.Column(db.Integer, primary_key=True)
-    source = db.Column(db.String, unique=True, nullable=False)
+    source = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     def __repr__(self) -> str:

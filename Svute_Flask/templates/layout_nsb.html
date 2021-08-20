@@ -75,13 +75,20 @@
                         </a>
                         <a href="{{url_for('users.settings')}}" style="text-decoration: none;">
                             <img class="rounded-circle border border-primary" data-bss-hover-animate="rubberBand"
-                                src="../static/profile_pics/{{user.image_file}}" width="45px" height="45px"
+                                src="{{user.image_file}}" width="45px" height="45px"
                                 style="margin-right: 10px;">
                         </a>
-                        <button class="btn btn-outline-primary border rounded-circle" data-bss-hover-animate="pulse"
-                            type="button">
-                            <i class="fa fa-cog"></i>
-                        </button>
+                        <div class="btn-group">
+                            <button class="btn btn-outline-primary border rounded-circle" data-bss-hover-animate="pulse"
+                                type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-cog"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="{{url_for('users.settings')}}">Cài đặt</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{url_for('users.logout')}}">Đăng xuất</a>
+                            </div>
+                        </div>
                         {% endif %}
                     </div>
                 </div>
