@@ -57,7 +57,8 @@ def Create_App(config_class=Config):
     app.config.from_object(Config)
     db.init_app(app)
     bcrypt.init_app(app)
-    Create_Database(app)
+    #db.create_all(app=app)
+
     migrate.init_app(app, db)
     
     loginManager.init_app(app)
@@ -82,7 +83,7 @@ def Create_App(config_class=Config):
     from Svute_Flask.models import User, Post,Role, Note, Comments, Category, Code, Calendar, Category_calendar, MyModelView
     
     
-    
+
     app.register_blueprint(users)
     app.register_blueprint(main)
     app.register_blueprint(posts)

@@ -144,7 +144,7 @@ class MyModelView(ModelView):
         if not current_user.is_authenticated:
             return False
 
-        if "admin" in current_user.role.name:
+        if current_user.role.name == 'admin':
             return True
 
         return False
