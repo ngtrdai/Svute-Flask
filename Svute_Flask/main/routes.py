@@ -1,7 +1,7 @@
 ﻿
 from flask import render_template, request, Blueprint
 from flask_login import login_required,current_user
-from flask import flash, url_for, redirect
+from flask import flash, url_for, redirect,abort
 from Svute_Flask.models import Note, Post, User, Calendar
 from Svute_Flask import db, app
 main = Blueprint('main', __name__)
@@ -28,3 +28,13 @@ def home():
 @main.route("/thongtin")
 def about():
     return render_template("about.html", user=current_user)
+
+
+@main.route('/<path:path>')
+def catch_all(path):
+    try:
+        f = open(path)
+    except IOError:
+        abort(404)
+        return
+    return f.read()

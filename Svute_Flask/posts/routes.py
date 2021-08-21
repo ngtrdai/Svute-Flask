@@ -99,3 +99,12 @@ def delete_post(post_id):
     db.session.commit()
     flash('Xóa bài viết thành công!', 'success')
     return redirect(url_for('main.home'))
+
+@posts.route('/bai-viet/<int:comment_id>/like', methods=['POST', 'GET'])
+@login_required
+def like(comment_id):
+    comment = Comments.query.get_or_404(commnet_id=comment_id)
+    if comment.author == current_user:
+        flash('Ai lại tự like bình luận của mình :)')
+    
+
