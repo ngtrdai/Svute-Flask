@@ -15,7 +15,9 @@ def home():
     page = request.args.get('page', 1, type=int)
     post = Post.query.order_by(Post.post_id.desc()).paginate(page=page,per_page=5)
     note = ""
-    calendars = Calendar.query.filter_by(user_id = current_user.id).all()
+    calendars =""
+    if current_user.is_authenticated:
+        calendars = Calendar.query.filter_by(user_id = current_user.id).all()
     try:
         note = Note.query.filter_by(user_id = current_user.id).order_by(Note.date.desc())
     except:
