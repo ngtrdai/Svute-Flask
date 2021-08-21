@@ -13,7 +13,7 @@ def calendar():
     form = ToDoForm()
     form.category.choices = [category.name for category in Category_calendar.query.all()]
     events = []
-    calendars = Calendar.query.all()
+    calendars = Calendar.query.filter_by(user_id = current_user.id).all()
     for calendar in calendars:
         event = {
             'todo': calendar.content,

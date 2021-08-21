@@ -71,11 +71,11 @@ class Post(db.Model):
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     content = db.Column(db.Text, nullable=False)
     brief = db.Column(db.String(300), default='Vào xem thì biết!')
-    comments = db.Column(db.Integer,default=0)
     views = db.Column(db.Integer, default=0)
     category_id = db.Column(db.Integer, db.ForeignKey('category.category_id'))
     image_cover = db.Column(db.String(500), default='cover_post')
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    comments = db.relationship('Comments', backref=db.backref('posts', lazy=True, passive_deletes=True))
     tags = db.Column(db.String(200), default='khongco')
     like = db.Column(db.Integer, default=0)
     dislike = db.Column(db.Integer, default=0)
@@ -92,13 +92,11 @@ class Comments(db.Model):
     like = db.Column(db.Integer, default=0)
     dislike = db.Column(db.Integer, default=0)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    username = db.Column(db.String(50), nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey('post.post_id', ondelete='CASCADE'), nullable=False)
     content = db.Column(db.Text, nullable=False)
-    post = db.relationship('Post', backref=db.backref('posts', lazy=True, passive_deletes=True))
     date_comment = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     def __repr__(self):
-        return '<Post %r' % self.username
+        return '<Comment %r>' % self.commnet_id
 
 class Category(db.Model):
     category_id = db.Column(db.Integer, primary_key=True)

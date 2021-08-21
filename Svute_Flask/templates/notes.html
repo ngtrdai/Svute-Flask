@@ -1,3 +1,4 @@
+{% from "_renderField.html" import renderField_Note_Title, renderField_Note_Content%}
 {% extends "layout_nsb.html" %}
 {% block content %}
 <div class="page col-12 p-0 align-items-center justify-content-center"
@@ -40,6 +41,7 @@
                                 <i class="fa fa-pencil" aria-hidden="true"></i>
                             </button>
                             <form action="/ghichu/xoa" method="post" class="p-0 m-0" id="deleteForm">
+                                {{form.csrf_token }}
                                 <button onclick="return ConfirmDelete();" type="submit" name="note_id"
                                     value="{{note.note_id}}"
                                     class="ml-2 p-2 btn btn-outline-danger btn-sm rounded-circle d-flex align-items-center justify-content-center"
@@ -63,8 +65,8 @@
                 </div>
             </li>
 
-            <!-- Madal Area ------------------------------------------------------------------------- -->
-            <div class="modal fade" id="updateModal{{ note.note_id }}" tabindex="-1" role="dialog"
+            <!-- Modal Area ------------------------------------------------------------------------- -->
+            <div class="modal" id="updateModal{{ note.note_id }}" tabindex="-1" role="dialog"
                 aria-labelledby="updateModalLabel" aria-hidden="true"
                 style="background-color: rgba(0, 0, 0, 0.247); backdrop-filter: blur(5px);">
                 <div class="modal-dialog modal-dialog-centered">
@@ -79,6 +81,7 @@
                         <div class="modal-body"
                             style="background-color: rgb(48, 48, 48); color: white; border-bottom-left-radius: 1em; border-bottom-right-radius: 1em;">
                             <form action="/ghichu/chinhsua" method="post" class="m-0">
+                                {{form.csrf_token }}
                                 <div class="form-group">
                                     <input autofocus value="{{ note.title }}" type="text"
                                         class="form-control text-warning" name="updateTitle" placeholder="Tiêu đề"
@@ -100,7 +103,7 @@
                     </div>
                 </div>
             </div>
-            <div class="modal fade" id="viewModal{{ note.note_id }}" tabindex="-1" role="dialog"
+            <div class="modal" id="viewModal{{ note.note_id }}" tabindex="-1" role="dialog"
                 aria-labelledby="viewModalLabel"
                 style="background-color: rgba(0, 0, 0, 0); backdrop-filter: blur(5px);">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
@@ -111,8 +114,7 @@
                             style="overflow-y: auto; background-color: rgb(37, 37, 37); color: white; border-top-left-radius: 1em; border-top-right-radius: 1em;">
                             <div class="col-12">
                                 <p class="text-center text-warning font-weight-bold"
-                                    style="font-size: large; white-space: pre-wrap; line-height: 1.8; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word;">
-                                    {{ note.title }}</p>
+                                    style="font-size: large; white-space: pre-wrap; line-height: 1.8; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word;">{{note.title}}</p>
                             </div>
                             <div class="col-12">
                                 <pre class="text-white"
@@ -142,8 +144,8 @@
             </span>
         </a>
     </div>
-    <!-- Madal Area ------------------------------------------------------------------------- -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <!-- Modal Area ------------------------------------------------------------------------- -->
+    <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true" style="background-color: rgba(0, 0, 0, 0.247); backdrop-filter: blur(5px);">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content" style="background-color: rgba(29, 29, 29, 0); border-radius: 1em">
@@ -157,20 +159,11 @@
                 <div class="modal-body"
                     style="background-color: rgb(48, 48, 48); border-bottom-left-radius: 1em; border-bottom-right-radius: 1em;">
                     <form action="/ghichu" method="post" class="m-0">
-                        <div class="form-group">
-                            <input autofocus type="text" class="form-control text-white" name="title"
-                                placeholder="Tiêu đề"
-                                style="background-color: rgb(59, 59, 59); box-shadow: 0px 0px 0px rgba(0, 0, 0, 0); border: none; border-radius: 1em;"
-                                required>
-                        </div>
-                        <div class="form-group mb-1">
-                            <textarea id="my-input" class="form-control text-white" name="note"
-                                placeholder="Nội dung..." rows="8"
-                                style="background-color: rgb(59, 59, 59); box-shadow: 0px 0px 0px rgba(0, 0, 0, 0); border: none; border-radius: 1em;"
-                                required></textarea>
-                        </div>
+                        {{ form.csrf_token }}
+                        {{renderField_Note_Title(form.title, placeholder=form.title.label.text)}}
+                        {{renderField_Note_Content(form.content, placeholder=form.content.label.text)}}
                         <p class="text-warning" id='remainingC'></p>
-                        <button class="btn btn-warning font-weight-bold col-12" type="submit">Ghi chú</button>
+                        {{form.submit(class="btn btn-warning font-weight-bold col-12")}}
                     </form>
                 </div>
             </div>

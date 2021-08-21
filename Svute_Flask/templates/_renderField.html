@@ -98,3 +98,32 @@
 {% macro renderField_Calendars_Category(field) %}
 {{ field(class_='form-control text-white',style="background-color: rgb(59, 59, 59);height: 40px; box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);padding:10px ;margin-top:10px;border: none; border-radius: 1em;",**kwargs)|safe}}
 {% endmacro %}
+
+{% macro renderField_Comment(field) %}
+{% for error in field.errors %}
+<span class="badge badge-danger" style="margin-bottom: 10px">{{error}}</span>
+{% endfor %}
+{{ field(class_='form-control mr-3',**kwargs)|safe}}
+{% endmacro %}
+
+{% macro renderField_Comment_Submit(field) %}
+{{ field(class_='btn btn-primary',**kwargs)|safe}}
+{% endmacro %}
+
+{% macro renderField_Note_Title(field) %}
+{% for error in field.errors %}
+<span class="badge badge-danger" style="margin-bottom: 10px">{{error}}</span>
+{% endfor %}
+<div class="form-group">
+    {{ field(class_='form-control text-white',style="background-color: rgb(59, 59, 59); box-shadow: 0px 0px 0px rgba(0, 0, 0, 0); border: none; border-radius: 1em;",**kwargs)|safe}}
+</div>
+{% endmacro %}
+
+{% macro renderField_Note_Content(field) %}
+{% for error in field.errors %}
+<span class="badge badge-danger" style="margin-bottom: 10px">{{error}}</span>
+{% endfor %}
+<div class="form-group mb-1">
+    {{ field(class_='form-control text-white',id='remainingC',rows="8",style="background-color: rgb(59, 59, 59); box-shadow: 0px 0px 0px rgba(0, 0, 0, 0); border: none; border-radius: 1em;",**kwargs)|safe}}
+</div>
+{% endmacro %}

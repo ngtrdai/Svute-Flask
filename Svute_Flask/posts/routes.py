@@ -4,7 +4,7 @@ from flask import render_template, url_for, flash, redirect, request, Blueprint,
 from flask_login import current_user, login_required
 from Svute_Flask import db
 from Svute_Flask.users.func import SaveImage
-from Svute_Flask.posts.forms import PostForm
+from Svute_Flask.posts.forms import PostForm, CommentForm
 posts = Blueprint('posts', __name__)
 
 @posts.route('/bai-viet/moi', methods=['POST', 'GET'])
@@ -37,22 +37,17 @@ def new_post():
 @posts.route('/bai-viet/<string:slug>', methods=['POST','GET'])
 def post(slug):
     post = Post.query.filter_by(slug=slug).first()
-    comments = Comments.query.filter_by(post_id=post.post_id).all()
     post.views += 1
     tags = post.tags.split(',')
     db.session.commit()
-    if request.method == "POST":
-        post_id = post.post_id
-        user_id = current_user.id
-        message = request.form.get('message')
-        user = User.query.filter_by(id = user_id).first()
-        comment = Comments(user_id=user_id, content=message, username = user.username, post_id=post_id,author=current_user)
-        db.session.add(comment)
-        post.comments = post.comments + 1
+    form = CommentForm()
+    if form.validate_on_submit():
+        comment = Comments(user_id=current_user.id, post_id=post.post_id, content=form.comment.data, author=current_user)
+        post.comments.append(comment)
         db.session.commit()
         flash('Cảm ơn bạn đã bình luận!', 'success')
         return redirect(url_for('posts.post', slug=post.slug))
-    return render_template('posts.html', title = post.title, comments = comments,post = post, user=current_user, tags = tags)
+    return render_template('posts.html', title = post.title, form = form ,post = post, user=current_user, tags = tags)
 
 @posts.route('/bai-viet/<string:slug>/chinhsua', methods=['POST', 'GET'])
 @login_required
@@ -95,9 +90,12 @@ def update_post(slug):
 @login_required
 def delete_post(post_id):
     post = Post.query.get_or_404(post_id)
+    comments = Comments.query.filter_by(post_id = post.post_id).all()
     if post.author != current_user:
         abort(403)
     db.session.delete(post)
+    for comment in comments:
+        db.session.delete(comment)
     db.session.commit()
     flash('Xóa bài viết thành công!', 'success')
     return redirect(url_for('main.home'))

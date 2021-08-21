@@ -1,6 +1,12 @@
+{% if current_user.is_authenticated %}
 {% extends "layout.html" %}
+{% else %}
+{% extends "layout_nsb.html" %}
+{% endif %}
 {% block head %}
+
 <link rel="stylesheet" href="../static/assets/css/home.css">
+<link rel="stylesheet" href="../static/assets/css/to-do-new.css">
 {% endblock %}
 
 {% block content %}
@@ -46,10 +52,9 @@
 <div style="width: border-box;">
     <div class="card mx-auto"
         style="width: auto;border-top-left-radius: 5px;border-top-right-radius: 5px;border-bottom-right-radius: 5px;border-bottom-left-radius: 5px;box-shadow: 5px 5px 16px 2px rgba(0,0,0,0.25);margin: 0px;margin-bottom: 20px;">
-        <div class="card-header font-weight-bold" align="center">
-            <a class="btn btn-warning font-weight-bold btn-lg ml-1 mr-1 p-1 pl-2 pr-2" href="{{url_for('notes.note')}}"
-                style="color: rgb(48, 48, 48);">
-                Thêm ghi chú
+        <div class="d-flex align-items-center justify-content-center card-header font-weight-bold">
+            <a class=" btn btn-warning font-weight-bold btn-lg ml-1 mr-1 p-1 pl-2 pr-2" href="{{url_for('notes.note')}}"
+                style="color: rgb(48, 48, 48); margin-top:5px; margin-bottom:5px">Thêm ghi chú
                 <span class="ml-1">
                     <i class="fa fa-plus" aria-hidden="true"></i>
                 </span>
@@ -97,8 +102,7 @@
                                     style="overflow-y: auto; background-color: rgb(37, 37, 37); color: white; border-top-left-radius: 1em; border-top-right-radius: 1em;">
                                     <div class="col-12">
                                         <p class="text-center text-warning font-weight-bold"
-                                            style="font-size: large; white-space: pre-wrap; line-height: 1.8; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word;">
-                                            {{ note.title }}</p>
+                                            style="font-size: large; white-space: pre-wrap; line-height: 1.8; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word;">{{note.title}}</p>
                                     </div>
                                     <div class="col-12">
                                         <pre class="text-white"
@@ -115,12 +119,59 @@
                         </div>
                     </div>
                 </div>
-                {% endfor %}
-                {% endif %}
+            </li>
+            {% endfor %}
+            {% endif %}
         </div>
     </div>
 </div>
 
+<!-- CÔNG VIỆC     -->
+<div class="card-hover-shadow-2x mb-3 card" style="margin-top: 10px;">
+    <div class="card-header-tab card-header">
+        <div class="card-header-title font-size-lg text-capitalize font-weight-normal"><i
+                class="fa fa-tasks"></i>&nbsp;Danh sách công việc</div>
+    </div>
+    <div class="scroll-area-sm">
+        <perfect-scrollbar class="ps-show-limits">
+            <div style="position: static;" class="ps ps--active-y">
+                <div class="ps-content">
+                    <ul class=" list-group list-group-flush">
+                        {%for calendar in calendars%}
+                        <li class="list-group-item">
+                            <div class="todo-indicator bg-warning"></div>
+                            <div class="widget-content p-0">
+                                <div class="widget-content-wrapper">
+                                    <div class="widget-content-left">
+                                        <div class="widget-heading">
+                                            <a data-toggle="modal"
+                                                data-target="#viewModal{{ calendar.calendar_id }}">{{calendar.content}}</a>
+                                            {% if calendar.category.name == 'Chưa làm' %}
+                                            <div class="badge badge-danger ml-2">
+                                                {{calendar.category.name}}</div>
+                                            {% elif calendar.category.name == 'Đang làm'%}
+                                            <div class="badge badge-warning ml-2">
+                                                {{calendar.category.name}}</div>
+                                            {% else %}
+                                            <div class="badge badge-success ml-2">
+                                                {{calendar.category.name}}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <!-- Modal Area XEM CONG VIEC ------------------------------------------------------------------------- -->
+
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </perfect-scrollbar>
+    </div>
+    <div class="d-block text-right card-footer"><a href = "{{url_for('calendars.calendar')}}" class="btn btn-primary" >Thêm công việc</a></div>
+</div>
+<!-- KẾT THÚC CÔNG VIỆC -->
 {% else %}
 
 {% endif %}

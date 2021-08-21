@@ -15,3 +15,6 @@ class PostForm(FlaskForm):
     thumbnail = FileField('Tải lên ảnh thumbnail', validators=[FileAllowed(['jpg', 'png','jpeg'], message="Chỉ tải lên các định dạng ('.jpg', '.png', '.jpeg')")])
     submit = SubmitField('Đăng bài')
 
+class CommentForm(FlaskForm):
+    comment = StringField("Nhập bình luận vào đây...", validators=[DataRequired(message="Bạn chưa nhập nội dung bình luận!")])
+    submit = SubmitField('Đăng')
