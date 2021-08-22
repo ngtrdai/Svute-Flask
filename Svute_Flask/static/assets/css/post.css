@@ -219,7 +219,7 @@
 
 .article .article-title h6 a {
     text-transform: uppercase;
-    color: rgb(255,214,0);
+    color: #444444;
     border-bottom: 1px solid rgb(255,214,0);
 }
 
@@ -247,7 +247,7 @@
 
 .article .article-title .media .media-body label {
     font-weight: 600;
-    color: rgb(255,214,0);
+    color: #444444;
     margin: 0;
 }
 
@@ -276,7 +276,7 @@
 .article .article-content blockquote p {
     font-size: 20px;
     font-weight: 500;
-    color: rgb(255,214,0);
+    color: #444444;
     margin: 0;
 }
 
@@ -370,11 +370,11 @@ img {
 }
 
 .contact-form .form-control:focus {
-    border-bottom: 1px solid rgb(255,214,0);
+    border-bottom: 1px solid #444444;
 }
 
 .contact-form .form-control.invalid {
-    border-bottom: 1px solid rgb(255,214,0);
+    border-bottom: 1px solid #444444;
 }
 
 .contact-form .send {
@@ -392,7 +392,7 @@ img {
     color: #20247b;
     font-size: 45px;
     margin: 0 0 15px;
-    border-left: 5px solid rgb(255,214,0);
+    border-left: 5px solid #444444;
     padding-left: 15px;
 }
 

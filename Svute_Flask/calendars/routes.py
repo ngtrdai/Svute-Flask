@@ -44,3 +44,18 @@ def deleteToDo():
             db.session.delete(calendar)
             db.session.commit()
     return redirect(url_for('calendars.calendar'))
+
+@calendars.route('/sukien/hoanthanh', methods=['GET', 'POST'])
+@login_required
+def doneToDo():
+    calendar_id = request.form.get("calendar_id_done")
+    calendar = Calendar.query.get(calendar_id)
+    if request.method == 'POST':
+        if calendar.category.name != 'Hoàn thành':
+            calendar.category =  Category_calendar.query.filter_by(name = 'Hoàn thành').first()
+            db.session.commit()
+            flash('Chúc mừng bạn hoàn thành công việc!', 'success')
+            return redirect(url_for('calendars.calendar'))
+        else:
+            flash('Bạn đã hoàn thành công việc này rồi')
+            return redirect(url_for('calendars.calendar'))

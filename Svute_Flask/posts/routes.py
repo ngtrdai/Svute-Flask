@@ -10,29 +10,33 @@ posts = Blueprint('posts', __name__)
 @posts.route('/bai-viet/moi', methods=['POST', 'GET'])
 @login_required
 def new_post():
-    form = PostForm()
-    form.category.choices = [category.name for category in Category.query.all()]
-    if form.validate_on_submit():
-        brief = form.brief.data
-        if form.thumbnail.data:
-            image_cover = SaveImage(form.thumbnail.data, True)
-        else:
-            image_cover = 'img33.jpg'
-        if brief == "":
-            brief = form.content.data[:200]
+    if current_user.role == 'admin' or current_user.role == 'Tác giả':
+        form = PostForm()
+        form.category.choices = [category.name for category in Category.query.all()]
+        if form.validate_on_submit():
+            brief = form.brief.data
+            if form.thumbnail.data:
+                image_cover = SaveImage(form.thumbnail.data, True)
+            else:
+                image_cover = 'img33.jpg'
+            if brief == "":
+                brief = form.content.data[:200]
 
-        post = Post(title=form.title.data, 
-                    content=form.content.data, 
-                    brief = brief,
-                    category = Category.query.filter_by(name = form.category.data).first(), 
-                    author=current_user, 
-                    image_cover = image_cover,
-                    tags = form.tags.data)
-        db.session.add(post)
-        db.session.commit()
-        flash('Bài viết đã được đăng thành công, cảm ơn bạn!', 'success')
+            post = Post(title=form.title.data, 
+                        content=form.content.data, 
+                        brief = brief,
+                        category = Category.query.filter_by(name = form.category.data).first(), 
+                        author=current_user, 
+                        image_cover = image_cover,
+                        tags = form.tags.data)
+            db.session.add(post)
+            db.session.commit()
+            flash('Bài viết đã được đăng thành công, cảm ơn bạn!', 'success')
+            return redirect(url_for('main.home'))
+        return render_template('new_post.html', user=current_user, form = form )
+    else:
+        flash('Hiện tại tính năng viết bài chỉ khả dụng với quản trị viên!',"warning")
         return redirect(url_for('main.home'))
-    return render_template('new_post.html', user=current_user, form = form )
 
 @posts.route('/bai-viet/<string:slug>', methods=['POST','GET'])
 def post(slug):

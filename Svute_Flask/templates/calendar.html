@@ -29,7 +29,7 @@
         },
         weekNumbers: true,
         dayMaxEvents: true,
-        weekText: 'Tuần ',
+        weekText: 'T',
         allDayText: 'Cả ngày',
         moreLinkText: function (n) {
             return '+ thêm ' + n
@@ -84,17 +84,19 @@
                                             {% endif %}
                                         </div>
                                         <div class="widget-content-right">
-                                            <form action="/sukien/xoa" method="post" id="deleteForm">
-                                                {{ form.csrf_token }}
-                                                <button class="border-0 btn-transition btn btn-outline-success"> <i
-                                                        class="fa fa-check"></i></button>
+                                                
+                                                <form action="/sukien/hoanthanh" method="post" style="display: inline">
+                                                    {{ form.csrf_token }}
+                                                <button class="border-0 btn-transition btn btn-outline-success" name="calendar_id_done" type="submit" value="{{calendar.calendar_id}}"> <i
+                                                        class="fa fa-check"></i></button></form>
                                                 <button class="border-0 btn-transition btn btn-outline-warning"> <i
                                                         class="fa fa-pencil-square-o"></i></button>
-                                                
-                                                <button class="border-0 btn-transition btn btn-outline-danger" onclick="return ConfirmDelete();" type="submit" name="calendar_id"
-                                                value="{{calendar.calendar_id}}"><i
-                                                class="fa fa-trash"></i> </button>
-                                            </form>
+                                                <form action="/sukien/xoa" method="post" id="deleteForm" style="display: inline">
+                                                    {{ form.csrf_token }}
+                                                    <button class="border-0 btn-transition btn btn-outline-danger" onclick="return ConfirmDelete();" type="submit" name="calendar_id"
+                                                    value="{{calendar.calendar_id}}"><i
+                                                    class="fa fa-trash"></i> </button>
+                                                </form>
                                             <!-- Xác nhận xóa ghi chú  -->
                                             <script>
                                                 function ConfirmDelete() {

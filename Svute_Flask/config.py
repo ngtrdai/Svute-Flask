@@ -10,6 +10,8 @@ class Config:
     TOASTR_POSITION_CLASS = 'toast-bottom-right'
     CKEDITOR_SERVE_LOCAL = True
     CKEDITOR_ENABLE_CSRF = True
+    CKEDITOR_LANGUAGE = 'vi'
+    CKEDITOR_ENABLE_CODESNIPPET = True
     WTF_CSRF_ENABLED = True 
     CODEMIRROR_LANGUAGES = ['python', 'html']
     # optional
