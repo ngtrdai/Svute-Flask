@@ -5,7 +5,6 @@ body {
 img {
 max-width:100%;
 max-height:100%;
-border-radius: 10px;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -16,66 +15,64 @@ h1, h2, h3, h4, h5, h6 {
   background-color: #5f788a;
 }
 
-.site-header .navbar-nav .nav-link {
-  color: #cbd5db;
+.card-header {
+  background-color: #023859;
+  background-image: linear-gradient(#023859,#02456c);
+  color: #fff
 }
 
-.site-header .navbar-nav .nav-link:hover {
-  color: #ffffff;
+.navbar.navbar-dark .navbar-nav .nav-item .nav-link {
+  font-size: 1em;
+  font-family: "segoe ui","trebuchet MS","Lucida Sans Unicode","Lucida Sans",sans-serif !important;
+  font-weight: 600
 }
 
-.site-header .navbar-nav .nav-link.active {
-  font-weight: 500;
+.navbar {
+  background: #023859;
+  background-image: linear-gradient(#023859,#02456c);
+  padding: .2rem 1rem
 }
 
-.content-section {
-  background: #ffffff;
-  padding: 10px 20px;
-  border: 1px solid #dddddd;
-  border-radius: 3px;
-  margin-bottom: 20px;
+.navbar.navbar-dark .breadcrumb .nav-item.active>.nav-link,.navbar.navbar-dark .navbar-nav .nav-item.active>.nav-link {
+  border-radius: 3px
 }
 
-.article-title {
-  color: #444444;
+.nav-link {
+  margin: 0 6px
 }
 
-a.article-title:hover {
-  color: #428bca;
-  text-decoration: none;
+.navbar.navbar-dark .navbar-nav .nav-item .nav-link {
+  font-size: 1em;
+  font-family: "segoe ui","trebuchet MS","Lucida Sans Unicode","Lucida Sans",sans-serif;
+  font-weight: 600
 }
 
-.article-img {
-  height: 65px;
-  width: 65px;
-  margin-right: 16px;
+footer.page-footer {
+  background-color: #78909c!important;
+  background-image: linear-gradient(#023859,#02456c);
+  margin-top: 2rem
+}
+@media only screen and (max-device-width: 641px) {
+  .recent_paste_container {
+      padding-top:10px
+  }
 }
 
-.article-metadata {
-  padding-bottom: 1px;
-  margin-bottom: 4px;
-  border-bottom: 1px solid #e3e3e3
+footer.page-footer {
+  bottom: 0;
+  color: #fff
 }
 
-.article-metadata a:hover {
-  color: #333;
-  text-decoration: none;
+footer.page-footer .container-fluid {
+  width: auto
 }
 
-.article-svg {
-  width: 25px;
-  height: 25px;
-  vertical-align: middle;
+footer.page-footer .footer-copyright {
+  overflow: hidden;
+  background-color: rgba(0,0,0,.2);
+  color: rgba(255,255,255,.6)
 }
 
-.account-img {
-  height: 125px;
-  width: 125px;
-  margin-right: 20px;
-  margin-bottom: 16px;
+footer.page-footer a {
+  color: #fff
 }
-
-.account-heading {
-  font-size: 2.5rem;
-}
-
