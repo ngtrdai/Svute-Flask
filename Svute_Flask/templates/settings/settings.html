@@ -1,0 +1,159 @@
+{% from "_renderField.html" import renderField_Settings_Fullname, renderField_Settings_Picture %}
+{% extends "layout.html" %}
+{% block head %}
+<style>
+    a {
+        text-decoration: none !important;
+    }
+
+    .white-text {
+        color: #fff !important;
+    }
+
+    p {
+        font-weight: 400;
+    }
+    .btn-blue-grey {
+        background-color: #78909c!important;
+        /* color:#fff!important */
+    }
+    
+    .btn-blue-grey:hover {
+        background-color: #879ca7
+    }
+    
+    .btn-blue-grey.focus,.btn-blue-grey:focus {
+        -webkit-box-shadow: 0 5px 11px 0 rgba(0,0,0,.18),0 4px 15px 0 rgba(0,0,0,.15);
+        box-shadow: 0 5px 11px 0 rgba(0,0,0,.18),0 4px 15px 0 rgba(0,0,0,.15)
+    }
+    
+    .btn-blue-grey.active,.btn-blue-grey:active,.btn-blue-grey:focus {
+        background-color: #4a5b64
+    }
+    
+    .btn-blue-grey.dropdown-toggle {
+        background-color: #78909c!important
+    }
+    
+    .btn-blue-grey.dropdown-toggle:focus,.btn-blue-grey.dropdown-toggle:hover {
+        background-color: #879ca7!important
+    }
+    
+    .btn-blue-grey:not([disabled]):not(.disabled).active,.btn-blue-grey:not([disabled]):not(.disabled):active,.show>.btn-blue-grey.dropdown-toggle {
+        -webkit-box-shadow: 0 5px 11px 0 rgba(0,0,0,.18),0 4px 15px 0 rgba(0,0,0,.15);
+        box-shadow: 0 5px 11px 0 rgba(0,0,0,.18),0 4px 15px 0 rgba(0,0,0,.15);
+        background-color: #4a5b64!important;
+    }
+    
+    .btn-blue-grey:not([disabled]):not(.disabled).active:focus,.btn-blue-grey:not([disabled]):not(.disabled):active:focus,.show>.btn-blue-grey.dropdown-toggle:focus {
+        -webkit-box-shadow: 0 5px 11px 0 rgba(0,0,0,.18),0 4px 15px 0 rgba(0,0,0,.15);
+        box-shadow: 0 5px 11px 0 rgba(0,0,0,.18),0 4px 15px 0 rgba(0,0,0,.15)
+    }
+    .waves-effect {
+        position: relative;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+    .btn-block {
+        display: block;
+        width: 100%;
+    }
+    .view, .view .mask, .waves-effect {
+        overflow: hidden;
+    }
+    .btn-blue-grey {
+        background-image: linear-gradient(#023859,#02456c);
+        color: #fff;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="card">
+    <h5 class="card-header"><i class="fa fa-user-circle-o"></i>
+        <strong>Chỉnh sửa hồ sơ</strong>
+    </h5>
+    <div class="card-body pt-0">
+        <form class="p-3" method="post" enctype="multipart/form-data">
+            {{ form.csrf_token }}
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>{{form.username.label.text}}</label>
+                        {{renderField_Settings_Fullname(form.username, placeholder=form.username.label.text)}}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>{{form.email.label.text}}</label>
+                        {{renderField_Settings_Fullname(form.email, placeholder="nguoidung@tenmien.com")}}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Ảnh đại diện</label> <br />
+                <img src="{{user.image_file}}" id="avatar" class="rounded-circle z-depth-1-half avatar-pic mb-4" height="80"
+                    width="80">
+                <div class="input-group mb-4">
+                    <div class="input-group-prepend">
+                        {{ renderField_Settings_Picture(form.picture) }}
+                        <script>
+                            $(".custom-file-input").on("change", function () {
+                                var fileName = $(this).val().split("\\").pop();
+                                $(this).siblings(".custom-file-label").addClass( "selected").html(fileName);
+                            });
+                        </script>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Giới thiệu về bạn</label>
+                {{renderField_Settings_Fullname(form.about, placeholder=form.about.label.text)}}
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label><i class="fa fa-facebook"></i> Facebook Link</label>
+                        {{form.fb_link(class="form-control", placeholder="Đường dẫn Facebook")}}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label><i class="fa fa-twitter"></i> Twitter Link</label>
+                        {{form.tw_link(class="form-control", placeholder="Đường dẫn Twitter")}}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label><i class="fa fa-google-plus"></i> Website</label>
+                        {{form.web_link(class="form-control", placeholder="Đường dẫn website")}}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Mật khẩu mới</label>
+                        {{renderField_Settings_Fullname(form.password, placeholder="••••••••")}}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Xác nhận mật khẩu</label>
+                        {{renderField_Settings_Fullname(form.confirm_password, placeholder="••••••••")}}
+                    </div>
+                </div>
+            </div>
+            <!-- Save button -->
+            {{form.submit(class="btn btn-blue-grey darken-5 btn-block waves-effect waves-light")}}
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block sidebar %}
+{% include '/settings/sidebar.html' %}
+{% endblock %}

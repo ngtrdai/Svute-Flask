@@ -20,7 +20,7 @@
 
 .blog-grid .blog-img .date {
     position: absolute;
-    background: rgb(255,214,0);
+    background: white;
     color: #ffffff;
     padding: 8px 15px;
     left: 10px;
@@ -89,7 +89,7 @@
 .blog-aside .widget-title h3 {
     font-size: 20px;
     font-weight: 700;
-    color: rgb(255,214,0);
+    color: white;
     margin: 0;
 }
 
@@ -182,19 +182,18 @@
 .tag-cloud a {
     padding: 4px 15px;
     font-size: 13px;
-    color: #ffffff;
-    background: #20247b;
+    color: white;
+    background: #023859;
     border-radius: 3px;
     margin-right: 4px;
     margin-bottom: 4px;
 }
 
 .tag-cloud a:hover {
-    background: rgb(255,214,0);
+    background: black;
 }
 
 .blog-single {
-    padding-top: 30px;
     padding-bottom: 30px;
 }
 
@@ -219,8 +218,7 @@
 
 .article .article-title h6 a {
     text-transform: uppercase;
-    color: #444444;
-    border-bottom: 1px solid rgb(255,214,0);
+    color: #023859;;
 }
 
 .article .article-title h2 {
@@ -247,7 +245,7 @@
 
 .article .article-title .media .media-body label {
     font-weight: 600;
-    color: #444444;
+    color: linear-gradient(#023859,#02456c);
     margin: 0;
 }
 
@@ -276,7 +274,7 @@
 .article .article-content blockquote p {
     font-size: 20px;
     font-weight: 500;
-    color: #444444;
+    color: white;
     margin: 0;
 }
 
@@ -370,11 +368,11 @@ img {
 }
 
 .contact-form .form-control:focus {
-    border-bottom: 1px solid #444444;
+    border-bottom: 1px solid white;
 }
 
 .contact-form .form-control.invalid {
-    border-bottom: 1px solid #444444;
+    border-bottom: 1px solid white;
 }
 
 .contact-form .send {
@@ -392,7 +390,7 @@ img {
     color: #20247b;
     font-size: 45px;
     margin: 0 0 15px;
-    border-left: 5px solid #444444;
+    border-left: 5px solid white;
     padding-left: 15px;
 }
 

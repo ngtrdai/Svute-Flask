@@ -12,14 +12,22 @@ def SaveImage(form_picture, for_post = False):
     picFilename = randomHex + f_ext
     if for_post == False:
         picFilePath = join(current_app.root_path, 'static/profile_pics', picFilename)
-        outputSize = (400, 400)
         img = Image.open(form_picture)
-        img.thumbnail(outputSize)
+        width, height = img.size   # Get dimensions
+        left = (width - 1000)/2
+        top = (height - 1000)/2
+        right = (width + 1000)/2
+        bottom = (height + 1000)/2
+
+        # Crop the center of the image
+        cropped_img = img.crop((left, top, right, bottom))
+        cropped_img.save(picFilePath)
+        filePathCloud = "profile_pics" + picFilename
     else:
         picFilePath =join(current_app.root_path,'static/assets/img/posts',picFilename)
         img = Image.open(form_picture)
-    img.save(picFilePath)
-    filePathCloud = "assets/img/posts/" + picFilename
+        img.save(picFilePath)
+        filePathCloud = "assets/img/posts/" + picFilename
     storage.child(filePathCloud).put(picFilePath)
     link_img = storage.child(filePathCloud).get_url(None)
     #os.remove(picFilePath)

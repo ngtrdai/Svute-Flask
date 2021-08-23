@@ -1,0 +1,85 @@
+{% extends "layout.html"%}{% block title %}{{title}}{% endblock %}
+{% block head %}
+<style>
+    a {
+        text-decoration:none!important;
+    }
+    .warning-color {
+        background-color: #fb3!important;
+    }
+    .success-color {
+        background-color: #00c851!important;
+    }
+    .info-color {
+        background-color: #33b5e5!important;
+    }
+    .danger-color, ul.stepper li.warning a .circle {
+        background-color: #ff3547!important;
+    }
+    .white-text {
+        color: #fff!important;
+    }
+    p {
+        font-weight: 400;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <i class="fa fa-dashboard"></i> 
+        <strong>Bảng điều khiển</strong>
+    </div>
+    <div class="card-body" >
+        <div class="row">
+            <div class="col-xl-3 col-md-6 mb-4">
+                <!--Card Default-->
+                <div class="card classic-admin-card warning-color">
+                    <div class="card-body">
+                        <div class="pull-right"><i class="fa fa-folder fa-2x"></i></div>
+                        <p class="white-text">Bài viết</p>
+                        <h3>...</h3>
+                    </div>
+                </div>
+                <!--/.Card Default-->
+            </div>
+            <div class="col-xl-3 col-md-6 mb-4">
+                <!--Card Default-->
+                <div class="card classic-admin-card success-color">
+                    <div class="card-body">
+                        <div class="pull-right"><i class="fa fa-paste fa-2x"></i></div>
+                        <p class="white-text">Ghi chú</p>
+                        <h3>...</h3>
+                    </div>
+                </div>
+                <!--/.Card Default-->
+            </div>
+            <div class="col-xl-3 col-md-6 mb-4">
+                <!--Card Default-->
+                <div class="card classic-admin-card info-color">
+                    <div class="card-body">
+                        <div class="pull-right"><i class="fa fa-paste fa-2x"></i></div>
+                        <p class="white-text">Code</p>
+                        <h3>...</h3>
+                    </div>
+                </div>
+                <!--/.Card Default-->
+            </div>
+            <div class="col-xl-3 col-md-6 mb-4">
+                <!--Card Default-->
+                <div class="card classic-admin-card danger-color">
+                    <div class="card-body">
+                        <div class="pull-right"><i class="fa fa-paste fa-2x"></i></div>
+                        <p class="white-text">Sự kiện</p>
+                        <h3>...</h3>
+                    </div>
+                </div>
+                <!--/.Card Default-->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block sidebar %}
+{% include '/settings/sidebar.html' %}
+{% endblock %}

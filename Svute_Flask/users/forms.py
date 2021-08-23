@@ -39,9 +39,9 @@ class Login_Form(FlaskForm):
 
 class Update_Account_Form(FlaskForm):
     '''LỚP CẬP NHẬT NGƯỜI DÙNG'''
-    username = StringField('Tài khoản', validators=[DataRequired(), Length(min=2, max=20)])
-    fullname = StringField('Họ', validators=[DataRequired(), Length(min=2, max=50)])
-    email = StringField('Email', validators=[DataRequired(), Email()])
+    username = StringField('Tài khoản', validators=[DataRequired(message="Tên người dùng không được để trống"), Length(min=2, max=20)])
+    #fullname = StringField('Họ', validators=[DataRequired(), Length(min=2, max=50)])
+    email = StringField('Email', validators=[DataRequired(message="Email không được để trống"), Email()])
     picture = FileField('Cập nhật ảnh đại diện', validators=[FileAllowed(['jpg', 'png'])])
     submit = SubmitField('Cập nhật')
     fb_link = StringField('Đường dẫn Facebook',validators=[Length(max=50)])

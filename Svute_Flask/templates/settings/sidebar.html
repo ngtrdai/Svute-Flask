@@ -1,0 +1,29 @@
+<div class="card md-3">
+    <div class="card-header text-center">
+        <strong>Tài khoản của tôi</strong>
+    </div>
+    <div class='card-body p-0'>
+        <ul class="list-group list-group-flush text-center">
+            <li class="list-group-item">
+                <a href="#"><i class="fa fa-dashboard blue-grey-text small"></i>
+                    Bảng điều khiển</a>
+            </li>
+            <li class="list-group-item">
+                <a href="/nguoidung/{{current_user.username}}"><i class="fa fa-folder blue-grey-text small"></i> Bài viết của tôi</a>
+            </li>
+            <li class="list-group-item">
+                <a href="/code"><i class="fa fa-paste blue-grey-text small"></i> Code của tôi</a>
+            </li>
+            <li class="list-group-item">
+                <a href="{{url_for('users.settings')}}"><i class="fa fa-user-circle-o blue-grey-text small"></i> Chỉnh sửa hồ sơ</a>
+            </li>
+            <li class="list-group-item">
+                <a href="#"><i class="fa fa-trash blue-grey-text small"></i> Xóa tài khoản</a>
+            </li>
+            <li class="list-group-item">
+                <a href="{{url_for('users.logout')}}" ><i
+                        class="fa fa-sign-out blue-grey-text small"></i> Đăng xuất</a>
+            </li>
+        </ul>
+    </div>
+</div>

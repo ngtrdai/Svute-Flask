@@ -52,16 +52,14 @@ def settings():
     form = Update_Account_Form()
     if form.validate_on_submit():
         if form.picture.data:
-            picture_file = SaveImage(form.picture.data)
+            picture_file = SaveImage(form.picture.data, False)
             current_user.image_file = picture_file
         if form.password.data:
             current_user.password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         current_user.username = form.username.data
         current_user.email = form.email.data
-        current_user.fullname = form.fullname.data
         current_user.fb_link = form.fb_link.data
         current_user.tw_link = form.tw_link.data
-        current_user.git_link = form.git_link.data
         current_user.web_link = form.web_link.data
         current_user.about = form.about.data
         db.session.commit()
@@ -70,18 +68,15 @@ def settings():
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.email.data = current_user.email
-        form.fullname.data = current_user.fullname
         if current_user.about != '#':
             form.about.data = current_user.about
         if current_user.fb_link != '#':
             form.fb_link.data = current_user.fb_link
         if current_user.tw_link != '#':
             form.tw_link.data = current_user.tw_link
-        if current_user.git_link != '#':
-            form.git_link.data = current_user.git_link
         if current_user.web_link != '#':
             form.web_link.data = current_user.web_link
-    return render_template("setting.html", user=current_user,title='Tài khoản', form=form)
+    return render_template("/settings/settings.html", user=current_user,title='Tài khoản', form=form)
 
 @users.route('/reset-mat-khau', methods=['POST', 'GET'])
 def reset_request():
@@ -118,7 +113,7 @@ def reset_token(token):
             return redirect(url_for('main.home'))
     return render_template('reset_password_token.html', title='Đặt lại mật khẩu', user=current_user)
 
-@users.route('/nguoi-dung/<string:username>')
+@users.route('/nguoidung/<string:username>')
 def user_posts(username):
     page = request.args.get('page', 1, type=int)
     user = User.query.filter_by(username=username).first_or_404()
@@ -126,3 +121,8 @@ def user_posts(username):
         .order_by(Post.date.desc())\
         .paginate(page=page,per_page=5)
     return render_template('user_post.html', posts=post, user=user)
+
+@users.route('/bangdieukhien')
+def uDashboard():
+
+    return render_template('/settings/dashboard.html', user=current_user, title="Bảng điều khiển")    
