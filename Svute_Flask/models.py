@@ -85,6 +85,7 @@ class Post(db.Model):
     def generate_slug(target, value, oldvalue, initiator):
         if value and (not target.slug or value != oldvalue):
             target.slug = slugify(value)
+    
 db.event.listen(Post.title, 'set',Post.generate_slug, retval=False)
 
 class Comments(db.Model):
@@ -100,10 +101,16 @@ class Comments(db.Model):
 
 class Category(db.Model):
     category_id = db.Column(db.Integer, primary_key=True)
+    slug = db.Column(db.String(200), unique=True, nullable=False)
     name = db.Column(db.String(50), unique=True, nullable=False)
     posts = db.relationship('Post', backref='category', lazy=True)
     def __repr__(self):
         return f"Category('{self.name}')"
+    @staticmethod
+    def generate_slug(target, value, oldvalue, initiator):
+        if value and (not target.slug or value != oldvalue):
+            target.slug = slugify(value)
+db.event.listen(Category.name, 'set',Category.generate_slug, retval=False)
 
 class Code(db.Model):
     code_id = db.Column(db.Integer, primary_key=True)

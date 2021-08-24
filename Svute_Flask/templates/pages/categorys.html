@@ -1,0 +1,134 @@
+{% extends "layout.html"%}
+{% block head %}
+<link rel="stylesheet" href="../../static/assets/css/home.css">
+<link rel="stylesheet" href="../../static/assets/css/post.css">
+{% endblock %}
+{% block content %}
+{% if hasPost == True %}
+{% for post in posts.items %}
+<article class="postcard light blue">
+    <a class="postcard__img_link" href="{{url_for('posts.post', slug=post.slug)}}">
+        <img class="postcard__img" src="{{post.image_cover}}" alt="{{ post.title[:50] }}" />
+    </a>
+    <div class="postcard__text">
+        <h1 class="postcard__title blue"><a href="{{url_for('posts.post', slug=post.slug)}}">{{ post.title[:50] }}</a>
+        </h1>
+        <div class="postcard__subtitle small">
+            <time datetime="2020-05-25 12:00:00" style="color: black !important">
+                <i class="fa fa-clock-o mr-2" style="color: black !important"></i>{{post.date.strftime('%d-%m-%Y')}}
+            </time>
+        </div>
+        <div class="postcard__bar"></div>
+        <div class="postcard__preview-txt" style="color: black !important"> {{ post.brief[:100] | safe }}</div>
+        <ul class="postcard__tagbox">
+            <li class="tag__item"><i class="fa fa-user mr-2"></i>{{post.author.username}}</li>
+            <li class="tag__item">{{post.category.name}}</li>
+            <li class="tag__item play blue">
+                <a href="{{url_for('posts.post', slug=post.slug)}}"><i class="fa fa-eye mr-2"></i>Xem bài viết</a>
+            </li>
+        </ul>
+    </div>
+</article>
+{% endfor %}
+{% for page_num in posts.iter_pages() %}
+{% if page_num %}
+{% if posts.page == page_num %}
+<a class="btn btn-primary mb-4" href="{{url_for('main.home', page=page_num)}}">{{page_num}}</a>
+{% else %}
+<a class="btn btn-outline-primary mb-4" href="{{url_for('main.home', page=page_num)}}">{{page_num}}</a>
+{% endif %}
+{% else %}
+...
+{% endif %}
+{% endfor %}
+{% else %}
+<div class="d-flex align-items-center justify-content-center">
+    <img class="col-8 col-md-6" src="../../static/assets/img/khong_ghi_chu.svg">
+    <h1 class=" text-center text-muted mb-5">Chưa có bài viết.</h1>
+</div>
+{% endif %}
+{% endblock %}
+{% block sidebar %}
+<div class="blog-aside">
+    <!-- Trending Post -->
+    
+    <div class="widget widget-post">
+        <div class="card-header widget-title">
+            <h3>Bài viết hay</h3>
+        </div>
+        <div class="widget-body">
+
+        </div>
+    </div>
+    <!-- End Trending Post -->
+    <!-- Latest Post -->
+    <div class="widget widget-latest-post">
+        <div class="card-header widget-title">
+            <h3>Bài viết mới nhất</h3>
+        </div>
+        <div class="widget-body">
+            <!--<div class="latest-post-aside media">
+        <div class="lpa-left media-body">
+            <div class="lpa-title">
+                <h5><a href="#">Prevent 75% of visitors from google analytics</a></h5>
+            </div>
+            <div class="lpa-meta">
+                <a class="name" href="#">
+                    Rachel Roth
+                </a>
+                <a class="date" href="#">
+                    26 FEB 2020
+                </a>
+            </div>
+        </div>
+        <div class="lpa-right">
+            <a href="#">
+                <img src="https://via.placeholder.com/400x200/FFB6C1/000000" title="" alt="">
+            </a>
+        </div>
+    </div>
+    <div class="latest-post-aside media">
+        <div class="lpa-left media-body">
+            <div class="lpa-title">
+                <h5><a href="#">Prevent 75% of visitors from google analytics</a></h5>
+            </div>
+            <div class="lpa-meta">
+                <a class="name" href="#">
+                    Rachel Roth
+                </a>
+                <a class="date" href="#">
+                    26 FEB 2020
+                </a>
+            </div>
+        </div>
+        <div class="lpa-right">
+            <a href="#">
+                <img src="https://via.placeholder.com/400x200/FFB6C1/000000" title="" alt="">
+            </a>
+        </div>
+    </div>
+    <div class="latest-post-aside media">
+        <div class="lpa-left media-body">
+            <div class="lpa-title">
+                <h5><a href="#">Prevent 75% of visitors from google analytics</a></h5>
+            </div>
+            <div class="lpa-meta">
+                <a class="name" href="#">
+                    Rachel Roth
+                </a>
+                <a class="date" href="#">
+                    26 FEB 2020
+                </a>
+            </div>
+        </div>
+        <div class="lpa-right">
+            <a href="#">
+                <img src="https://via.placeholder.com/400x200/FFB6C1/000000" title="" alt="">
+            </a>
+        </div>
+    </div>-->
+        </div>
+    </div>
+    <!-- End Latest Post -->
+</div>
+{% endblock %}

@@ -27,7 +27,10 @@
         <div class="postcard__preview-txt" style="color: black !important"> {{ post.brief[:100] | markdown }}</div>
         <ul class="postcard__tagbox">
             <li class="tag__item"><i class="fa fa-user mr-2"></i>{{post.author.username}}</li>
-            <li class="tag__item">{{post.category.name}}</li>
+            <li class="tag__item">
+                <a href="{{url_for('pages.category', slug=post.category.slug)}}">
+                {{post.category.name}}</a>
+            </li>
             <li class="tag__item play blue">
                 <a href="{{url_for('posts.post', slug=post.slug)}}"><i class="fa fa-eye mr-2"></i>Xem bài viết</a>
             </li>
