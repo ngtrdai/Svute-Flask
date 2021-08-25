@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <link rel="icon" href="../static/assets/img/LogoSvute_W.svg" type="image/svg" />
+    <link rel="shortcut icon" href="../static/assets/img/LogoSvute_W.svg" type="image/svg" />
+    {% if title %}
+    <title>{{ title }} - Sinh viên UTE</title>
+    {% else %}
+    <title>Sinh viên UTE - Svute.com</title>
+    {% endif %}
+    <meta property="og:image" content="../static/assets/img/img33.jpg">
+    <meta name="description"
+        content="Cộng đồng chia sẻ tài liệu học tập, tài liệu kỹ thuật cơ khí, tài liệu kỹ thuật lập trình, cơ điện tử, tự động hóa,...">
+    <meta property="og:type" content="website">
+    {% block meta %}
+    {% endblock %}
+    <link rel="stylesheet" href="../../static/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Condensed&amp;display=swap">
+    <link rel="stylesheet" href="../../static/assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="../../static/assets/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="../../static/assets/css/styles.css">
+    {{ toastr.include_jquery() }}
+    {{ toastr.include_toastr_css() }}
+    {{ toastr.message() }}
+    {{ ckeditor.load_code_theme() }}
+    {% block head %}
+    {% endblock %}
+</head>
+<body>
+    {% include "header.html" %}
+    <main>
+        <div class="container" style="margin-top: 30px!important;">
+            <div class="row">
+                <div class="col-auto col-md-8">
+                    {% block content %}
+                    {% endblock %}
+                </div>
+                <div class="col-md-4">
+                    {% block sidebar %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </main>
+    {% include "footer.html" %}
+    <script src="../static/assets/js/jquery.min.js"></script>
+    <script src="../static/assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../static/assets/js/bs-init.js"></script>
+
+    {{ toastr.include_toastr_js() }}
+</body>
+
+</html>

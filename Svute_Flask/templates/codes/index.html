@@ -1,0 +1,159 @@
+{% extends "codes/layout.html"%}
+{% block meta %}{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="../../static/assets/css/post.css">
+<link rel="stylesheet" href="../../static/assets/css/codes.css">
+<style>
+    .btn-blue-grey {
+        background-color: #78909c !important;
+        /* color:#fff!important */
+    }
+
+    .btn-blue-grey:hover {
+        background-color: #879ca7
+    }
+
+    .btn-blue-grey.focus,
+    .btn-blue-grey:focus {
+        -webkit-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
+        box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15)
+    }
+
+    .btn-blue-grey.active,
+    .btn-blue-grey:active,
+    .btn-blue-grey:focus {
+        background-color: #4a5b64
+    }
+
+    .btn-blue-grey.dropdown-toggle:focus,
+    .btn-blue-grey.dropdown-toggle:hover {
+        background-color: #879ca7 !important
+    }
+
+    .btn-blue-grey:not([disabled]):not(.disabled).active,
+    .btn-blue-grey:not([disabled]):not(.disabled):active,
+    .show>.btn-blue-grey.dropdown-toggle {
+        -webkit-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
+        box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
+        background-color: #4a5b64 !important;
+    }
+
+    .btn-blue-grey:not([disabled]):not(.disabled).active:focus,
+    .btn-blue-grey:not([disabled]):not(.disabled):active:focus,
+    .show>.btn-blue-grey.dropdown-toggle:focus {
+        -webkit-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
+        box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15)
+    }
+
+    .waves-effect {
+        position: relative;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .btn-block {
+        display: block;
+    }
+
+    .view,
+    .view .mask,
+    .waves-effect {
+        overflow: hidden;
+    }
+
+    .btn-blue-grey {
+        background-image: linear-gradient(#023859, #02456c);
+        color: #fff;
+    }
+    .blog-aside .widget-body {
+        padding: 0px; 
+    }
+</style>
+{{ codemirror.include_codemirror() }}
+{% endblock %}
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <form class="form-group" method="POST">
+            <label class="font-weight-bold d-flex justify-content-between">
+                <span>Paste mới </span>
+                <small><a id="load_file">Duyệt File</a></small>
+            </label>
+            {{ form.csrf_token }}
+            {{ form.sourceCode }}
+            <span>Thiết lập Paste</span>
+            <hr class="extra-margin">
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label class="active">Tiêu đề:
+                        <small class="text-muted">[tùy chọn]</small>
+                    </label>
+                    {{form.title(class="form-control", placeholder="Nhập tiêu đề vào đây")}}
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="active">Thư mục:
+                        <small class="text-muted">[tùy chọn]</small>
+                    </label>
+                    <input type="text" class="form-control" disabled placeholder="Tính năng sắp ra mắt">
+                </div>
+            </div>
+            <div class="row" style="padding-left:15px;padding-right:15px; margin-bottom:10px">
+                <label class="form-group active">Mô tả:
+                    <small class="text-muted">[tùy chọn]</small>
+                </label>
+                {{form.description(class="form-control", placeholder="Mô tả ngắn gọn vào đây...", rows="5")}}
+            </div>
+            <div class="row" style="padding-left:15px;padding-right:15px; margin-bottom:10px">
+                {{form.submit(class="btn btn-blue-grey darken-5 btn-block waves-effect waves-light")}}
+            </div>
+
+        </form>
+    </div>
+</div>
+{% endblock %}
+{% block sidebar %}
+<div class="blog-aside">
+    {% if user == current_user %}
+    <div class="widget widget-post" style="margin-top:0px">
+        <div class="card-header widget-title">
+            <h3>Paste của bạn</h3>
+        </div>
+        <div class="widget-body">
+            <ul class="list-group list-group-flush">
+                {% for code in myCodes %}
+                    <li class="list-group-item">
+                        <i class="fa fa-paste blue-grey-text small"></i>
+                        <a href="{{ url_for('codes.viewCode', slug=code.slug)}}">{{code.title}}</a>
+                        <p>
+                            <small class="text-muted"> <a href="#">Python</a>  | <i class="fa fa-eye blue-grey-text"></i> 0 | {{code.date.strftime('%d-%m-%Y')}}</small>
+                        </p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+    <div class="widget widget-post" style="margin-top:0px">
+        <div class="card-header widget-title">
+            <h3>Paste gần đây</h3>
+        </div>
+        <div class="widget-body">
+            <ul class="list-group list-group-flush">
+                {% for code in lastCodes %}
+                    <li class="list-group-item">
+                        <i class="fa fa-paste blue-grey-text small"></i>
+                        <a href="{{ url_for('codes.viewCode', slug=code.slug)}}">{{code.title}}</a>
+                        <p>
+                            <small class="text-muted"> <a href="#">Python</a>  | <i class="fa fa-eye blue-grey-text"></i> 0 | {{code.date.strftime('%d-%m-%Y')}}</small>
+                        </p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

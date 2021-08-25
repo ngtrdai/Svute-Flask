@@ -1,0 +1,219 @@
+{% extends "layout_nsb.html"%}
+{% block meta %}{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="../../static/assets/css/post.css">
+<link rel="stylesheet" href="../../static/assets/css/codes.css">
+<style>
+    .CodeMirror {
+        border: 1px solid #eee;
+        height: 500px !important;
+    }
+
+    .btn-blue-grey {
+        background-color: #78909c !important;
+        /* color:#fff!important */
+    }
+
+    .btn-blue-grey:hover {
+        background-color: #879ca7
+    }
+
+    .btn-blue-grey.focus,
+    .btn-blue-grey:focus {
+        -webkit-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
+        box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15)
+    }
+
+    .btn-blue-grey.active,
+    .btn-blue-grey:active,
+    .btn-blue-grey:focus {
+        background-color: #4a5b64
+    }
+
+    .btn-blue-grey.dropdown-toggle:focus,
+    .btn-blue-grey.dropdown-toggle:hover {
+        background-color: #879ca7 !important
+    }
+
+    .btn-blue-grey:not([disabled]):not(.disabled).active,
+    .btn-blue-grey:not([disabled]):not(.disabled):active,
+    .show>.btn-blue-grey.dropdown-toggle {
+        -webkit-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
+        box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
+        background-color: #4a5b64 !important;
+    }
+
+    .btn-blue-grey:not([disabled]):not(.disabled).active:focus,
+    .btn-blue-grey:not([disabled]):not(.disabled):active:focus,
+    .show>.btn-blue-grey.dropdown-toggle:focus {
+        -webkit-box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15);
+        box-shadow: 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15)
+    }
+
+    .waves-effect {
+        position: relative;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .btn-block {
+        display: block;
+    }
+
+    .view,
+    .view .mask,
+    .waves-effect {
+        overflow: hidden;
+    }
+
+    .btn-blue-grey {
+        background-image: linear-gradient(#023859, #02456c);
+        color: #fff;
+    }
+
+    .blue-grey-text {
+        color: #607d8b !important;
+    }
+
+    .text-muted {
+        color: #6c757d !important;
+    }
+
+    .small,
+    small {
+        font-size: 80%;
+        font-weight: 400;
+    }
+
+    .badge,
+    .badge-danger,
+    .badge-dark,
+    .badge-default,
+    .badge-info,
+    .badge-primary,
+    .badge-secondary,
+    .badge-success,
+    .badge-warning {
+        color: #fff !important
+    }
+
+    .badge-light {
+        background-color: #e0e0e0 !important;
+        color: #000 !important;
+    }
+
+    .badge {
+        -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
+        -webkit-border-radius: .125rem;
+        border-radius: .125rem
+    }
+    a {
+        cursor: pointer; 
+        text-decoration: none;
+        -webkit-transition: all .2s ease-in-out;
+        -o-transition: all .2s ease-in-out;
+        /* transition: all .2s ease-in-out */
+    }
+    
+    a:hover {
+        -webkit-transition: all .2s ease-in-out;
+        -o-transition: all .2s ease-in-out;
+        transition: all .2s ease-in-out;
+        text-decoration: none
+    }
+</style>
+
+{{ codemirror.include_codemirror() }}
+{% endblock %}
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <div class="media">
+            <img class="mr-3 rounded-circle img-fluid" src="{{code.author.image_file}}" alt="avatar"
+                style="height: 60px">
+            <div class="media-body">
+                <h5 class="mt-0">
+                    <i class="fa fa-paste blue-grey-text small"></i> {{code.title}}
+                </h5>
+                <p class="text-muted small"><i class="fa fa-user text-primary"></i>
+                    <a href="/nguoidung/{{code.author.username}}"> {{code.author.fullname}}</a>
+                    <i class="fa fa-eye ml-2 text-secondary" title="Lượt xem"></i> 0
+                    <i class="fa fa-calendar ml-2 text-success" title="Đăng lúc"></i> {{code.date.strftime('%d-%m-%Y')}}
+            </div>
+            {% if current_user.is_authenticated %}
+            {% if current_user == code.author %}
+            <a href="#" class="badge badge-info mr-2"><i class="fa fa-edit"></i> Sửa </a>
+            <a href="#" class="badge badge-danger" onclick="return confirm('Bạn có thực sự muốn xóa nó?')"><i
+                    class="fa fa-trash"></i> Xóa </a> {% else %}
+            {% if current_user.role == 'admin' %}
+            <a href="#" class="badge badge-info mr-2"><i class="fa fa-edit"></i> Sửa </a>
+            <a href="#" class="badge badge-danger" onclick="return confirm('Bạn có thực sự muốn xóa nó?')"><i
+                    class="fa fa-trash"></i> Xóa </a> {% endif %}
+            {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+<div class="card mt-2" id="printarea">
+    <div class="card-header d-print-none">
+        <span class="badge badge-light">Python</span>
+        <div class="pull-right">
+            <a class="badge badge-warning" data-toggle="modal" data-target="#shareModal">Chia sẻ</a>
+            <a class="badge badge-success" data-toggle="modal" data-target="#embedModal">Nhúng</a>
+        </div>
+    </div>
+    <div class="card-body" style="padding:0px">
+        {{ form.sourceCode }}
+    </div>
+</div>
+<div class="card mt-2">
+    <div class="card-header">Mô tả</div>
+    <div class="card-body">
+        <p>
+            {% if code.description == '' %}
+            Không có mô tả
+            {% else %}
+            {{code.description}}
+            {% endif %}
+        </p>
+    </div>
+</div>
+<div class="form-group mt-3 mb-3 d-print-none">
+    <small class="text-muted">Bạn có thể gửi đường link này để chia sẻ với bạn bè</small>
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <button class="btn btn-md btn-blue-grey m-0 px-3" type="button" onclick="copyToClip('https://svute.com/code/{{code.slug}}','copy_link_response')">Sao chép</button>
+        </div>
+        <input type="text" class="form-control" value="https://svute.com/code/{{code.slug}}" disabled>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal" id="embedModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Nhúng</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <textarea class="form-control" id="embed_code"><iframe src="https://svute.com/nhung/{{code.slug}}" style="border:none;width:100%;min-height:400px;"></iframe></textarea> 
+                <span id="embed_response" class="text-success"></span>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button class="btn btn-success btn-sm" onclick="copyToClip(document.getElementById('embed_code').value,'embed_response');">Sao chép</button>
+                <button class="btn btn-danger btn-sm" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Modal -->
+{% endblock %}

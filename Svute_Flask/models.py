@@ -1,12 +1,12 @@
-﻿from flask_admin.base import expose
-from Svute_Flask import db, loginManager
-from flask import current_app, redirect, url_for, request, flash,abort
+﻿from Svute_Flask import db, loginManager
+from flask import current_app, redirect, url_for, request, abort
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from datetime import datetime
 from slugify import slugify
-from flask_login import current_user, UserMixin,login_required
+from flask_login import current_user, UserMixin
 from flask_security import RoleMixin
 from flask_admin.contrib.sqla import ModelView
+from secrets import token_hex
 
 @loginManager.user_loader
 def load_user(id):
@@ -84,7 +84,7 @@ class Post(db.Model):
     @staticmethod
     def generate_slug(target, value, oldvalue, initiator):
         if value and (not target.slug or value != oldvalue):
-            target.slug = slugify(value)
+            target.slug = slugify(value) + token_hex(4)
     
 db.event.listen(Post.title, 'set',Post.generate_slug, retval=False)
 
@@ -117,8 +117,23 @@ class Code(db.Model):
     source = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
+    title = db.Column(db.String(200), nullable=False, default="Không có tiêu đề")
+    slug = db.Column(db.String(300), unique=True, nullable=False)
+    syntax_id = db.Column(db.Integer, db.ForeignKey('code_syntax.syntax_id'))
+    description = db.Column(db.Text())
     def __repr__(self) -> str:
         return f"Code('{self.code_id}', '{self.date}')"
+    def generate_slug(target, value, oldvalue, initiator):
+        if value and (not target.slug or value != oldvalue):
+            target.slug = token_hex(10)
+db.event.listen(Code.title, 'set',Code.generate_slug, retval=False)
+
+class Code_syntax(db.Model):
+    syntax_id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), unique=True, nullable=False)
+    codes = db.relationship('Code', backref='syntax', lazy=True)
+    def __repr__(self):
+        return f"Code syntax('{self.name}')"
 
 class Category_calendar(db.Model):
     category_calendar_id = db.Column(db.Integer, primary_key=True)
