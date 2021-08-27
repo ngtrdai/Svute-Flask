@@ -43,6 +43,7 @@ def deleteToDo():
         if calendar.user_id == current_user.id:
             db.session.delete(calendar)
             db.session.commit()
+            flash('Xóa thành công!', 'success')
     return redirect(url_for('calendars.calendar'))
 
 @calendars.route('/sukien/hoanthanh', methods=['GET', 'POST'])

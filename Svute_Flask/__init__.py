@@ -83,7 +83,7 @@ def Create_App(config_class=Config):
     from Svute_Flask.converts.routes import converts
     from Svute_Flask.error.handlers import errors
     from Svute_Flask.pages.routes import pages
-    from Svute_Flask.models import User, Post,Role, Note, Comments, Category, Code, Calendar, Category_calendar, MyModelView
+    from Svute_Flask.models import User, Post,Role, Note, Comments, Category, Code, Calendar, Category_calendar, MyModelView, Code_syntax
     
     
 
@@ -105,5 +105,6 @@ def Create_App(config_class=Config):
     admin.add_view(MyModelView(Calendar, db.session))
     admin.add_view(MyModelView(Category_calendar, db.session))
     admin.add_view(MyModelView(Role, db.session))
+    admin.add_view(MyModelView(Code_syntax, db.session))
 
     return app  

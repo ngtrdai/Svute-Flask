@@ -33,3 +33,7 @@ def imgtopdf():
         flash('File(s) successfully uploaded')
         chuyendoi_img2pdf(files)
     return render_template('tools_imgtopdf.html', user=current_user)
+
+@converts.route('/random')
+def random():
+    return render_template('Utilities/random.html', user=current_user)

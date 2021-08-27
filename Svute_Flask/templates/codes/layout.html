@@ -3,14 +3,14 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <link rel="icon" href="../static/assets/img/LogoSvute_W.svg" type="image/svg" />
-    <link rel="shortcut icon" href="../static/assets/img/LogoSvute_W.svg" type="image/svg" />
+    <link rel="icon" href="../../static/assets/img/LogoSvute_W.svg" type="image/svg" />
+    <link rel="shortcut icon" href="../../static/assets/img/LogoSvute_W.svg" type="image/svg" />
     {% if title %}
     <title>{{ title }} - Sinh viên UTE</title>
     {% else %}
     <title>Sinh viên UTE - Svute.com</title>
     {% endif %}
-    <meta property="og:image" content="../static/assets/img/img33.jpg">
+    <meta property="og:image" content="../../static/assets/img/img33.jpg">
     <meta name="description"
         content="Cộng đồng chia sẻ tài liệu học tập, tài liệu kỹ thuật cơ khí, tài liệu kỹ thuật lập trình, cơ điện tử, tự động hóa,...">
     <meta property="og:type" content="website">
@@ -22,15 +22,157 @@
     <link rel="stylesheet" href="../../static/assets/fonts/ionicons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="../../static/assets/css/styles.css">
+    <!-- <link rel="stylesheet" href="../../static/assets/codemirror/lib/codemirror.css"> -->
+    <!-- <script src="../../static/assets/codemirror/lib/codemirror.js"></script> -->
     {{ toastr.include_jquery() }}
     {{ toastr.include_toastr_css() }}
     {{ toastr.message() }}
-    {{ ckeditor.load_code_theme() }}
+    <!-- {{ ckeditor.load_code_theme() }} -->
     {% block head %}
     {% endblock %}
 </head>
 <body>
-    {% include "header.html" %}
+    <header>
+        <!--Navbar-->
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container">
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span>
+                </button>
+                <a class="navbar-brand" href="{{url_for('main.home')}}"><img src="../../static/assets/img/LogoSvute.svg"
+                        height="48" alt="Svute.com">
+                </a>
+                {% if user.is_authenticated %}
+                <ul class="navbar-nav d-lg-none">
+                    <li class="nav-item avatar dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false" title="anh dai dien">
+                            <img src="{{user.image_file}}" class="rounded-circle z-depth-0" alt="avatar image"
+                                style="height: 32px;"> </a>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-secondary"
+                            aria-labelledby="navbarDropdownMenuLink-55"> {% if user.role.name == 'admin' %}
+                            <a class="dropdown-item" href="/admin"><i class="fa fa-user-secret blue-grey-text"></i>
+                                ADMIN
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            {%endif%}
+                            <a class="dropdown-item" href="{{url_for('users.uDashboard')}}"><i
+                                    class="fa fa-dashboard blue-grey-text"></i> Bảng
+                                điều khiển
+                            </a>
+                            <a class="dropdown-item" href="/nguoidung/{{current_user.username}}"><i
+                                    class="fa fa-folder blue-grey-text"></i> Bài viết
+                                của tôi
+                            </a>
+                            <a class="dropdown-item" href="/code"><i class="fa fa-list-alt blue-grey-text"></i> Code
+                                của tôi
+                            </a>
+                            <a class="dropdown-item" href="{{url_for('users.settings')}}"><i
+                                    class="fa fa-user-circle-o blue-grey-text"></i>
+                                Chỉnh sửa hồ sơ
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ url_for('users.logout') }}"><i
+                                    class="fa fa-sign-out blue-grey-text"></i> Đăng xuất
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+                {% else %}
+                <ul class="navbar-nav d-lg-none">
+                    <li class="nav-item avatar dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false" title="Khách">
+                            <img src="../../static/profile_pics/avatar.svg" class="rounded-circle z-depth-0" alt="Khách"
+                                style="height: 32px;"> </a>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-secondary"
+                            aria-labelledby="navbarDropdownMenuLink-55">
+                            <a class="dropdown-item" href="{{url_for('users.register')}}"><i
+                                    class="fa fa-user-plus blue-grey-text"></i> Đăng ký
+                            </a>
+                            <a class="dropdown-item" href="{{url_for('users.login')}}"><i
+                                    class="fa fa-sign-in blue-grey-text"></i> Đăng nhập
+                            </a></div>
+                    </li>
+                </ul>
+                {%endif%}
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link waves-effect waves-light" href="{{url_for('main.home')}}">Trang chủ</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link waves-effect waves-light" href="{{ url_for('pages.category',slug='python')}}">Python</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link waves-effect waves-light" href="#">Tài liệu</a></li>
+                    </ul>
+                    <div class="ml-auto">
+                        <a class="btn" href="{{url_for('notes.note')}}" data-bss-hover-animate="pulse"
+                            type="button" style="margin-right: 10px;color: rgb(0,0,0);background: rgb(255,214,0);">
+                            <i class="fa fa-sticky-note"></i>&nbsp;GHI CHÚ
+                        </a>
+                        <a class="btn btn-primary" href="{{url_for('posts.new_post')}}" data-bss-hover-animate="pulse"
+                            type="button" style="margin-right: 10px;">
+                            <i class="fa fa-paper-plane"></i>&nbsp;VIẾT BÀI
+                        </a></div>
+                    <ul class="navbar-nav mr-right">
+                        {% if user.is_authenticated %}
+                        <li class="nav-item avatar dropdown d-none d-lg-block">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false" title="admin">
+                                <img src="{{user.image_file}}" class="rounded-circle z-depth-0" alt="avatar image"
+                                    style="height: 32px;"> </a>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-secondary"
+                                aria-labelledby="navbarDropdownMenuLink-55"> {% if user.role.name == 'admin' %}
+                                <a class="dropdown-item" href="/admin"><i class="fa fa-user-secret blue-grey-text"></i>
+                                    ADMIN
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                {% endif %}
+                                <a class="dropdown-item" href="{{url_for('users.uDashboard')}}"><i
+                                        class="fa fa-dashboard blue-grey-text"></i>
+                                    Bảng điều khiển
+                                </a>
+                                <a class="dropdown-item" href="/nguoidung/{{current_user.username}}"><i
+                                        class="fa fa-folder blue-grey-text"></i> Bài
+                                    viết của tôi
+                                </a>
+                                <a class="dropdown-item" href="/code"><i class="fa fa-list-alt blue-grey-text"></i> Code
+                                    của tôi
+                                </a>
+                                <a class="dropdown-item" href="{{url_for('users.settings')}}"><i
+                                        class="fa fa-user-circle-o blue-grey-text"></i>
+                                    Chỉnh sửa hồ sơ
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{ url_for('users.logout') }}"><i
+                                        class="fa fa-sign-out blue-grey-text"></i> Đăng xuất
+                                </a>
+                            </div>
+                        </li>
+                        {%else%}
+                        <li class="nav-item avatar dropdown d-none d-lg-block">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false" title="Khách">
+                                <img src="../../static/profile_pics/avatar.svg" class="rounded-circle z-depth-0"
+                                    alt="avatar image" style="height: 32px;"> </a>
+                            <div class="dropdown-menu dropdown-menu-lg-right dropdown-secondary"
+                                aria-labelledby="navbarDropdownMenuLink-55">
+                                <a class="dropdown-item" href="{{url_for('users.register')}}"><i
+                                        class="fa fa-user-plus blue-grey-text"></i> Đăng ký
+                                </a>
+                                <a class="dropdown-item" href="{{url_for('users.login')}}"><i
+                                        class="fa fa-sign-in blue-grey-text"></i> Đăng nhập
+                                </a></div>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!--/.Navbar-->
+    </header>
     <main>
         <div class="container" style="margin-top: 30px!important;">
             <div class="row">
@@ -52,5 +194,5 @@
 
     {{ toastr.include_toastr_js() }}
 </body>
-
+{% block js %}{% endblock %}
 </html>
