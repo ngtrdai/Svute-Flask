@@ -30,11 +30,6 @@ def about():
     return render_template("about.html", user=current_user)
 
 
-@main.route('/<path:path>')
-def catch_all(path):
-    try:
-        f = open(path)
-    except IOError:
-        abort(404)
-        return
-    return f.read()
+@main.route('/ads.txt')
+def ads():
+    return "google.com, pub-9154558574445919, DIRECT, f08c47fec0942fa0"
