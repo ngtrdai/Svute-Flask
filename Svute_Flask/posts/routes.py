@@ -40,6 +40,8 @@ def new_post():
 
 @posts.route('/bai-viet/<string:slug>', methods=['POST','GET'])
 def post(slug):
+    topPosts = Post.query.order_by(Post.views.desc()).limit(3).all()
+    lastPosts = Post.query.order_by(Post.post_id.desc()).limit(3).all()
     post = Post.query.filter_by(slug=slug).first()
     post.views += 1
     tags = post.tags.split(',')
@@ -51,7 +53,7 @@ def post(slug):
         db.session.commit()
         flash('Cảm ơn bạn đã bình luận!', 'success')
         return redirect(url_for('posts.post', slug=post.slug))
-    return render_template('posts.html', title = post.title, form = form ,post = post, user=current_user, tags = tags)
+    return render_template('posts.html', title = post.title, form = form ,post = post, user=current_user, tags = tags, topPosts = topPosts, lastPosts = lastPosts)
 
 @posts.route('/bai-viet/<string:slug>/chinhsua', methods=['POST', 'GET'])
 @login_required

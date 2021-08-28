@@ -84,7 +84,7 @@ class Post(db.Model):
     @staticmethod
     def generate_slug(target, value, oldvalue, initiator):
         if value and (not target.slug or value != oldvalue):
-            target.slug = slugify(value) + token_hex(4)
+            target.slug = slugify(value) + "." + token_hex(4)
     
 db.event.listen(Post.title, 'set',Post.generate_slug, retval=False)
 
@@ -119,6 +119,7 @@ class Code(db.Model):
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
     title = db.Column(db.String(200), nullable=False, default="Không có tiêu đề")
     slug = db.Column(db.String(300), unique=True, nullable=False)
+    views = db.Column(db.Integer, default=0)
     syntax_id = db.Column(db.Integer, db.ForeignKey('code_syntax.syntax_id'))
     description = db.Column(db.Text())
     def __repr__(self) -> str:

@@ -38,13 +38,14 @@
         .CodeMirror {
             border: 1px solid #eee;
             height: auto !important;
+            margin-bottom: 0px;
         }
     </style>
 </head>
 
 <body>
     <div class="card" id="printarea">
-        <div class="card-header"> {{code.title}} <span class="badge badge-light">Python</span>
+        <div class="card-header"> {{code.title}} <span class="badge badge-light">{{code.syntax.name}}</span>
             <div class="pull-right d-print-none">
                 <a onclick="printDiv('printarea')" class="badge badge-info">In</a>
             </div>

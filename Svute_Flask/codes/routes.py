@@ -35,6 +35,8 @@ def code():
 def viewCode(slug):
     form = ViewCode()
     code = Code.query.filter_by(slug=slug).first()
+    code.views += 1
+    db.session.commit()
     form.title.data = code.title
     form.description.data = code.description
     form.sourceCode.data = code.source
@@ -44,6 +46,7 @@ def viewCode(slug):
 def embed(slug):
     form = ViewCode()
     code = Code.query.filter_by(slug=slug).first()
+    code.views += 1
     form.sourceCode.data = code.source
     return render_template('codes/embed.html', title=code.title, form = form, code=code)
 

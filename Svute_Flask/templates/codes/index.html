@@ -1,8 +1,6 @@
 {% extends "codes/layout.html"%}
 {% block meta %}{% endblock %}
 {% block head %}
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9154558574445919"
-     crossorigin="anonymous"></script>
 <link rel="stylesheet" href="../../static/assets/css/post.css">
 <link rel="stylesheet" href="../../static/assets/codemirror/theme/blackboard.css">
 <link rel="stylesheet" href="../../static/assets/js/codemirror.css">
@@ -82,7 +80,7 @@
                         <i class="fa fa-paste blue-grey-text small"></i>
                         <a href="{{ url_for('codes.viewCode', slug=code.slug)}}">{{code.title}}</a>
                         <p>
-                            <small class="text-muted"> <a href="#">{{code.syntax.name}}</a>  | <i class="fa fa-eye blue-grey-text"></i> 0 | {{code.date.strftime('%d-%m-%Y')}}</small>
+                            <small class="text-muted"> <a href="#">{{code.syntax.name}}</a>  | <i class="fa fa-eye blue-grey-text"></i> {{code.views}} | {{code.date.strftime('%d-%m-%Y')}}</small>
                         </p>
                     </li>
                 {% endfor %}
@@ -101,7 +99,7 @@
                         <i class="fa fa-paste blue-grey-text small"></i>
                         <a href="{{ url_for('codes.viewCode', slug=code.slug)}}">{{code.title}}</a>
                         <p>
-                            <small class="text-muted"> <a href="#">{{code.syntax.name}}</a>  | <i class="fa fa-eye blue-grey-text"></i> 0 | {{code.date.strftime('%d-%m-%Y')}}</small>
+                            <small class="text-muted"> <a href="#">{{code.syntax.name}}</a>  | <i class="fa fa-eye blue-grey-text"></i> {{code.views}} | {{code.date.strftime('%d-%m-%Y')}}</small>
                         </p>
                     </li>
                 {% endfor %}
