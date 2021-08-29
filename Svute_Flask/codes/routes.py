@@ -42,6 +42,11 @@ def viewCode(slug):
     form.sourceCode.data = code.source
     return render_template('codes/viewCode.html', user=current_user, code=code, form = form)
 
+@codes.route('/code/cuatoi')
+def myCodes():
+    Codes = Code.query.filter_by(author=current_user).order_by(Code.code_id.desc()).all()
+    return render_template('codes/myCode.html', user=current_user, codes=Codes)
+
 @codes.route('/nhung/<string:slug>')
 def embed(slug):
     form = ViewCode()
@@ -84,3 +89,14 @@ def editCode(slug):
     else:
         flash("Bạn không có quyền để sửa", "warning")
         return redirect(url_for('codes.viewCode', slug=code.slug))
+
+@codes.route('/code/danhsach')
+def listCode():
+    page = request.args.get('trang', 1, type=int)
+    codes = Code.query.order_by(Code.code_id.desc()).paginate(page=page,per_page=10)
+    myCodes = []
+    if current_user.is_authenticated:
+        myCodes = Code.query.filter_by(author=current_user).order_by(Code.code_id.desc()).limit(3).all()
+    lastCodes = Code.query.order_by(Code.code_id.desc()).limit(5).all()
+    return render_template('codes/listCode.html', user=current_user, codes = codes,myCodes=myCodes, lastCodes=lastCodes)
+

@@ -1,0 +1,77 @@
+{% extends "codes/layout.html" %}
+{% block head %}
+<link rel="stylesheet" href="../../static/assets/css/post.css">
+<link rel="stylesheet" href="../../static/assets/css/codes.css">
+<link rel="stylesheet" href="../../static/assets/css/styles.css">
+<style>
+    a {
+        text-decoration: none !important;
+    }
+
+    .warning-color {
+        background-color: #fb3 !important;
+    }
+
+    .success-color {
+        background-color: #00c851 !important;
+    }
+
+    .info-color {
+        background-color: #33b5e5 !important;
+    }
+
+    .danger-color,
+    ul.stepper li.warning a .circle {
+        background-color: #ff3547 !important;
+    }
+
+    .white-text {
+        color: #fff !important;
+    }
+
+    p {
+        font-weight: 400;
+    }
+</style>
+{% endblock %}
+{% block bannerHome %}
+{% include "bannerHome.html" %}
+{% endblock %}
+{% block content %}
+<div class="card" style="margin-bottom:15px">
+    <div class="card-header">
+        <i class="fa fa-paste"></i>
+        <strong>Danh sách code</strong>
+    </div>
+    <ul class="list-group list-group-flush">
+        {% for code in codes.items %}
+        <li class="list-group-item">
+            <div class="pull-left"> <i class="fa fa-paste blue-grey-text small"></i><a
+                    href="{{url_for('codes.viewCode', slug=code.slug)}}"> {{code.title}}</a>
+                <p><small class="text-muted"><a href="#">{{code.syntax.name}}</a> | <i
+                            class="fa fa-eye blue-grey-text"></i> {{code.views}} |
+                        {{code.date.strftime('%d-%m-%Y')}}</small></p>
+            </div>
+        </li>
+        {% endfor %}
+        {% if not codes.items %}
+        <li class="list-group-item">Không có code nào</li>
+        {% endif %}
+    </ul>
+</div>
+
+{% for page_num in codes.iter_pages() %}
+{% if page_num %}
+{% if codes.page == page_num %}
+<a class="btn btn-primary mb-4" href="{{url_for('codes.listCode', trang=page_num)}}">{{page_num}}</a>
+{% else %}
+<a class="btn btn-outline-primary mb-4" href="{{url_for('codes.listCode', trang=page_num)}}">{{page_num}}</a>
+{% endif %}
+{% else %}
+...
+{% endif %}
+{% endfor %}
+{% endblock %}
+{% block sidebar %}
+{% include "codes/_sidebar.html" %}
+{% endblock %}

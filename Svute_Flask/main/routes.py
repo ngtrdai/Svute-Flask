@@ -12,7 +12,7 @@ main = Blueprint('main', __name__)
 @main.route("/")
 @main.route("/trangchu")
 def home():
-    page = request.args.get('page', 1, type=int)
+    page = request.args.get('trang', 1, type=int)
     post = Post.query.order_by(Post.post_id.desc()).paginate(page=page,per_page=5)
     note = ""
     calendars =""

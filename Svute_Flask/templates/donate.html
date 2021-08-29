@@ -1,0 +1,201 @@
+<!-- Donations -->
+<div class="card-hover-shadow-2x mb-3 card" style="margin-top: 10px;">
+    <div class="card-header-tab card-header">
+        <div class="card-header-title font-size-lg text-capitalize font-weight-normal"><i
+                class="fa fa-coffee"></i>&nbsp;Ủng hộ tôi ly Coffee</div>
+    </div>
+    <div class="card-body" id="smart-button-container">
+        <div style="text-align: center;">
+            <div id="paypal-button-container"></div>
+        </div>
+        <div style="text-align: center;">
+            <button type="button" data-toggle="modal" data-target="#donateMomoModal" class="btn"style="
+                width: 100%;
+                color: white;
+                height: 42px;
+                background-color: #ae2070;
+                font-weight: bold;
+            ">Momo</button>
+        </div>
+        <div style="text-align: center; margin-top:15px">
+            <button type="button" data-toggle="modal" data-target="#donateViettelModal" class="btn"style="
+                width: 100%;
+                color: white;
+                height: 42px;
+                background-image: linear-gradient(to right, #F11B53 , #EE0033);
+                font-weight: bold;
+            ">ViettelPay</button>
+        </div>
+        <div style="text-align: center; margin-top:15px">
+            <button type="button" data-toggle="modal" data-target="#donateBIDVModal" class="btn"style="
+                width: 100%;
+                color: white;
+                height: 42px;
+                background-image: linear-gradient(
+                    46.26deg
+                    ,#005baa,#009edb 96.59%);
+                font-weight: bold;
+            "><img src="{{url_for('static',filename='/assets/img/vnpay.svg')}}"> VNPay</button>
+        </div>
+    </div>
+    <script src="https://www.paypal.com/sdk/js?client-id=sb&enable-funding=venmo&currency=USD"
+        data-sdk-integration-source="button-factory"></script>
+    <script>
+        function initPayPalButton() {
+            paypal.Buttons({
+                style: {
+                    shape: 'rect',
+                    color: 'gold',
+                    layout: 'vertical',
+                    label: 'paypal',
+
+                },
+
+                createOrder: function (data, actions) {
+                    return actions.order.create({
+                        purchase_units: [{
+                            "description": "Ủng hộ tôi ly Coffee",
+                            "amount": {
+                                "currency_code": "USD",
+                                "value": 1
+                            }
+                        }]
+                    });
+                },
+
+                onApprove: function (data, actions) {
+                    return actions.order.capture().then(function (orderData) {
+
+                        // Full available details
+                        console.log('Capture result', orderData, JSON.stringify(orderData, null,
+                        2));
+
+                        // Show a success message within this page, e.g.
+                        const element = document.getElementById('paypal-button-container');
+                        element.innerHTML = '';
+                        element.innerHTML = '<h3>Cảm ơn bạn đã ủng hộ tôi!</h3>';
+
+                        // Or go to another URL:  actions.redirect('thank_you.html');
+
+                    });
+                },
+
+                onError: function (err) {
+                    console.log(err);
+                }
+            }).render('#paypal-button-container');
+        }
+        initPayPalButton();
+    </script>
+</div>
+<!-- Kết thúc Donations -->
+<div class="modal" id="donateMomoModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Ủng hộ tôi ly Coffee</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body text-center"> 
+                    <div class="mb-2">
+                        <img src="{{url_for('static',filename='/assets/img/momo.png')}}">
+                    </div>
+                <div class="form-group mt-3 mb-3">
+                        <small class="text-muted">Số điện thoại MOMO - Nguyễn Trọng Đại</small>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <button class="btn btn-primary m-0 px-3" style="color: white;background-color: #ae2070;" type="button" onclick="copyToClip('0979808617','copy_share_link')">Sao chép</button>
+                            </div>
+                            <input type="text" class="form-control" value="0979808617" disabled>
+                        </div>
+                        <small class="green-text" id="copy_share_link"></small>
+                    </div>
+                </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button class="btn btn-danger btn-sm" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="donateViettelModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Ủng hộ tôi ly Coffee</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body text-center"> 
+                    <div class="mb-2">
+                        <a href="https://vtpay.page.link/6qtH">
+                        <img height="500px" src="{{url_for('static',filename='/assets/img/viettel.png')}}"></a>
+                    </div>
+                <div class="form-group mt-3 mb-3">
+                        <small class="text-muted">Số điện thoại ViettelPay - Nguyễn Trọng Đại</small>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <button class="btn m-0 px-3" style="color: white;background-image: linear-gradient(to right, #F11B53 , #EE0033);" type="button" onclick="copyToClip('0979808617')">Sao chép</button>
+                            </div>
+                            <input type="text" class="form-control" value="0979808617" disabled>
+                        </div>
+                        <small class="green-text" id="copy_share_link"></small>
+                    </div>
+                </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button class="btn btn-danger btn-sm" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="donateBIDVModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Ủng hộ tôi ly Coffee</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body text-center"> 
+                    <div class="mb-2">
+                        <img height="500px" src="{{url_for('static',filename='/assets/img/BIDV.jpg')}}">
+                    </div>
+                <div class="form-group mt-3 mb-3">
+                        <small class="text-muted">Số tài khoản BIDV - Nguyễn Trọng Đại</small>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <button class="btn m-0 px-3" style="color: white;background-image: linear-gradient(to right, #F11B53 , #EE0033);" type="button" onclick="copyToClip('31410004077164')">Sao chép</button>
+                            </div>
+                            <input type="text" class="form-control" value="31410004077164" disabled>
+                        </div>
+                        <small class="green-text" id="copy_share_link"></small>
+                    </div>
+                </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button class="btn btn-danger btn-sm" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Modal -->
+<script>
+    function copyToClip(e, t="") {
+        function n(t) {
+            t.clipboardData.setData("text/html", e),
+            t.clipboardData.setData("text/plain", e),
+            t.preventDefault()
+        }
+        document.addEventListener("copy", n),
+        document.execCommand("copy"),
+        document.removeEventListener("copy", n),
+        t.length > 0 && $("#" + t).html(txt_copied)
+    }
+</script>

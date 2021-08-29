@@ -1,0 +1,66 @@
+{% extends "layout.html"%}
+{% block head %}
+<link rel="stylesheet" href="../../static/assets/css/post.css">
+<link rel="stylesheet" href="../../static/assets/css/codes.css">
+<link rel="stylesheet" href="../../static/assets/css/styles.css">
+<style>
+    a {
+        text-decoration: none !important;
+    }
+
+    .warning-color {
+        background-color: #fb3 !important;
+    }
+
+    .success-color {
+        background-color: #00c851 !important;
+    }
+
+    .info-color {
+        background-color: #33b5e5 !important;
+    }
+
+    .danger-color,
+    ul.stepper li.warning a .circle {
+        background-color: #ff3547 !important;
+    }
+
+    .white-text {
+        color: #fff !important;
+    }
+
+    p {
+        font-weight: 400;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <i class="fa fa-paste"></i>
+        <strong>Code của tôi</strong>
+    </div>
+    <ul class="list-group list-group-flush">
+        {% for code in codes%}
+        <li class="list-group-item">
+            <div class="pull-left"> <i class="fa fa-paste blue-grey-text small"></i><a
+                    href="{{url_for('codes.viewCode', slug=code.slug)}}"> {{code.title}}</a>
+                <p><small class="text-muted"><a href="#">{{code.syntax.name}}</a> | <i
+                            class="fa fa-eye blue-grey-text"></i> {{code.views}} |
+                        {{code.date.strftime('%d-%m-%Y')}}</small></p>
+            </div>
+            <div class="pull-right"> <a href="{{url_for('codes.editCode', slug=code.slug)}}"
+                    class="badge badge-info mr-2"><i class="fa fa-edit"></i> Sửa</a> <a
+                    href="{{url_for('codes.deleteCode', slug=code.slug)}}" class="badge badge-danger"><i
+                        class="fa fa-trash"></i> Xóa</a> </div>
+        </li>
+        {% endfor %}
+        {% if not codes %}
+        <li class="list-group-item">Bạn không có code nào</li>
+        {% endif %}
+    </ul>
+</div>
+{% endblock %}
+{% block sidebar %}
+{% include "settings/sidebar.html"%}
+{% endblock %}

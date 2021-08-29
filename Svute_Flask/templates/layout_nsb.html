@@ -34,7 +34,9 @@
         {% include "header.html" %}
         <main>
             <div class="container" style="margin-top: 20PX !important;">
-
+                <div class="row">
+                    {% block bannerHome %} {% endblock %}
+                </div>
                 {% block content %}
                 {% endblock %}
             </div>

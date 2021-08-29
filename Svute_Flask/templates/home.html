@@ -1,15 +1,15 @@
-{% if current_user.is_authenticated %}
+
 {% extends "layout.html" %}
-{% else %}
-{% extends "layout_nsb.html" %}
-{% endif %}
 {% block head %}
 <link rel="stylesheet" href="../static/assets/css/home.css">
 <link rel="stylesheet" href="../static/assets/css/to-do-new.css">
 {% endblock %}
 
-{% block content %}
+{% block bannerHome %}
+{% include "bannerHome.html"%}
+{% endblock %}
 
+{% block content %}
 {% for post in posts.items %}
 <article class="postcard light blue">
     <a class="postcard__img_link" href="{{url_for('posts.post', slug=post.slug)}}">
@@ -41,9 +41,9 @@
 {% for page_num in posts.iter_pages() %}
 {% if page_num %}
 {% if posts.page == page_num %}
-<a class="btn btn-primary mb-4" href="{{url_for('main.home', page=page_num)}}">{{page_num}}</a>
+<a class="btn btn-primary mb-4" href="{{url_for('main.home', trang=page_num)}}">{{page_num}}</a>
 {% else %}
-<a class="btn btn-outline-primary mb-4" href="{{url_for('main.home', page=page_num)}}">{{page_num}}</a>
+<a class="btn btn-outline-primary mb-4" href="{{url_for('main.home', trang=page_num)}}">{{page_num}}</a>
 {% endif %}
 {% else %}
 ...
@@ -54,7 +54,7 @@
 {% if user.is_authenticated %}
 <div style="width: border-box;">
     <div class="card mx-auto"
-        style="width: auto;border-top-left-radius: 5px;border-top-right-radius: 5px;border-bottom-right-radius: 5px;border-bottom-left-radius: 5px;box-shadow: 5px 5px 16px 2px rgba(0,0,0,0.25);margin: 0px;margin-bottom: 20px;">
+        style="width: auto;border-top-left-radius: 5px;border-top-right-radius: 5px;border-bottom-right-radius: 5px;border-bottom-left-radius: 5px;margin: 0px;margin-bottom: 20px;">
         <div class="d-flex align-items-center justify-content-center card-header font-weight-bold">
             <a class=" btn btn-warning font-weight-bold btn-lg ml-1 mr-1 p-1 pl-2 pr-2" href="{{url_for('notes.note')}}"
                 style="color: rgb(48, 48, 48); margin-top:5px; margin-bottom:5px">Thêm ghi chú
@@ -175,7 +175,8 @@
     <div class="d-block text-right card-footer"><a href = "{{url_for('calendars.calendar')}}" class="btn btn-primary" >Thêm công việc</a></div>
 </div>
 <!-- KẾT THÚC CÔNG VIỆC -->
+{% include "donate.html" %}
 {% else %}
-
+{% include "donate.html" %}
 {% endif %}
 {% endblock %}

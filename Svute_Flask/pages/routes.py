@@ -8,7 +8,7 @@ pages = Blueprint('pages', __name__)
 def category(slug):
     topPosts = Post.query.order_by(Post.views.desc()).limit(3).all()
     lastPosts = Post.query.order_by(Post.post_id.desc()).limit(3).all()
-    page = request.args.get('page', 1, type=int)
+    page = request.args.get('trang', 1, type=int)
     category = Category.query.filter_by(slug=slug).first()
     hasPost = False if len(category.posts) == 0 else True
     posts = Post.query.filter_by(category_id=category.category_id).order_by(Post.post_id.desc()).paginate(page=page,per_page=5)
