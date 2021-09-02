@@ -53,7 +53,7 @@ def post(slug):
         db.session.commit()
         flash('Cảm ơn bạn đã bình luận!', 'success')
         return redirect(url_for('posts.post', slug=post.slug))
-    return render_template('posts.html', title = post.title, form = form ,post = post, user=current_user, tags = tags, topPosts = topPosts, lastPosts = lastPosts)
+    return render_template('posts.html', title = post.title, form = form ,post = post, user=current_user, tags = tags, topPosts = topPosts, lastPosts = lastPosts, description_title = post.brief, thumbanil_title = post.image_cover)
 
 @posts.route('/bai-viet/<string:slug>/chinhsua', methods=['POST', 'GET'])
 @login_required

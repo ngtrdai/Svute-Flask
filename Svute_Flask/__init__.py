@@ -16,9 +16,12 @@ from flask_ckeditor import CKEditor
 from flask_wtf.csrf import CSRFProtect
 from flask_codemirror import CodeMirror
 from flask_migrate import Migrate
+from flask_mail import Mail
+
 app = Flask(__name__)
 # Khoi tao database
 db = SQLAlchemy()
+mail = Mail()
 migrate = Migrate()
 bcrypt = Bcrypt()
 ckeditor = CKEditor()
@@ -59,7 +62,7 @@ def Create_App(config_class=Config):
     bcrypt.init_app(app)
     #db.drop_all(app=app)
     db.create_all(app=app)
-
+    mail = Mail(app)
     migrate.init_app(app, db)
     
     loginManager.init_app(app)

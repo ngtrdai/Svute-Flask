@@ -13,7 +13,7 @@ class Register_Form(FlaskForm):
     '''FORM ĐĂNG KÝ TÀI KHOẢN'''
     username = StringField('Tên người dùng', validators=[DataRequired(message='Tên tài khoản không được để trống!'), Length(min=2, max=20, message='Tên tài khoản từ 2 đến 20 ký tự!')])
     password = PasswordField('Mật khẩu', validators=[DataRequired(message='Mật khẩu không được để trống'), Length(min=6, max=50, message='Mật khẩu có độ dài từ 6 đến 50 ký tự!')])
-    confirm_password = PasswordField('Xác nhận mật khẩu',validators=[DataRequired(), EqualTo('password')])
+    confirm_password = PasswordField('Xác nhận mật khẩu',validators=[DataRequired(), EqualTo('password', message="Mật khẩu không khớp!")])
     fullname = StringField('Họ và tên', validators=[DataRequired(message='Họ và tên không được để trống!'), Length(min=2, max=50, message='Tên tài khoản từ 2 đến 50 ký tự!')])
     email = StringField('Email', validators=[DataRequired(message='Email không được để trống!'), Email(message="Địa chỉ email không hợp lệ!")])
     submit = SubmitField('Đăng ký')
@@ -41,7 +41,7 @@ class Update_Account_Form(FlaskForm):
     '''LỚP CẬP NHẬT NGƯỜI DÙNG'''
     username = StringField('Tài khoản', validators=[DataRequired(message="Tên người dùng không được để trống"), Length(min=2, max=20)])
     #fullname = StringField('Họ', validators=[DataRequired(), Length(min=2, max=50)])
-    email = StringField('Email', validators=[DataRequired(message="Email không được để trống"), Email()])
+    email = StringField('Email', validators=[DataRequired(message="Email không được để trống"), Email(message="Email không hợp lệ!")])
     picture = FileField('Cập nhật ảnh đại diện', validators=[FileAllowed(['jpg', 'png'])])
     submit = SubmitField('Cập nhật')
     fb_link = StringField('Đường dẫn Facebook',validators=[Length(max=50)])
@@ -49,7 +49,7 @@ class Update_Account_Form(FlaskForm):
     git_link = StringField('Đường dẫn Github',validators=[Length(max=50)])
     web_link = StringField('Đường dẫn website',validators=[Length(max=50)])
     password = PasswordField('Mật khẩu', validators=[Length(max=50, message='Mật khẩu có độ dài từ 6 đến 50 ký tự!')])
-    confirm_password = PasswordField('Xác nhận mật khẩu',validators=[EqualTo('password')])
+    confirm_password = PasswordField('Xác nhận mật khẩu',validators=[EqualTo('password', message="Mật khẩu không khớp")])
     about = TextAreaField('Giới thiệu về bạn...',validators=[Length(max=500, message='Tóm tắt ngắn ngọn thôi bạn :D')])
     def validate_username(self, username):
         '''HÀM XÁC NHẬN CÓ TỒN TẠI USERNAME HAY CHƯA.'''
@@ -65,3 +65,16 @@ class Update_Account_Form(FlaskForm):
             if email:
                 raise ValidationError('Địa chỉ email này đã tồn tại.')
 
+class RequestResetForm(FlaskForm):
+    email = StringField('Địa chỉ email', validators=[DataRequired(), Email(message="Email không hợp lệ!")])
+    submit = SubmitField('Yêu cầu đặt lại mật khẩu')
+    
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user is None:
+            raise ValidationError('Không tìm thấy tài khoản nào với địa chỉ email này.','error')
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField('Mật khẩu', validators=[DataRequired(message='Mật khẩu không được để trống'), Length(min=6, max=50, message='Mật khẩu có độ dài từ 6 đến 50 ký tự!')])
+    confirm_password = PasswordField('Xác nhận mật khẩu',validators=[DataRequired(), EqualTo('password', message="Mật khẩu không khớp!")])
+    submit = SubmitField('Đặt lại mật khẩu')

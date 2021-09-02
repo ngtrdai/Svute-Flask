@@ -28,8 +28,7 @@ def code():
         db.session.commit()
         flash('Đăng code thành công!', 'success')
         return redirect(url_for('codes.code'))
-    
-    return render_template('codes/index.html', user=current_user, form = form, title = "Code", myCodes=myCodes, lastCodes=lastCodes)
+    return render_template('codes/index.html', user=current_user, form = form, title = "Code", myCodes=myCodes, lastCodes=lastCodes, description_title = "Giống như Notepad trực tuyến, Svute cho phép bạn lưu trữ bất kỳ thứ gì từ văn bản, ghi chú đến các mã bạn đã dành riêng. Svute là MIỄN PHÍ và sẽ luôn như vậy.")
 
 @codes.route('/code/<string:slug>', methods=['POST','GET'])
 def viewCode(slug):
@@ -40,12 +39,12 @@ def viewCode(slug):
     form.title.data = code.title
     form.description.data = code.description
     form.sourceCode.data = code.source
-    return render_template('codes/viewCode.html', user=current_user, code=code, form = form)
+    return render_template('codes/viewCode.html', user=current_user, code=code, form = form, title = code.title, description_title = code.source[:60])
 
 @codes.route('/code/cuatoi')
 def myCodes():
     Codes = Code.query.filter_by(author=current_user).order_by(Code.code_id.desc()).all()
-    return render_template('codes/myCode.html', user=current_user, codes=Codes)
+    return render_template('codes/myCode.html', user=current_user, codes=Codes, title = "Code của tôi", description_title = "Giống như Notepad trực tuyến, Svute cho phép bạn lưu trữ bất kỳ thứ gì từ văn bản, ghi chú đến các mã bạn đã dành riêng. Svute là MIỄN PHÍ và sẽ luôn như vậy.")
 
 @codes.route('/nhung/<string:slug>')
 def embed(slug):
@@ -53,7 +52,7 @@ def embed(slug):
     code = Code.query.filter_by(slug=slug).first()
     code.views += 1
     form.sourceCode.data = code.source
-    return render_template('codes/embed.html', title=code.title, form = form, code=code)
+    return render_template('codes/embed.html', title=code.title, form = form, code=code, description_title = "Giống như Notepad trực tuyến, Svute cho phép bạn lưu trữ bất kỳ thứ gì từ văn bản, ghi chú đến các mã bạn đã dành riêng. Svute là MIỄN PHÍ và sẽ luôn như vậy.")
 
 @codes.route('/code/<string:slug>/xoa', methods=['POST', 'GET'])
 def deleteCode(slug):
@@ -85,7 +84,7 @@ def editCode(slug):
         form.title.data = code.title
         form.description.data = code.description
         form.syntax.data = code.syntax
-        return render_template('codes/index.html', user=current_user, form=form, myCodes=myCodes, lastCodes=lastCodes)
+        return render_template('codes/index.html', user=current_user, form=form, myCodes=myCodes, lastCodes=lastCodes, title="Chỉnh sửa code" + " - " + code.title, description_title = "Giống như Notepad trực tuyến, Svute cho phép bạn lưu trữ bất kỳ thứ gì từ văn bản, ghi chú đến các mã bạn đã dành riêng. Svute là MIỄN PHÍ và sẽ luôn như vậy.")
     else:
         flash("Bạn không có quyền để sửa", "warning")
         return redirect(url_for('codes.viewCode', slug=code.slug))
@@ -98,5 +97,5 @@ def listCode():
     if current_user.is_authenticated:
         myCodes = Code.query.filter_by(author=current_user).order_by(Code.code_id.desc()).limit(3).all()
     lastCodes = Code.query.order_by(Code.code_id.desc()).limit(5).all()
-    return render_template('codes/listCode.html', user=current_user, codes = codes,myCodes=myCodes, lastCodes=lastCodes)
+    return render_template('codes/listCode.html', user=current_user, codes = codes,myCodes=myCodes, lastCodes=lastCodes, title="Tất cả Code", description_title = "Giống như Notepad trực tuyến, Svute cho phép bạn lưu trữ bất kỳ thứ gì từ văn bản, ghi chú đến các mã bạn đã dành riêng. Svute là MIỄN PHÍ và sẽ luôn như vậy.")
 

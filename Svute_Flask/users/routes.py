@@ -5,8 +5,8 @@ from flask import render_template, url_for, flash, redirect, request, Blueprint
 from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from Svute_Flask import db, bcrypt
-from Svute_Flask.users.forms import Update_Account_Form, Login_Form, Register_Form
-from Svute_Flask.users.func import SaveImage
+from Svute_Flask.users.forms import Update_Account_Form, Login_Form, Register_Form, RequestResetForm, ResetPasswordForm
+from Svute_Flask.users.func import SaveImage, Send_Reset_Email
 
 users = Blueprint('users', __name__)
 
@@ -78,18 +78,21 @@ def settings():
             form.web_link.data = current_user.web_link
     return render_template("/settings/settings.html", user=current_user,title='Tài khoản', form=form)
 
-@users.route('/reset-mat-khau', methods=['POST', 'GET'])
+@users.route('/quenmatkhau', methods=['POST', 'GET'])
 def reset_request():
     if current_user.is_authenticated:
         return redirect(url_for('main.home'))
-    if request.method == 'POST':
-        user = User.query.filter_by(email=request.form.get('email')).first()
-        #func.Send_Reset_Email(user)
+    
+    form = RequestResetForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        Send_Reset_Email(user)
         flash('Chúng tôi đã gửi cho bạn một email có chưa đường link đổi mật khẩu!', category='success')
         return redirect(url_for('users.login'))
-    return render_template('reset_password.html', user=current_user, title='Đặt lại mật khẩu')
 
-@users.route('/reset-mat-khau/<token>', methods=['POST', 'GET'])
+    return render_template('reset_password.html', user=current_user, title='Đặt lại mật khẩu', form = form)
+
+@users.route('/quenmatkhau/<token>', methods=['POST', 'GET'])
 def reset_token(token):
     if current_user.is_authenticated:
         return redirect(url_for('main.home'))
@@ -97,21 +100,14 @@ def reset_token(token):
     if user is None:
         flash('Ơ token của bạn không đúng rồi!', category='error')
         return redirect(url_for('auth.reset_request'))
-    if request.method == 'POST':
-        password1 = request.form.get('password1')
-        password2 = request.form.get('password2')
-        if password1 != password2:
-            flash('Mật khẩu không khớp.', category='error')
-        elif len(password1) < 6:
-            flash('Mật khẩu phải lớn hơn 6 ký tự.', category='error')
-        else:
-            user.password = generate_password_hash(password1, method='sha256')
-            db.session.add(user)
-            db.session.commit()
-            flash('Đã cập nhật tài khoản thành công!', category='success')
-            login_user(user, remember=True)
-            return redirect(url_for('main.home'))
-    return render_template('reset_password_token.html', title='Đặt lại mật khẩu', user=current_user)
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user.password = hashed_password
+        db.session.commit()
+        flash('Đã cập nhật tài khoản thành công!', category='success')
+        return redirect(url_for('users.login'))
+    return render_template('reset_password_token.html', title='Đặt lại mật khẩu', user=current_user, form = form)
 
 @users.route('/nguoidung/<string:username>')
 def user_posts(username):

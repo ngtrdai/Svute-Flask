@@ -32,7 +32,7 @@ def calendar():
         db.session.commit()
         flash('Thêm công việc thành công!', 'success')
         return redirect(url_for('calendars.calendar'))
-    return render_template('calendar.html', user=current_user, events=events, form = form, calendars = calendars)
+    return render_template('calendar.html', user=current_user, events=events, form = form, calendars = calendars, title="Todo và lịch", description_title = "Svute calendar cho phép bạn lưu trữ bất kỳ thứ gì từ văn bản, ghi chú đến sự kiện dành riêng cho bạn. Svute là MIỄN PHÍ và sẽ luôn như vậy.")
 
 @calendars.route('/sukien/xoa', methods=['POST', 'GET'])
 @login_required

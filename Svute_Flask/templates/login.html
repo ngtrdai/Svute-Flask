@@ -109,40 +109,6 @@
 {% from "_renderField.html" import renderField%}
 {% block title %}Đăng nhập{% endblock%}
 {% block content %}
-<!--<div style="margin-top: 50px;">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 col-lg-6 d-lg-flex justify-content-lg-start align-items-lg-end">
-                <div class="my-auto">
-                    <div>
-                        <h3 class="display-3 text-primary my-auto"><strong>Sinh viên UTE</strong></h3>
-                    </div>
-                    <div>
-                        <p class="lead text-secondary my-auto">Cộng đồng Sinh viên Đại học Sư phạm Kỹ thuật TP.HCM.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-6 col-xl-6">
-                <form method="post">
-                    <div class="card" style="box-shadow: 6px 7px 10px rgb(151,153,156);border-radius: 10px;width: 100%;height: 400px;">
-                        <div class="card-body">
-                            <input class="form-control" type="text" style="height: 55px;margin-bottom: 15px;" name="username" placeholder="Tên tài khoản">
-                            <input class="form-control" type="password" style="height: 55px;margin-bottom: 15px;" name="password" placeholder="Mật khẩu">
-                            <button class="btn btn-primary" type="submit" style="width: 100%;height: 55px;font-size: 21px;margin-bottom: 15px;">
-                                <strong>Đăng nhập</strong>
-                            </button>
-                            <a href="{{url_for('main.home')}}" style="text-align: center;">Quên mật khẩu?</a>
-                            <hr>
-                            <a class="btn btn-success text-center d-flex justify-content-center align-items-center mx-auto justify-content-sm-center align-items-sm-center justify-content-xl-center align-items-xl-center" type="button" style="height: 55px;width: 70%;font-size: 21px;background: rgb(15,216,47);border-style: none;margin-top: 35px;" href="{{url_for('users.register')}}">
-                                <strong>Tạo tài khoản mới</strong>
-                            </a>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>-->
 <div class="registration-form">
     <form method="post">
         {{ form.csrf_token }}
@@ -163,6 +129,9 @@
     <div class="social-media">
         <a href="{{url_for('users.register')}}">
             <h5>Bạn chưa có tài khoản? Đăng ký ngay</h5>
+        </a>
+        <a href="{{url_for('users.reset_request')}}">
+            <h5>Bạn quên mật khẩu?</h5>
         </a>
         <!--<div class="social-icons">
             

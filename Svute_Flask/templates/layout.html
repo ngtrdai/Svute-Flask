@@ -11,9 +11,18 @@
     {% else %}
     <title>Sinh viên UTE - Svute.com</title>
     {% endif %}
-    <meta property="og:image" content="../static/assets/img/img33.jpg">
+    {% if thumnail_title %}
+    <meta property="og:image" content={{thumnail_title}}>
+    {% else %}
+    <meta property="og:image" content="../static/assets/img/thumbnail_backg.svg">
+    {% endif %}
+    {% if description_title %}
+    <meta name="description"
+        content={{description_title}}>
+    {% else %}
     <meta name="description"
         content="Cộng đồng chia sẻ tài liệu học tập, tài liệu kỹ thuật cơ khí, tài liệu kỹ thuật lập trình, cơ điện tử, tự động hóa,...">
+    {% endif %}
     <meta property="og:type" content="website">
     <link rel="stylesheet" href="../static/assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Condensed&amp;display=swap">

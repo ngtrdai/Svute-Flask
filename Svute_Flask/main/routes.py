@@ -23,7 +23,7 @@ def home():
     except:
         pass
 
-    return render_template('home.html', posts=post,notes=note ,user=current_user, title='Trang chủ', calendars = calendars)
+    return render_template('home.html', posts=post,notes=note ,user=current_user, calendars = calendars)
 
 @main.route("/thongtin")
 def about():

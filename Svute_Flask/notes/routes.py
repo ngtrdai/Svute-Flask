@@ -19,7 +19,7 @@ def note():
         flash('Ghi chú thành công', category='success')
         return redirect('/ghichu')
     notes = current_user.notes
-    return render_template("notes.html", notes = notes,form=form, user=current_user, title='Ghi chú')
+    return render_template("notes.html", notes = notes,form=form, user=current_user, title='Ghi chú', description_title = "Giống như sticky note trực tuyến, Svute cho phép bạn lưu trữ bất kỳ thứ gì từ văn bản, ghi chú đến các mã bạn đã dành riêng. Svute là MIỄN PHÍ và sẽ luôn như vậy.")
 
 @notes.route('/ghichu/xoa', methods=['POST'])
 def delete_note():
