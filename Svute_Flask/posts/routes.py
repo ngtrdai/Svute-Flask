@@ -18,7 +18,7 @@ def new_post():
             if form.thumbnail.data:
                 image_cover = SaveImage(form.thumbnail.data, True)
             else:
-                image_cover = 'img33.jpg'
+                image_cover = '../static/assets/img/posts/thumbnail_backg.svg'
             if brief == "":
                 brief = form.content.data[:200]
 
@@ -43,68 +43,76 @@ def post(slug):
     topPosts = Post.query.order_by(Post.views.desc()).limit(3).all()
     lastPosts = Post.query.order_by(Post.post_id.desc()).limit(3).all()
     post = Post.query.filter_by(slug=slug).first()
-    post.views += 1
-    tags = post.tags.split(',')
-    db.session.commit()
-    form = CommentForm()
-    if form.validate_on_submit():
-        comment = Comments(user_id=current_user.id, post_id=post.post_id, content=form.comment.data, author=current_user)
-        post.comments.append(comment)
+    if post:
+        post.views += 1
+        tags = post.tags.split(',')
         db.session.commit()
-        flash('Cảm ơn bạn đã bình luận!', 'success')
-        return redirect(url_for('posts.post', slug=post.slug))
-    return render_template('posts.html', title = post.title, form = form ,post = post, user=current_user, tags = tags, topPosts = topPosts, lastPosts = lastPosts, description_title = post.brief, thumbanil_title = post.image_cover)
-
+        form = CommentForm()
+        if form.validate_on_submit():
+            comment = Comments(user_id=current_user.id, post_id=post.post_id, content=form.comment.data, author=current_user)
+            post.comments.append(comment)
+            db.session.commit()
+            flash('Cảm ơn bạn đã bình luận!', 'success')
+            return redirect(url_for('posts.post', slug=post.slug))
+        return render_template('posts.html', title = post.title, form = form ,post = post, user=current_user, tags = tags, topPosts = topPosts, lastPosts = lastPosts, description_title = post.brief, thumbanil_title = post.image_cover)
+    else:
+        abort(404)
 @posts.route('/bai-viet/<string:slug>/chinhsua', methods=['POST', 'GET'])
 @login_required
 def update_post(slug):
     form = PostForm()
     post = Post.query.filter_by(slug=slug).first()
-    form.category.choices = [category.name for category in Category.query.all()]
-    if post.author != current_user:
-        abort(403)
-    if form.validate_on_submit():
-        post.brief = form.brief.data
-        if form.thumbnail.data:
-            image_cover = SaveImage(form.thumbnail.data, True)
-        else:
-            image_cover = post.image_cover
-        brief = form.brief.data
-        if brief == "":
-            brief = form.content.data[:200]
-        else:
+    if post:
+        form.category.choices = [category.name for category in Category.query.all()]
+        if post.author != current_user:
+            abort(403)
+        if form.validate_on_submit():
             post.brief = form.brief.data
-        post.title = form.title.data
-        post.content = form.content.data
-        post.category = Category.query.filter_by(name = form.category.data).first()
-        post.tag = form.tags.data
-        post.image_cover = image_cover
-        db.session.commit()
-        flash('Chỉnh sửa bài viết thành công!', 'success')
-        return redirect(url_for('posts.post', slug=post.slug))
-    elif request.method == 'GET':
-        form.title.data = post.title
-        form.content.data = post.content
-        form.tags.data = post.tags
-        form.category.choice = post.category
-        if post.brief != post.content[:200]:
-            form.brief.data = post.brief
-        
-    return render_template('new_post.html', user=current_user, form =form)
+            if form.thumbnail.data:
+                image_cover = SaveImage(form.thumbnail.data, True)
+            else:
+                image_cover = post.image_cover
+            brief = form.brief.data
+            if brief == "":
+                brief = form.content.data[:200]
+            else:
+                post.brief = form.brief.data
+            post.title = form.title.data
+            post.content = form.content.data
+            post.category = Category.query.filter_by(name = form.category.data).first()
+            post.tag = form.tags.data
+            post.image_cover = image_cover
+            db.session.commit()
+            flash('Chỉnh sửa bài viết thành công!', 'success')
+            return redirect(url_for('posts.post', slug=post.slug))
+        elif request.method == 'GET':
+            form.title.data = post.title
+            form.content.data = post.content
+            form.tags.data = post.tags
+            form.category.choice = post.category
+            if post.brief != post.content[:200]:
+                form.brief.data = post.brief
+            
+        return render_template('new_post.html', user=current_user, form =form)
+    else:
+        abort(404)
 
 @posts.route('/baiviet/<int:post_id>/xoa', methods=['POST', 'GET'])
 @login_required
 def delete_post(post_id):
     post = Post.query.get_or_404(post_id)
-    comments = Comments.query.filter_by(post_id = post.post_id).all()
-    if post.author != current_user:
-        abort(403)
-    db.session.delete(post)
-    for comment in comments:
-        db.session.delete(comment)
-    db.session.commit()
-    flash('Xóa bài viết thành công!', 'success')
-    return redirect(url_for('main.home'))
+    if post:
+        comments = Comments.query.filter_by(post_id = post.post_id).all()
+        if post.author != current_user:
+            abort(403)
+        db.session.delete(post)
+        for comment in comments:
+            db.session.delete(comment)
+        db.session.commit()
+        flash('Xóa bài viết thành công!', 'success')
+        return redirect(url_for('main.home'))
+    else:
+        abort(404)
 
 @posts.route('/bai-viet/<int:comment_id>/like', methods=['POST', 'GET'])
 @login_required

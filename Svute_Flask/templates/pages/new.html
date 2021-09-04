@@ -1,0 +1,63 @@
+{% from "_renderField.html" import renderField_NewPost_Title, renderField_NewPost_Content, renderField_NewPost_Brief, renderField_NewPost_Thumbnail, renderField_NewPost_Tags, renderField_NewPost_Submit%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <link rel="icon" href="../../static/assets/img/logo.svg" type="image/svg" />
+    <link rel="shortcut icon" href="../../static/assets/img/logo.svg" type="image/svg" />
+    <title>Viết bài mới - SVUTE</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        crossorigin="anonymous" />
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-light navbar-expand-md">
+            <div class="container-fluid">
+                <a href="{{url_for('main.home')}}">
+                    <img height="50px" src="{{ url_for('static', filename='/assets/img/logo.svg') }}">
+                </a>
+                <button class="btn btn-primary" type="submit">Đăng bài</button>
+            </div>
+        </nav>
+    </header>
+    <main style="padding: 50px;padding-top: 30px;">
+        <div class="container" style="padding-right: 5%;padding-left: 5%;">
+            <form method="post" enctype="multipart/form-data">
+                {{ form.csrf_token }}
+                {{ renderField_NewPost_Title(form.title, placeholder=form.title.label.text) }}
+                {{ renderField_NewPost_Content(form.content, placeholder=form.content.label.text) }}
+                <hr>
+                <p>Đường dẫn đến trang (https://svute.com/trang/duongdan).</p>
+                {{ renderField_NewPost_Brief(form.slug, placeholder=form.slug.label.text) }}
+                <p>Tải lên ảnh bìa cho bài viết (.png, .jpg, .svg). </p>
+                {{ renderField_NewPost_Thumbnail(form.thumbnail) }}
+                <hr>
+                {{ renderField_NewPost_Brief(form.password, placeholder=form.password.label.text) }}
+                {{ renderField_NewPost_Submit(form.submit) }}
+            </form>
+        </div>
+    </main>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
+    <footer class="footer">
+        <div class="container">
+            <p class="text-muted"><small>Phần mềm được phát triển bởi @ngtrdai</small></p>
+        </div>
+    </footer>
+    {{ ckeditor.load(pkg_type="full") }}
+    {{ ckeditor.config(name='content') }}
+</body>
+
+</html>

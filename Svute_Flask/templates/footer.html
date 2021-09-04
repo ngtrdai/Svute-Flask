@@ -14,8 +14,9 @@
                 <h5 class="title mb-3" style="color:white"><strong>Trang</strong></h5>
                 <ul class="list-unstyled">
                     <li> <a href="#">Thông tin</a> </li>
-                    <li> <a href="#">Liên hệ</a> </li>
-                    <li> <a href="#">Chính sách bảo mật</a> </li>
+                    <li> <a href="mailto:ngtrdai@svute.com">Liên hệ</a> </li>
+                    <li> <a href="{{url_for('pages.viewPage', slug='dieukhoan')}}">Điều khoản sử dụng</a> </li>
+                    <li> <a href="{{url_for('pages.viewPage', slug='baomat')}}">Chính sách bảo mật</a> </li>
                 </ul>
             </div>
             <!--/.Second column-->
@@ -24,9 +25,9 @@
             <div class="col-lg-3 col-md-6 ml-auto">
                 <h5 class="title mb-3" style="color:white"><strong>Liên kết</strong></h5>
                 <ul class="list-unstyled">
-                    <li> <a href="#">Ghi chú</a> </li>
-                    <li> <a href="#">Sự kiện</a> </li>
-                    <li> <a href="#">Pastes code</a> </li>
+                    <li> <a href="{{url_for('notes.note')}}">Ghi chú</a> </li>
+                    <li> <a href="{{url_for('calendars.calendar')}}">Sự kiện</a> </li>
+                    <li> <a href="{{url_for('codes.code')}}">Notepad Code</a> </li>
                     <li> <a href="#">Sitemap</a> </li>
                 </ul>
             </div>
