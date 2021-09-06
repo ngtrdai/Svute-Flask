@@ -13,7 +13,6 @@ def load_user(id):
     return User.query.get(int(id))
 
 class Note(db.Model):
-    # __tablename__ = 'Ghi chú'
     note_id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(500), nullable=False, default="Không có tiêu đề")
     note = db.Column(db.String(200000), nullable=False)
@@ -31,7 +30,6 @@ roles_users = db.Table('roles_users',
 )
 
 class User(db.Model, UserMixin):
-    # __tablename__ = 'Người dùng'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(40), unique=True, nullable=False)
     email = db.Column(db.String(200), unique=True)
@@ -50,7 +48,7 @@ class User(db.Model, UserMixin):
     comments = db.relationship('Comments', backref='author', lazy=True)
     codes = db.relationship('Code', backref='author', lazy=True)
     roles = db.Column(db.Integer, db.ForeignKey('role.id'))
-
+    encode = db.relationship('Encode', backref='author', lazy=True)
     def get_reset_token(self, expires_sec=1800):
         s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
         return s.dumps({'user_id': self.id}).decode('utf-8')
@@ -68,7 +66,6 @@ class User(db.Model, UserMixin):
         return f"User('{self.username}', '{self.email}', '{self.image_file}')"
 
 class Post(db.Model):
-    # __tablename__ = 'Bài viết'
     post_id = db.Column(db.Integer, primary_key=True)
     slug = db.Column(db.String(200), unique=True, nullable=False)
     title = db.Column(db.String(300), nullable=False)
@@ -93,7 +90,6 @@ class Post(db.Model):
 db.event.listen(Post.title, 'set',Post.generate_slug, retval=False)
 
 class Comments(db.Model):
-    # __tablename__ = 'Bình luận'
     commnet_id = db.Column(db.Integer, primary_key=True)
     like = db.Column(db.Integer, default=0)
     dislike = db.Column(db.Integer, default=0)
@@ -105,7 +101,6 @@ class Comments(db.Model):
         return '<Comment %r>' % self.commnet_id
 
 class Category(db.Model):
-    # __tablename__ = 'Chuyên mục bài viết'
     category_id = db.Column(db.Integer, primary_key=True)
     slug = db.Column(db.String(200), unique=True, nullable=False)
     name = db.Column(db.String(50), unique=True, nullable=False)
@@ -119,7 +114,6 @@ class Category(db.Model):
 db.event.listen(Category.name, 'set',Category.generate_slug, retval=False)
 
 class Code(db.Model):
-    # __tablename__ = 'Code'
     code_id = db.Column(db.Integer, primary_key=True)
     source = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -138,7 +132,6 @@ class Code(db.Model):
 db.event.listen(Code.title, 'set',Code.generate_slug, retval=False)
 
 class Code_syntax(db.Model):
-    # __tablename__ = 'Cú pháp code'
     syntax_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True, nullable=False)
     codes = db.relationship('Code', backref='syntax', lazy=True)
@@ -146,7 +139,6 @@ class Code_syntax(db.Model):
         return f"Code syntax('{self.name}')"
 
 class Category_calendar(db.Model):
-    # __tablename__ = 'Chuyên lục Todo - Lịch'
     category_calendar_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), unique=True, nullable=False)
     calendar = db.relationship('Calendar', backref='category', lazy=True)
@@ -154,7 +146,6 @@ class Category_calendar(db.Model):
         return f"Category_Calendar('{self.name}')"
 
 class Calendar(db.Model):
-    # __tablename__ = 'Todo - Lịch'
     calendar_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     content = db.Column(db.String(255), nullable=False)
@@ -165,13 +156,17 @@ class Calendar(db.Model):
         return f"Calendar('{self.calendar_id}', '{self.content}')"
 
 class Role(db.Model, RoleMixin):
-    # __tablename__ = 'Phân quyền'
     id = db.Column(db.Integer, primary_key=True)
     name =  db.Column(db.String(20), unique=True, nullable=False)
     user = db.relationship('User', backref='role', lazy=True)
 
-class Pages(db.Model):
-    __tablename__ = "Trang"
+class Encode(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    code = db.Column(db.String(10), unique=True, nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+class Page(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     slug = db.Column(db.String(200), unique=True, nullable=False)
     title = db.Column(db.String(200), nullable=False, default="Không có tiêu đề")
@@ -180,7 +175,7 @@ class Pages(db.Model):
     thumbnail = db.Column(db.String(500))
     password = db.Column(db.String(255))
     def __repr__(self) -> str:
-        return f"Trang('{self.id}', '{self.content}')"
+        return f"Pages('{self.id}', '{self.content}')"
 
 class MyModelView(ModelView):
 

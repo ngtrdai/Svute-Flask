@@ -1,10 +1,11 @@
+from flask_mail import Message
 from Svute_Flask.users.func import SaveImage
 from flask import render_template, url_for, flash, redirect, request, Blueprint, abort
 from sqlalchemy.sql.expression import null
-from Svute_Flask.models import Category, Post, Pages
+from Svute_Flask.models import Category, Post, Page
 from flask_login import current_user, login_required
-from Svute_Flask.pages.forms import NewPage, UnlockPage, EditPage
-from Svute_Flask import db
+from Svute_Flask.pages.forms import NewPage, UnlockPage, EditPage, Contact
+from Svute_Flask import db, mail
 pages = Blueprint('pages', __name__)
 
 @pages.route('/chuyenmuc/<string:slug>', methods=['POST','GET'])
@@ -31,9 +32,9 @@ def newPage():
             else:
                 image_cover = '../static/assets/img/posts/thumbnail_backg.svg'
             if form.password.data:
-                page = Pages(title = title, content = content, thumbnail = image_cover ,password = form.password.data, slug = slug)
+                page = Page(title = title, content = content, thumbnail = image_cover ,password = form.password.data, slug = slug)
             else:
-                page = Pages(title = title, content = content, thumbnail = image_cover, slug = slug)
+                page = Page(title = title, content = content, thumbnail = image_cover, slug = slug)
             db.session.add(page)
             db.session.commit()
             flash("Tạo trang thành công!", category="success")
@@ -47,7 +48,7 @@ def newPage():
 @pages.route('/trang/<string:slug>', methods=['POST', 'GET'])
 def viewPage(slug):
     form = UnlockPage()
-    page = Pages.query.filter_by(slug=slug).first()
+    page = Page.query.filter_by(slug=slug).first()
     if page:
         if page.password != None:
             if form.validate_on_submit():
@@ -64,7 +65,7 @@ def viewPage(slug):
 @pages.route("/trang/<string:slug>/sua", methods=["GET", "POST"])
 def editPage(slug):
     form = EditPage()
-    page = Pages.query.filter_by(slug=slug).first()
+    page = Page.query.filter_by(slug=slug).first()
     if page:
         if current_user.is_authenticated and current_user.role.name == "admin":
             if form.validate_on_submit():
@@ -88,3 +89,30 @@ def editPage(slug):
             return redirect(url_for('main.home'))
     else:
         abort(404)
+
+def sendContact(yourName, yourEmail, yourPhone, yourMessage):
+    msg = Message('Có một liên hệ gửi đến đội ngũ quản trị viên', sender=("Sinh viên UTE", "hotro@svute.com"), recipients = ["ngtrdai@svute.com"], cc=["19146146@student.hcmute.edu.vn"])
+    msg.body = f'''Chào ADMIN,
+    Bạn nhận được một lời nhắn từ: 
+    Người gửi: {yourName}
+    Email người gửi: {yourEmail}
+    Số điện thoại người gửi: {yourPhone}
+    Nội dung tin nhắn:
+    {yourMessage}
+
+    Cảm ơn.
+    '''
+    mail.send(msg)
+
+@pages.route("/lienhe", methods=["GET", "POST"])
+def contact():
+    form = Contact()
+    if form.validate_on_submit():
+        yourName = form.yourName.data
+        yourEmail = form.yourEmail.data
+        yourPhone = form.yourPhone.data
+        yourMessage = form.yourMessage.data
+        sendContact(yourName, yourEmail, yourPhone, yourMessage)
+        flash("Gửi tin nhắn thành công, tôi sẽ trả lời bạn sớm nhất có thể.")
+        return redirect(url_for("main.home"))
+    return render_template("pages/contact.html", form=form, user=current_user, title="Liên hệ")

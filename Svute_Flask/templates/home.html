@@ -15,7 +15,7 @@
         <img class="postcard__img" src="{{post.image_cover}}" alt="{{ post.title[:50] }}" />
     </a>
     <div class="postcard__text">
-        <h1 class="postcard__title blue"><a href="{{url_for('posts.post', slug=post.slug)}}">{{ post.title[:50] }}</a>
+        <h1 class="postcard__title blue"><a href="{{url_for('posts.post', slug=post.slug)}}">{{ post.title[:70] }}</a>
         </h1>
         <div class="postcard__subtitle small">
             <time datetime="2020-05-25 12:00:00" style="color: black !important">
@@ -23,7 +23,7 @@
             </time>
         </div>
         <div class="postcard__bar"></div>
-        <div class="postcard__preview-txt" style="color: black !important"> {{ post.brief[:100] | markdown }}</div>
+        <div class="postcard__preview-txt" style="color: black !important"> {{ post.brief[:120] | markdown }}</div>
         <ul class="postcard__tagbox">
             <li class="tag__item"><i class="fa fa-user mr-2"></i>{{post.author.username}}</li>
             <li class="tag__item">

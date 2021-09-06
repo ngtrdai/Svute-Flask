@@ -1,5 +1,5 @@
 ﻿###################### IMPORT ######################
-# Update date: 07/08/2021
+# Update date: 05/09/2021
 # Written by ngtrdai
 # https://github.com/ngtrdai
 import pyrebase
@@ -83,12 +83,10 @@ def Create_App(config_class=Config):
     from Svute_Flask.notes.routes import notes
     from Svute_Flask.codes.routes import codes
     from Svute_Flask.calendars.routes import calendars
-    from Svute_Flask.converts.routes import converts
+    from Svute_Flask.tools.routes import tools
     from Svute_Flask.error.handlers import errors
     from Svute_Flask.pages.routes import pages
-    from Svute_Flask.models import User, Post,Role, Note, Comments, Category, Code, Calendar, Category_calendar, MyModelView, Code_syntax
-    
-    
+    from Svute_Flask.models import User, Post,Role, Note, Comments, Category, Code, Calendar, Category_calendar, MyModelView, Code_syntax, Page
 
     app.register_blueprint(users)
     app.register_blueprint(main)
@@ -96,7 +94,7 @@ def Create_App(config_class=Config):
     app.register_blueprint(notes)
     app.register_blueprint(codes)
     app.register_blueprint(calendars)
-    app.register_blueprint(converts)
+    app.register_blueprint(tools)
     app.register_blueprint(errors)
     app.register_blueprint(pages)
     admin.add_view(MyModelView(User, db.session))
@@ -109,5 +107,6 @@ def Create_App(config_class=Config):
     admin.add_view(MyModelView(Category_calendar, db.session))
     admin.add_view(MyModelView(Role, db.session))
     admin.add_view(MyModelView(Code_syntax, db.session))
+    admin.add_view(MyModelView(Page, db.session))
 
     return app  

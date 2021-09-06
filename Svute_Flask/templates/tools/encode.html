@@ -1,0 +1,143 @@
+{% extends "layout_nsb.html" %}
+{% block head%}
+<style>
+    body {
+        color: #73879C;
+        font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif;
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 1.471;
+    }
+    .dashboard_graph {
+        background: #fff;
+        padding: 7px 10px;
+    }
+    .dashboard_graph .x_title {
+        padding: 5px 5px 7px;
+    }
+    .x_title {
+        border-bottom: 2px solid #E6E9ED;
+        padding: 1px 5px 6px;
+        margin-bottom: 10px;
+    }
+    .row {
+        margin-right: -10px;
+        margin-left: -10px;
+    }
+    .card {
+        position: relative;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid rgba(0,0,0,.125);
+        border-radius: .25rem;
+    }
+    .card-header {
+        padding: .75rem 1.25rem;
+        margin-bottom: 0;
+        font-size: medium;
+        color: black;
+        font-weight: bold;
+        border-bottom: 1px solid rgba(0,0,0,.125);
+    }
+    .card-body {
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto;
+        min-height: 1px;
+        padding: 1.25rem;
+    }
+    .card-header-tabs {
+        margin-right: -.625rem;
+        margin-bottom: -.75rem;
+        margin-left: -.625rem;
+        border-bottom: 0;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="row" style="margin: 0px; width: 100%">
+    <div class="col-md-12 col-sm-12" style="padding: 0px;">
+        <div class="dashboard_graph">
+            <div class="row x_title">
+                <div class="col-12" style="float: left">
+                    <h3>Mã hóa/Giải mã</h3>
+                </div>
+            </div>
+            <div class="col-md-12 col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs nav-fill card-header-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#encode" data-toggle="tab">
+                                    <i class="fa fa-code" aria-hidden="true"></i><span class="text-icon">
+                                        Mã hóa</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#decode" data-toggle="tab">
+                                    <i class="fa fa-terminal" aria-hidden="true"></i><span class="text-icon">
+                                        Giải mã</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content">
+
+                            <div id="encode" class="tab-pane fade active show">
+                                <div class="tab-pane-wrapper">
+                                    <form method="post" enctype="multipart/form-data" action="{{ url_for('tools.encode',formid=1) }}">
+                                        {{encryptionForm.csrf_token}}
+                                        <div class="input-group-append" style="margin-bottom: 5px">
+                                            <div class="form-label-group input-group">
+                                                <div class="input-group-append">
+                                                    {{encryptionForm.submit(class="btn btn-secondary input-group-text", style="border-top-left-radius: 5px !important; border-bottom-left-radius: 5px!important;")}}
+                                                </div>
+                                                {{encryptionForm.code(class="form-control",readonly="",id="codesMaHoa",placeholder=encryptionForm.code.label.text)}}
+                                                
+                                                <div id="copyMaHoa" class="input-group-append">
+                                                    <button class="btn btn-secondary input-group-text" type="button" onclick="copyToClip('{{code}}','copy_link_response')"><i class="fa fa-clone" style="font-size: 24px;"></i></button>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {{encryptionForm.content_en(class="cke_1 cke cke_reset cke_chrome cke_editor_editorEncode cke_ltr cke_browser_webkit",style="width=:100%")}}
+
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div id="decode" class="tab-pane fade">
+                                <div class="tab-pane-wrapper">
+                                    <form method="post" enctype="multipart/form-data" action="{{ url_for('tools.encode',formid=2) }}">
+                                        {{decryptionForm.csrf_token}}
+                                        <div class="form-label-group input-group" style="margin-bottom: 5px">
+                                            {{decryptionForm.code(class="form-control", placeholder=decryptionForm.code.label.text,autofocus="")}}
+                                            <div class="input-group-append">
+                                                {{decryptionForm.submit(class="btn btn-secondary input-group-text")}}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <p>{{content | safe}}</p>
+                                        </div>
+                                        
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+{{ ckeditor.load(pkg_type="full") }}
+{{ ckeditor.config(name='content_en') }}
+{% endblock %}
